@@ -1,108 +1,158 @@
-# 育兒導航全攻略 🌿
+# 育兒導航全攻略
+
 **基於 RAG 與時序提醒之新手爸媽智慧應援 Agent**
 
----
-
-## 專案結構
-
-```
-parenting-nav/
-├── backend/
-│   ├── main.py              # FastAPI 主程式（API 路由）
-│   ├── rag_engine.py        # RAG 核心：向量檢索 + LLM 生成
-│   ├── reminder_service.py  # 時序推播：疫苗/健檢/補助提醒
-│   ├── requirements.txt     # Python 套件清單
-│   └── .env.example         # 環境變數範本
-│
-├── frontend/
-│   └── ChatWidget.jsx       # 懸浮聊天視窗 React 元件
-│
-└── data/
-    ├── Agents.md            # LLM Wiki 規則書（給 AI 助理看）
-    ├── raw_sources/         # 原始 PDF / 網頁文字（不要修改）
-    └── wiki_pages/          # AI 整理後的結構化 Markdown（餵進 RAG）
-        └── 全國_育兒津貼.md  # 範例筆記
-```
+> 上架與部署流程請見 [DEPLOY.md](./DEPLOY.md)
 
 ---
 
-## 快速開始
+## 系統架構
 
-### 1. 後端啟動
-
-```bash
-cd backend
-pip install -r requirements.txt
-cp .env.example .env          # 填入 API Keys
-python main.py                # 啟動在 http://localhost:8000
 ```
-
-### 2. 建立 RAG 知識庫（第一次）
-
-先把 `data/wiki_pages/` 資料夾填滿 Markdown 筆記（見 Agents.md 說明），然後：
-
-```bash
-cd backend
-python -c "
-from rag_engine import RAGEngine
-engine = RAGEngine()
-engine.ingest_markdown_folder('../data/wiki_pages')
-"
-```
-
-### 3. 前端整合
-
-```jsx
-// 在你的主 App 引入聊天元件
-import ChatWidget from './components/ChatWidget'
-
-function App() {
-  return (
-    <>
-      {/* 你的主網站內容 */}
-      <ChatWidget city="台北市" />   {/* 傳入使用者縣市以提升精準度 */}
-    </>
-  )
-}
+使用者（LINE / 網頁）
+        │
+        ▼
+┌─────────────────────────────────┐
+│         Flask Backend           │
+│  ┌──────────┐  ┌─────────────┐  │
+│  │LINE      │  │REST /chat   │  │
+│  │Webhook   │  │API          │  │
+│  └────┬─────┘  └──────┬──────┘  │
+│       │               │         │
+│  ┌────▼───────────────▼──────┐  │
+│  │      核心模組               │  │
+│  │  conversation.py  狀態機   │  │
+│  │  rag_engine.py    問答引擎  │  │
+│  │  scheduler.py     推播排程  │  │
+│  │  forum.py         論壇 API  │  │
+│  └────────────────────────────┘  │
+└──────────┬──────────────────────┘
+           │
+    ┌──────┴───────┐
+    │              │
+┌───▼───┐    ┌─────▼────┐    ┌──────────┐
+│ MySQL │    │ChromaDB  │    │OpenAI API│
+│users  │    │向量知識庫 │    │GPT-4o    │
+│children│   │26+ wikis │    │Embedding │
+│forum  │    │          │    │          │
+└───────┘    └──────────┘    └──────────┘
+                  ▲
+         ┌────────┘
+    ┌────┴──────┐
+    │crawler.py │  每週一 02:00 自動爬蟲更新
+    │wiki_loader│  PDF / MD 向量化
+    └───────────┘
 ```
 
 ---
 
-## 分工建議
+## 技術架構
 
-| 組別 | 工作 | 使用哪些檔案 |
-|------|------|------------|
-| **資料組** | 蒐集 PDF、用 AI 整理成 Markdown | `data/Agents.md`, `data/wiki_pages/` |
-| **RAG 組** | 調優 chunking、測試回答品質 | `backend/rag_engine.py` |
-| **時序組** | 完善里程碑表、接 MySQL | `backend/reminder_service.py` |
-| **前端組** | 主網站 UI + 聊天元件整合 | `frontend/ChatWidget.jsx` |
+### 後端
+
+| 模組 | 說明 |
+|------|------|
+| `app.py` | Flask 主程式，整合 LINE Webhook 與 REST API |
+| `rag_engine.py` | ChromaDB 向量搜尋 + Context Enrichment + GPT-4o-mini 生成 |
+| `conversation.py` | 6 步驟對話狀態機（IDLE → ASK_CITY → … → DONE），狀態存於 MySQL |
+| `scheduler.py` | APScheduler：每日 09:00 推播里程碑，每週一 02:00 觸發爬蟲 |
+| `wiki_loader.py` | 解析 `.md` 與 `.pdf`，切塊向量化存入 ChromaDB，並將時序規則寫入 MySQL |
+| `crawler.py` | BeautifulSoup 爬取 5 個政府網站，MD5 hash 比對後自動更新知識庫 |
+| `flex_templates.py` | LINE Flex Message 卡片模板（推播通知、RAG 回覆、歡迎卡） |
+| `auth.py` | 網頁版帳號系統（bcrypt 雜湊、Flask Session） |
+| `forum.py` | Dcard 風格社群論壇 API（5 大板塊、匿名發文、巢狀留言、按讚） |
+| `db.py` | PyMySQL + DBUtils 連線池，封裝常用查詢 |
+| `config.py` | 從 `.env` 讀取所有環境變數 |
+
+### 前端
+
+| 檔案 | 說明 |
+|------|------|
+| `parenting-navigator-v5.html` | 單頁式網站，右下角浮動聊天 Widget，呼叫 `/chat` API |
+
+### 資料庫
+
+| 表格 | 用途 |
+|------|------|
+| `users` | LINE 使用者資料（戶籍縣市） |
+| `children` | 寶寶基本資料（暱稱、生日、性別） |
+| `milestones` | 已觸發的里程碑記錄 |
+| `push_schedule` | 待推播事件（疫苗、補助到期） |
+| `wiki_articles` | Wiki 文件元資料 |
+| `rag_chunks` | 向量化 Chunk 紀錄（供去重） |
+| `crawl_log` | 爬蟲執行記錄 |
+| `conversation_state` | 對話狀態機當前狀態 |
+| `web_users` | 網頁版帳號 |
+| `forum_categories` | 論壇板塊（5 類） |
+| `forum_posts` | 貼文 |
+| `forum_comments` | 留言（支援巢狀） |
+| `post_likes` / `comment_likes` | 按讚記錄 |
+
+### 知識庫
+
+- **Wiki 格式**：`.md` 含 YAML Frontmatter（`tags`、`適用縣市`、`時序規則`）
+- **PDF 格式**：命名慣例 `縣市_標題.pdf`，自動解析縣市與標題
+- **向量化流程**：文字 → 500 字切塊 → OpenAI `text-embedding-3-small` → ChromaDB
+- **搜尋策略**：Metadata 過濾 `{$or: [{city: 目標縣市}, {city: 全國}]}`，搭配 Context Enrichment 個人化
 
 ---
 
-## API 端點
+## 使用介紹
 
-| 端點 | 方法 | 說明 |
-|------|------|------|
-| `/health` | GET | 健康檢查 |
-| `/api/chat` | POST | RAG 問答（聊天視窗呼叫這裡）|
-| `/api/reminders` | POST | 時序提醒（輸入寶寶生日）|
-| `/api/categories` | GET | 快捷按鈕分類清單 |
+### LINE Bot
 
-### `/api/chat` 請求範例
+1. 加入 LINE Bot 好友後，系統發送歡迎 Flex 卡片
+2. 輸入「**設定寶寶**」→ 對話狀態機引導填入戶籍縣市、寶寶暱稱、生日、性別
+3. 完成後系統自動計算疫苗與補助時程，寫入推播排程
+4. 每日 09:00 若有里程碑到期，主動推播 LINE 通知
+5. 任何育兒問題直接輸入文字 → RAG 問答引擎即時回覆（附來源標籤）
 
-```json
-{
-  "message": "育兒津貼怎麼申請？",
-  "city": "台北市",
-  "session_id": "user_123"
-}
-```
+**特殊指令**
+
+| 輸入 | 功能 |
+|------|------|
+| `設定寶寶` / `新增寶寶` | 啟動建檔流程 |
+| `我的寶寶` / `查看資料` | 查看已建立的寶寶資料 |
+| `今日提醒` | 查看今天的待辦推播 |
+
+### 網頁版
+
+1. 開啟 `parenting-navigator-v5.html`（或部署後的網址）
+2. 右下角點擊聊天泡泡開啟浮動視窗
+3. 選擇縣市（可選）後直接輸入問題
+4. 回覆下方顯示來源 Wiki 標籤與延伸提問快捷鍵
+
+### 論壇
+
+1. 右上角「登入 / 註冊」建立帳號
+2. 選擇板塊（補助討論 / 寶寶健康 / 托育分享 / 新手問答 / 生活日常）
+3. 發文支援匿名選項；留言支援巢狀回覆
+4. 可切換「最新」或「熱門」排序
 
 ---
 
-## Demo 情境劇本（評審必問）
+## API 路由總表
 
-1. 點「補助申請」→ 展示 RAG 回答育兒津貼申請流程
-2. 問「托嬰資訊」→ 展示系統能根據縣市過濾資料
-3. 輸入寶寶生日 → 展示時序提醒清單（疫苗/健檢）
-4. 問一個知識庫沒有的問題 → 展示系統誠實說「不知道」並引導到 1957
+| 方法 | 路由 | 說明 | 需登入 |
+|------|------|------|--------|
+| POST | `/webhook` | LINE Bot Webhook | — |
+| GET | `/health` | 健康檢查 | — |
+| POST | `/chat` | 網頁聊天 API | — |
+| POST | `/auth/register` | 註冊 | — |
+| POST | `/auth/login` | 登入 | — |
+| POST | `/auth/logout` | 登出 | — |
+| GET | `/auth/me` | 取得個人資料 | ✅ |
+| PATCH | `/auth/me` | 更新個人資料 | ✅ |
+| GET | `/forum/categories` | 板塊列表 | — |
+| GET | `/forum/posts` | 貼文列表（?category=&sort=&page=） | — |
+| POST | `/forum/posts` | 發文 | ✅ |
+| GET | `/forum/posts/<id>` | 單篇貼文 + 留言 | — |
+| DELETE | `/forum/posts/<id>` | 刪除貼文 | ✅ |
+| POST | `/forum/posts/<id>/comments` | 留言 | ✅ |
+| POST | `/forum/posts/<id>/like` | 按讚 / 取消 | ✅ |
+| POST | `/forum/comments/<id>/like` | 留言按讚 | ✅ |
+| GET | `/forum/hot` | 熱門貼文 Top 10 | — |
+
+---
+
+> 部署步驟（Docker MySQL、Render 上架、ngrok 本地測試）請見 **[DEPLOY.md](./DEPLOY.md)**
