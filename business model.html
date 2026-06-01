@@ -1,0 +1,136 @@
+
+<style>
+  .bmc { display:grid; grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1.5fr; grid-template-rows: auto auto auto; gap:8px; padding:12px 0; font-size:13px; }
+  .cell { background:var(--color-background-primary); border:0.5px solid var(--color-border-secondary); border-radius:var(--border-radius-md); padding:10px 12px; }
+  .cell-title { font-size:11px; font-weight:500; margin-bottom:6px; padding-bottom:5px; border-bottom:0.5px solid var(--color-border-tertiary); }
+  .cell ul { margin:0; padding-left:14px; color:var(--color-text-secondary); }
+  .cell ul li { margin-bottom:3px; line-height:1.45; }
+  .accent-teal .cell-title { color:#0F6E56; }
+  .accent-coral .cell-title { color:#993C1D; }
+  .accent-purple .cell-title { color:#3C3489; }
+  .accent-amber .cell-title { color:#854F0B; }
+  .accent-blue .cell-title { color:#185FA5; }
+  .accent-pink .cell-title { color:#993556; }
+  .accent-green .cell-title { color:#3B6D11; }
+  .accent-gray .cell-title { color:var(--color-text-secondary); }
+  .span2r { grid-row: span 2; }
+  .bottom-row { grid-column: span 1; }
+  .bottom-half { display:grid; grid-template-columns:1fr 1fr; gap:8px; grid-column: 1/-1; }
+  .tag { display:inline-block; font-size:10px; padding:1px 6px; border-radius:4px; margin-right:3px; margin-bottom:3px; }
+</style>
+
+<h2 class="sr-only">育兒導航全攻略 — 商業模式九宮格（Business Model Canvas）</h2>
+
+<div class="bmc">
+
+  <!-- KP 關鍵合作夥伴 — row 1+2, col 1 -->
+  <div class="cell accent-gray span2r">
+    <div class="cell-title">8 / KP 關鍵合作夥伴</div>
+    <ul>
+      <li>衛福部 / 各縣市政府（資料來源授權）</li>
+      <li>LINE Corporation（Messaging API 觸達管道）</li>
+      <li>OpenAI（GPT-4o-mini + Embedding API）</li>
+      <li>Render.com（雲端部署基礎設施）</li>
+      <li>各縣市托嬰 / 公托機構（實體資源媒合）</li>
+    </ul>
+  </div>
+
+  <!-- KA 關鍵活動 — row 1, col 2 -->
+  <div class="cell accent-blue">
+    <div class="cell-title">7 / KA 關鍵活動</div>
+    <ul>
+      <li>爬蟲每週自動更新知識庫</li>
+      <li>RAG 問答引擎持續優化</li>
+      <li>疫苗 / 補助時序維護</li>
+      <li>社群論壇內容管理</li>
+      <li>新縣市知識庫擴充</li>
+    </ul>
+  </div>
+
+  <!-- VP 價值主張 — row 1+2, col 3 -->
+  <div class="cell accent-teal span2r" style="background:var(--color-background-secondary);">
+    <div class="cell-title">2 / VP 價值主張</div>
+    <ul>
+      <li><strong>一站整合</strong>：26+ 個政府資料來源，不再跨多個官網</li>
+      <li><strong>個人化</strong>：依戶籍縣市 + 寶寶年齡精準回答</li>
+      <li><strong>主動提醒</strong>：疫苗 / 補助到期自動 LINE 推播，零錯過</li>
+      <li><strong>可信根據</strong>：每次回答附官方 wiki 來源標籤</li>
+      <li><strong>社群互助</strong>：Dcard 風格論壇，爸媽分享實戰心得</li>
+      <li><strong>零學習成本</strong>：直接在 LINE 對話，毋需下載 App</li>
+    </ul>
+  </div>
+
+  <!-- CR 顧客關係 — row 1, col 4 -->
+  <div class="cell accent-purple">
+    <div class="cell-title">4 / CR 顧客關係</div>
+    <ul>
+      <li>AI 對話 — 全天候即時問答</li>
+      <li>主動推播 — 關鍵時程不遺漏</li>
+      <li>論壇社群 — 爸媽互助口碑</li>
+      <li>對話狀態機 — 引導完成建檔</li>
+    </ul>
+  </div>
+
+  <!-- CS 目標客層 — row 1+2, col 5 -->
+  <div class="cell accent-coral span2r">
+    <div class="cell-title">1 / CS 目標客層</div>
+    <ul>
+      <li><strong>主力</strong>：0-3 歲嬰幼兒家長（新手爸媽）</li>
+      <li><strong>次要</strong>：孕婦（備孕 / 孕期）</li>
+      <li><strong>潛力</strong>：特殊境遇家庭 / 外籍配偶</li>
+      <li>年齡：25-40 歲 LINE 重度使用者</li>
+      <li>地域：台北市優先，全台可擴展</li>
+    </ul>
+    <div style="margin-top:8px;">
+      <span class="tag" style="background:#FAECE7;color:#993C1D;">20 萬+ 新生兒/年</span>
+      <span class="tag" style="background:#FAECE7;color:#993C1D;">LINE 滲透率 90%+</span>
+    </div>
+  </div>
+
+  <!-- KR 關鍵資源 — row 2, col 2 -->
+  <div class="cell accent-amber">
+    <div class="cell-title">6 / KR 關鍵資源</div>
+    <ul>
+      <li>RAG 向量知識庫（ChromaDB）</li>
+      <li>26+ 份政府 Wiki 文件</li>
+      <li>MySQL 使用者 / 寶寶資料庫</li>
+      <li>LINE Bot 開發者帳號</li>
+      <li>OpenAI API 存取權</li>
+    </ul>
+  </div>
+
+  <!-- CH 通路 — row 2, col 4 -->
+  <div class="cell accent-green">
+    <div class="cell-title">3 / CH 通路</div>
+    <ul>
+      <li>LINE Bot（主通路，高滲透率）</li>
+      <li>網頁版浮動聊天 Widget</li>
+      <li>社群論壇（口碑擴散）</li>
+      <li>政府官網嵌入（B2G 合作）</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- 底部兩格 -->
+<div class="bottom-half" style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:0;">
+  <div class="cell accent-gray">
+    <div class="cell-title">9 / C$ 成本結構</div>
+    <ul>
+      <li>OpenAI API 費用（Embedding + GPT 呼叫）</li>
+      <li>Render.com 雲端主機 + Disk 費用</li>
+      <li>MySQL / ChromaDB 存儲維護</li>
+      <li>爬蟲程式維護與政策異動監控人力</li>
+      <li>LINE Messaging API（超量推播計費）</li>
+    </ul>
+  </div>
+  <div class="cell accent-teal">
+    <div class="cell-title">5 / R$ 收益流</div>
+    <ul>
+      <li><strong>B2G</strong>：政府標案 / 公益合作（衛福部、縣市政府）</li>
+      <li><strong>B2B SaaS</strong>：授權 RAG + 推播引擎給育兒 App 廠商</li>
+      <li><strong>平台廣告</strong>：親子商品、保險、育兒課程精準廣告</li>
+      <li><strong>垂直複製</strong>：長照 / 學齡教育領域授權收費</li>
+    </ul>
+  </div>
+</div>

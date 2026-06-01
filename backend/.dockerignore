@@ -1,0 +1,11 @@
+# .dockerignore — 排除不需要打包進映像的檔案
+.env
+.env.*
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+chroma_db/
+*.log
+.git/
+.gitignore

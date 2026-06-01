@@ -1,0 +1,40 @@
+# render.yaml — Render.com 一鍵部署設定
+# 使用方式：將此 repo 連接至 Render，系統自動讀取此檔案建立服務
+# 文件：https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: parenting-navigator
+    runtime: docker                  # 使用 Dockerfile 建置
+    dockerfilePath: ./Dockerfile
+    plan: free                       # 免費方案（課程展示用）
+    region: singapore                # 最接近台灣的節點
+    healthCheckPath: /health
+
+    # ── 環境變數（機密值在 Render Dashboard 手動設定） ────────────────────────
+    envVars:
+      - key: FLASK_DEBUG
+        value: "false"
+      - key: FLASK_PORT
+        value: "5000"
+      - key: CHROMA_PERSIST_DIR
+        value: /app/chroma_db
+      - key: WIKI_DIR
+        value: /app/wiki
+      - key: SCHEDULER_TIMEZONE
+        value: Asia/Taipei
+      - key: SCHEDULER_PUSH_HOUR
+        value: "9"
+
+      # 以下在 Render Dashboard → Environment 設定，不寫在這裡
+      # LINE_CHANNEL_ACCESS_TOKEN
+      # LINE_CHANNEL_SECRET
+      # OPENAI_API_KEY
+      # DB_HOST / DB_PORT / DB_NAME / DB_USER / DB_PASSWORD
+
+    # ── 持久化磁碟（ChromaDB 向量資料庫） ────────────────────────────────────
+    # 注意：Render 免費方案不支援 Disk，需升級至 Starter ($7/月)
+    # disk:
+    #   name: chroma-storage
+    #   mountPath: /app/chroma_db
+    #   sizeGB: 1
