@@ -1,0 +1,73 @@
+version: "3.9"
+
+# ── 育兒導航全攻略 — 本地開發環境 ────────────────────────────────────────────
+# 使用方式：
+#   1. 複製 backend/.env.example 為 backend/.env，填入真實值
+#   2. docker compose up -d --build
+#   3. 首次啟動後執行 wiki_loader：
+#      docker compose exec app python wiki_loader.py --rebuild
+#   4. 停止：docker compose down
+
+services:
+
+  # ── MySQL 資料庫 ──────────────────────────────────────────────────────────
+  db:
+    image: mysql:8.0
+    container_name: parenting_nav_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: Root@PNav2025
+      MYSQL_DATABASE: parenting_navigator
+      MYSQL_USER: pnav
+      MYSQL_PASSWORD: PNav@2025
+    ports:
+      - "3306:3306"
+    volumes:
+      # 持久化 MySQL 資料（不進 git）
+      - my_mysql_data:/var/lib/mysql
+      # 啟動時自動建立 Schema
+      - ./parenting_navigator_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-upnav", "-pPNav@2025"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Flask 後端 ────────────────────────────────────────────────────────────
+  app:
+    build:
+      context: .               # build context = 專案根目錄（可同時 COPY backend/ 和 wiki/）
+      dockerfile: backend/Dockerfile
+    container_name: parenting_nav_app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - backend/.env           # 機密設定從 .env 讀取，不寫死在這裡
+    environment:
+      # 覆寫 .env 中的 DB 連線（指向 docker 內部網路的 db 服務）
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: parenting_navigator
+      DB_USER: pnav
+      DB_PASSWORD: PNav@2025
+      CHROMA_PERSIST_DIR: /app/chroma_db
+      WIKI_DIR: /app/wiki
+    ports:
+      - "5000:5000"
+    volumes:
+      # chroma_db 持久化（重啟不需重新向量化）
+      - chroma_data:/app/chroma_db
+      # 開發時 live reload（可選：直接掛載 backend/ 原始碼）
+      # - ./backend:/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+# ── Named Volumes ──────────────────────────────────────────────────────────
+volumes:
+  my_mysql_data:
+  chroma_data:

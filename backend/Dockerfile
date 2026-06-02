@@ -17,11 +17,12 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# ── 複製應用程式碼 ────────────────────────────────────────────────────────────
-COPY . .
+# ── 複製應用程式碼（build context 設在專案根目錄） ──────────────────────────
+COPY backend/ .
+COPY wiki/ /app/wiki/
 
 # ── 建立必要資料夾 ────────────────────────────────────────────────────────────
-RUN mkdir -p /app/chroma_db /app/wiki /app/logs
+RUN mkdir -p /app/chroma_db /app/logs
 
 # ── 環境變數預設值（正式部署請透過平台環境變數覆寫） ──────────────────────────
 ENV FLASK_DEBUG=false \
