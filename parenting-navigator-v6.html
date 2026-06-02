@@ -276,7 +276,11 @@ nav ul li a:hover,nav ul li a.active{background:var(--teal-pale);color:var(--tea
 
 /* ── SIDEBAR DECO ── */
 .sidebar-deco{text-align:center;padding:8px 0 0;pointer-events:none}
-.sidebar-deco img{width:80%;max-width:180px;object-fit:contain;opacity:.72}
+.sidebar-deco img{object-fit:contain;opacity:.85}
+@keyframes babySway{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(4deg) translateY(-4px)}}
+@keyframes babyBounce{0%,100%{transform:translateY(0) rotate(0deg)}40%{transform:translateY(-10px) rotate(-3deg)}70%{transform:translateY(-5px) rotate(2deg)}}
+.baby-sway{animation:babySway 2.8s ease-in-out infinite;transform-origin:bottom center}
+.baby-bounce{animation:babyBounce 1.4s ease-in-out infinite;transform-origin:bottom center}
 
 /* ── FOOTER DECO ── */
 .footer-deco-wrap{position:relative;overflow:hidden}
@@ -635,9 +639,9 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
       </div>
     </div>
     <!-- 側邊裝飾小寶寶 -->
-    <div class="sidebar-deco" style="display:flex;justify-content:center;align-items:flex-end;gap:0;overflow:hidden">
-      <img src="img/cropped/baby5.png" alt="" style="height:100px;object-fit:contain;opacity:.85;flex-shrink:0">
-      <img src="img/cropped/baby1.png" alt="" style="height:115px;object-fit:contain;opacity:.85;flex-shrink:0;margin-left:-12px">
+    <div class="sidebar-deco" style="display:flex;justify-content:center;align-items:flex-end;gap:4px;overflow:hidden">
+      <img src="img/cropped/baby5.png" alt="" class="baby-sway" style="height:100px;flex-shrink:0">
+      <img src="img/cropped/baby1.png" alt="" class="baby-bounce" style="height:115px;flex-shrink:0">
     </div>
   </aside>
 </div>
