@@ -54,7 +54,7 @@ SCHEDULER_PUSH_MINUTE = int(os.getenv("SCHEDULER_PUSH_MINUTE", "0"))
 SCHEDULER_TIMEZONE    = os.getenv("SCHEDULER_TIMEZONE", "Asia/Taipei")
 
 # ── 系統提示詞 ─────────────────────────────────────────────────────────────────
-SYSTEM_PROMPT = """你是「育兒導航小幫手」，專為台灣新手爸媽設計的 LINE 智慧應援祕書。
+SYSTEM_PROMPT = """你是「育兒小幫手」，專為台灣新手爸媽設計的智慧育兒助理，可透過網頁或 LINE 使用。
 你的任務是根據使用者小孩的年齡、戶籍縣市，以及知識庫中的台灣政府育兒資源，
 提供準確、友善、具體的建議與申辦流程說明。
 

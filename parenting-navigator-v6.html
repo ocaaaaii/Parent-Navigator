@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>育兒導航全攻略 — 新手爸媽智慧應援</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal:#6E9896; --teal-brand:#99B6B4; --teal-light:#BACFCE; --teal-pale:#DDF0EF;
+  --apricot:#B8795A; --apricot-brand:#DFB199; --apricot-pale:#F5E8DC;
+  --wine:#C07070; --wine-brand:#D48982; --wine-pale:#F5E4E3;
+  --warm-cream:#EEF4F3; --warm-sand:#E0ECEA;
+  --charcoal:#243432; --charcoal-mid:#3E5856; --charcoal-light:#6E8E8C;
+  --white:#FFFFFF; --border:#C8DEDD;
+  --shadow-sm:0 2px 12px rgba(36,52,50,.06);
+  --shadow-md:0 8px 32px rgba(36,52,50,.10);
+  --radius:16px; --radius-sm:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--warm-cream);color:var(--charcoal);overflow-x:hidden}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--charcoal);color:rgba(255,255,255,.68);font-size:12px;padding:6px 32px;display:flex;justify-content:flex-end;align-items:center;gap:20px}
+.topbar a{color:rgba(255,255,255,.68);text-decoration:none;transition:color .2s}
+.topbar a:hover{color:#fff}
+.topbar .line-pill{display:inline-flex;align-items:center;gap:5px;background:#06C755;color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer}
+
+/* ── HEADER ── */
+header{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;box-shadow:var(--shadow-sm)}
+.header-inner{max-width:1280px;margin:0 auto;padding:0 32px;display:flex;align-items:center;height:68px;gap:32px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--teal),var(--teal-light));border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff}
+.logo-icon svg{width:22px;height:22px;stroke-width:2}
+.logo-text .main{font-family:'Noto Serif TC',serif;font-size:17px;font-weight:700;color:var(--charcoal);letter-spacing:.02em}
+.logo-text .sub{font-size:10px;color:var(--charcoal-light);letter-spacing:.08em}
+nav{flex:1;display:flex;align-items:center}
+nav ul{display:flex;list-style:none;gap:4px}
+nav ul li a{padding:8px 14px;border-radius:8px;font-size:14px;color:var(--charcoal-mid);text-decoration:none;font-weight:500;transition:all .2s;white-space:nowrap;cursor:pointer}
+nav ul li a:hover,nav ul li a.active{background:var(--teal-pale);color:var(--teal)}
+.header-actions{display:flex;gap:10px;flex-shrink:0}
+.btn-outline{padding:8px 16px;border:1.5px solid var(--border);border-radius:8px;background:transparent;color:var(--charcoal-mid);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Noto Sans TC',sans-serif}
+.btn-outline:hover{border-color:var(--teal-brand);color:var(--teal)}
+.btn-solid{padding:8px 18px;border:none;border-radius:8px;background:var(--teal);color:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Noto Sans TC',sans-serif}
+.btn-solid:hover{background:var(--charcoal)}
+.btn-solid.logged-in{background:var(--charcoal-mid)}
+.btn-tour{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:transparent;color:var(--charcoal-mid);font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.btn-tour:hover{border-color:var(--teal-brand);color:var(--teal);background:var(--teal-pale)}
+
+/* ── SPOTLIGHT TOUR ── */
+#tour-spotlight{position:fixed;border-radius:10px;box-shadow:0 0 0 9999px rgba(36,52,50,.72);z-index:9001;pointer-events:none;transition:all .35s cubic-bezier(.4,0,.2,1);opacity:0}
+#tour-spotlight.active{opacity:1}
+#tour-tooltip{position:fixed;background:#fff;border-radius:14px;padding:20px 22px;max-width:300px;min-width:240px;box-shadow:0 12px 48px rgba(0,0,0,.28);z-index:9002;transition:opacity .25s ease;opacity:0}
+#tour-tooltip.active{opacity:1}
+#tour-tooltip .tour-step-label{font-size:11px;font-weight:700;color:var(--teal);letter-spacing:.08em;margin-bottom:8px}
+#tour-tooltip h3{font-family:'Noto Serif TC',serif;font-size:15px;font-weight:700;color:var(--charcoal);margin-bottom:8px}
+#tour-tooltip p{font-size:13px;color:var(--charcoal-mid);line-height:1.7;margin-bottom:16px}
+#tour-tooltip .tour-arrow{position:absolute;width:14px;height:14px;background:#fff;transform:rotate(45deg)}
+.tour-nav{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tour-btn-skip{font-size:12px;color:var(--charcoal-light);background:none;border:none;cursor:pointer;padding:4px 0;font-family:'Noto Sans TC',sans-serif}
+.tour-btn-skip:hover{color:var(--charcoal)}
+.tour-btn-next{padding:8px 18px;background:var(--teal);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:background .15s}
+.tour-btn-next:hover{background:var(--charcoal)}
+.tour-dots{display:flex;gap:5px}
+.tour-dot{width:7px;height:7px;border-radius:50%;background:var(--border);transition:background .2s}
+.tour-dot.active{background:var(--teal)}
+
+/* ── ANNOUNCE BAR ── */
+.announce-bar{background:var(--apricot-pale);border-top:1px solid rgba(184,121,90,.16);border-bottom:1px solid rgba(184,121,90,.16);padding:10px 32px;display:flex;align-items:center;gap:12px;font-size:13px;color:var(--charcoal-mid)}
+.announce-badge{background:var(--wine);color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px;white-space:nowrap}
+.announce-text{flex:1}
+.announce-text a{color:var(--teal);text-decoration:none;font-weight:500}
+.announce-text a:hover{text-decoration:underline}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(160deg,var(--charcoal) 0%,var(--charcoal-mid) 100%);padding:64px 32px 72px;text-align:center}
+.hero-content{max-width:720px;margin:0 auto}
+.hero h1{font-family:'Noto Serif TC',serif;font-size:clamp(28px,4vw,42px);font-weight:700;color:#fff;letter-spacing:.03em;line-height:1.3;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--teal-light);margin-bottom:32px;line-height:1.7}
+.search-box{display:flex;gap:10px;background:#fff;border-radius:14px;padding:8px 8px 8px 20px;box-shadow:0 8px 32px rgba(0,0,0,.2);margin-bottom:20px}
+.search-input{flex:1;border:none;outline:none;font-size:15px;color:var(--charcoal);font-family:'Noto Sans TC',sans-serif;background:transparent}
+.search-input::placeholder{color:#aaa}
+.search-btn{padding:10px 22px;background:var(--teal);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:'Noto Sans TC',sans-serif;transition:background .2s}
+.search-btn:hover{background:var(--charcoal)}
+.search-btn svg{width:16px;height:16px;stroke-width:2.5}
+.search-filters{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;margin-bottom:20px}
+.filter-field{display:flex;flex-direction:column;gap:4px}
+.filter-field label{font-size:11px;color:var(--teal-light);letter-spacing:.05em}
+.filter-field select{padding:8px 12px;border-radius:8px;border:1.5px solid rgba(153,182,180,.3);background:rgba(255,255,255,.1);color:#fff;font-size:13px;outline:none;font-family:'Noto Sans TC',sans-serif;cursor:pointer}
+.filter-field select option{color:var(--charcoal);background:#fff}
+.filter-reset-btn{align-self:flex-end;padding:8px 16px;border-radius:8px;border:1.5px solid rgba(153,182,180,.3);background:transparent;color:var(--teal-light);font-size:13px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .2s;white-space:nowrap}
+.filter-reset-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+.hot-keywords{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
+.hot-label{font-size:12px;color:rgba(255,255,255,.5)}
+.keyword-tag{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:12px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);text-decoration:none;cursor:pointer;border:1px solid rgba(255,255,255,.15);transition:all .2s}
+.keyword-tag:hover,.keyword-tag.hot{background:rgba(153,182,180,.2);border-color:rgba(153,182,180,.4);color:#fff}
+.keyword-tag .rank{font-size:10px;font-weight:700;color:var(--wine-brand)}
+.keyword-tag.hot .rank{color:var(--apricot-brand)}
+
+/* ── NOTICE STRIP ── */
+.notice-strip{max-width:1280px;margin:28px auto 0;padding:0 32px}
+.notice-card{background:linear-gradient(135deg,#E5F0F0,var(--teal-pale));border:1px solid rgba(153,182,180,.22);border-radius:var(--radius);padding:18px 24px;display:flex;align-items:center;gap:16px}
+.notice-icon{width:42px;height:42px;border-radius:12px;background:var(--apricot-pale);color:var(--apricot);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.notice-icon svg{width:22px;height:22px;stroke-width:2}
+.notice-content h3{font-size:14px;font-weight:600;color:var(--charcoal);margin-bottom:4px}
+.notice-content p{font-size:12px;color:var(--charcoal-light);line-height:1.6}
+.notice-btn{margin-left:auto;padding:8px 18px;background:var(--teal);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:all .2s;font-family:'Noto Sans TC',sans-serif}
+.notice-btn:hover{background:var(--charcoal)}
+
+/* ── MAIN LAYOUT ── */
+.main-wrap{max-width:1280px;margin:28px auto;padding:0 32px;display:grid;grid-template-columns:1fr 340px;gap:28px}
+
+/* ── SECTIONS ── */
+.section-title{font-family:'Noto Serif TC',serif;font-size:20px;font-weight:700;color:var(--charcoal);margin-bottom:4px}
+.section-divider{width:36px;height:3px;background:var(--teal);border-radius:2px;margin-bottom:20px}
+
+/* ── CATEGORY GRID ── */
+.category-section{margin-bottom:28px}
+.category-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.category-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px 16px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;text-decoration:none;transition:all .22s;opacity:0;animation:fadeInUp .4s ease forwards}
+.category-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--teal-brand)}
+.icon-wrap{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center}
+.icon-wrap svg{width:26px;height:26px;stroke-width:1.8}
+.icon-wrap.green{background:#E8F5E9;color:#388E3C}
+.icon-wrap.rose{background:var(--wine-pale);color:var(--wine)}
+.icon-wrap.gold{background:var(--apricot-pale);color:var(--apricot)}
+.icon-wrap.blue{background:#E3F2FD;color:#1565C0}
+.icon-wrap.lavender{background:#F3E5F5;color:#7B1FA2}
+.icon-wrap.peach{background:#FBE9E7;color:#BF360C}
+.icon-wrap.mint{background:#E0F7FA;color:#00838F}
+.icon-wrap.sky{background:#E1F5FE;color:#0277BD}
+.category-card .label{font-size:14px;font-weight:600;color:var(--charcoal);text-align:center}
+.category-card .count{font-size:12px;color:var(--charcoal-light);background:var(--warm-sand);padding:3px 10px;border-radius:10px}
+
+/* ── NEWS PANELS ── */
+.news-panels{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
+.news-panel{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.news-panel-header{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.news-panel-title{font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;color:var(--charcoal);display:flex;align-items:center;gap:8px}
+.panel-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;background:var(--wine-pale);color:var(--wine)}
+.panel-more{font-size:12px;color:var(--teal);text-decoration:none;white-space:nowrap}
+.panel-more:hover{text-decoration:underline}
+.news-list{padding:8px}
+.news-item{display:flex;align-items:flex-start;gap:12px;padding:10px;border-radius:10px;cursor:pointer;transition:background .15s}
+.news-item:hover{background:var(--warm-sand)}
+.news-num{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
+.news-num.top{background:var(--wine-pale);color:var(--wine)}
+.news-num.normal{background:var(--warm-sand);color:var(--charcoal-light)}
+.news-content{flex:1;min-width:0}
+.news-title-text{font-size:13px;font-weight:500;color:var(--charcoal);line-height:1.5;margin-bottom:5px}
+.news-meta{display:flex;align-items:center;gap:8px}
+.news-date{font-size:11px;color:var(--charcoal-light)}
+.news-tag{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:500}
+.tag-green{background:#E8F5E9;color:#388E3C}
+.tag-rose{background:var(--wine-pale);color:var(--wine)}
+.tag-gold{background:var(--apricot-pale);color:var(--apricot)}
+.tag-blue{background:#E3F2FD;color:#1565C0}
+
+/* ── ARTICLE LIST SECTIONS ── */
+#section-medical,#section-subsidy,#section-education{display:none;margin-bottom:28px}
+.article-grid{display:flex;flex-direction:column;gap:14px}
+.article-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;cursor:pointer;transition:all .2s;display:block;text-align:left;width:100%}
+.article-card:hover{border-color:var(--teal-brand);box-shadow:var(--shadow-md);transform:translateX(3px)}
+.article-card-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.article-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px}
+.article-tag.medical{background:var(--wine-pale);color:var(--wine)}
+.article-tag.subsidy{background:var(--apricot-pale);color:var(--apricot)}
+.article-tag.education{background:#E3F2FD;color:#1565C0}
+.article-tag.general{background:var(--teal-pale);color:var(--teal)}
+.article-date{font-size:11px;color:var(--charcoal-light)}
+.article-title{font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;color:var(--charcoal);margin-bottom:8px;line-height:1.45}
+.article-excerpt{font-size:13px;color:var(--charcoal-mid);line-height:1.65}
+/* article modal */
+.article-modal-meta{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.article-body{font-size:14px;line-height:1.85;color:var(--charcoal-mid)}
+.article-body h3{font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;color:var(--charcoal);margin:22px 0 8px}
+.article-body h3:first-child{margin-top:0}
+.article-body p{margin-bottom:12px}
+.article-body ul,.article-body ol{padding-left:22px;margin-bottom:12px}
+.article-body li{margin-bottom:6px}
+.article-body .info-box{background:var(--teal-pale);border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0;font-size:13px}
+.article-body .warn-box{background:var(--apricot-pale);border-left:3px solid var(--apricot);border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0;font-size:13px}
+.article-body table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:13px}
+.article-body th,.article-body td{border:1px solid var(--border);padding:8px 12px;text-align:left}
+.article-body th{background:var(--warm-sand);font-weight:600;color:var(--charcoal)}
+.article-source{margin-top:20px;padding-top:16px;border-top:1px solid var(--border);font-size:12px;color:var(--charcoal-light)}
+.article-source a{color:var(--teal);text-decoration:none}
+.article-source a:hover{text-decoration:underline}
+
+/* ── FORUM SECTION ── */
+#section-forum{display:none;margin-bottom:28px}
+.forum-section-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.forum-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.forum-header h2{font-family:'Noto Serif TC',serif;font-size:18px;font-weight:700}
+.forum-cats{display:flex;gap:8px;padding:12px 20px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.forum-cat-btn{padding:5px 14px;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--charcoal-mid);font-size:12px;cursor:pointer;transition:all .15s;font-family:'Noto Sans TC',sans-serif}
+.forum-cat-btn:hover,.forum-cat-btn.active{background:var(--teal-pale);border-color:var(--teal-brand);color:var(--teal)}
+.forum-post-list{padding:8px}
+.forum-post-item{padding:14px 12px;border-radius:10px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--warm-sand)}
+.forum-post-item:last-child{border-bottom:none}
+.forum-post-item:hover{background:var(--warm-sand)}
+.forum-post-title{font-size:14px;font-weight:600;color:var(--charcoal);margin-bottom:6px}
+.forum-post-meta{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--charcoal-light)}
+.forum-write-btn{padding:8px 18px;background:var(--teal);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:background .2s}
+.forum-write-btn:hover{background:var(--charcoal)}
+.forum-empty{padding:40px;text-align:center;color:var(--charcoal-light);font-size:14px}
+
+/* ── SIDEBAR ── */
+.sidebar{display:flex;flex-direction:column;gap:16px;position:sticky;top:88px;max-height:calc(100vh - 100px);overflow-y:auto}
+.chatbot-widget{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+.chatbot-header{background:var(--charcoal);padding:14px 16px;display:flex;align-items:center;gap:10px;cursor:pointer}
+.chatbot-avatar{width:36px;height:36px;border-radius:50%;background:var(--charcoal-mid);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chatbot-avatar svg{width:18px;height:18px;stroke:var(--teal-brand);fill:none}
+.chatbot-info .name{font-size:14px;font-weight:600;color:#fff}
+.chatbot-info .status{font-size:11px;color:var(--teal-light);display:flex;align-items:center;gap:5px;margin-top:2px}
+.status-dot{width:7px;height:7px;border-radius:50%;background:#4caf50;display:inline-block}
+.chatbot-toggle{margin-left:auto;background:none;border:none;color:var(--teal-light);font-size:18px;cursor:pointer;line-height:1;padding:4px}
+.chatbot-toggle:hover{color:#fff}
+.chatbot-body{display:flex;flex-direction:column}
+.chatbot-messages{height:240px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.msg{display:flex;align-items:flex-end;gap:7px}
+.msg.user{flex-direction:row-reverse}
+.msg-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.msg-avatar.bot{background:var(--charcoal)}
+.msg-avatar.human{background:var(--teal-brand)}
+.msg-avatar svg{width:13px;height:13px;fill:none;stroke-width:1.8}
+.msg-avatar.bot svg{stroke:var(--teal-brand)}
+.msg-avatar.human svg{stroke:#fff}
+.msg-bubble{max-width:78%;padding:8px 12px;border-radius:12px;font-size:12.5px;line-height:1.55}
+.msg.bot .msg-bubble{background:#f5f5f5;color:var(--charcoal);border-bottom-left-radius:3px}
+.msg.user .msg-bubble{background:var(--teal);color:#fff;border-bottom-right-radius:3px}
+.chatbot-quick-btns{padding:6px 10px 8px;display:flex;flex-wrap:wrap;gap:5px;border-top:1px solid var(--warm-sand)}
+.quick-btn{font-size:11px;padding:4px 10px;border-radius:16px;border:1px solid var(--teal-brand);background:#fff;color:var(--teal);cursor:pointer;transition:background .15s;font-family:'Noto Sans TC',sans-serif}
+.quick-btn:hover{background:var(--teal-pale)}
+.chatbot-input-area{display:flex;gap:6px;padding:8px 10px 10px;background:var(--white)}
+.chatbot-input{flex:1;border:1.5px solid var(--border);border-radius:18px;padding:7px 12px;font-size:12px;outline:none;font-family:'Noto Sans TC',sans-serif}
+.chatbot-input:focus{border-color:var(--teal-brand)}
+.chatbot-send{width:34px;height:34px;border-radius:50%;background:var(--teal);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.chatbot-send:hover{background:var(--charcoal)}
+.chatbot-send svg{stroke:#fff;width:14px;height:14px}
+.chatbot-collapsed .chatbot-body{display:none}
+
+/* ── QUICK LINKS ── */
+.quick-links-panel{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.ql-header{padding:12px 16px;border-bottom:1px solid var(--border);font-family:'Noto Serif TC',serif;font-size:14px;font-weight:700;color:var(--charcoal);display:flex;align-items:center;gap:8px}
+.ql-header svg{width:15px;height:15px;stroke:var(--teal);fill:none;stroke-width:2}
+.ql-list{padding:6px}
+.ql-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;transition:background .15s;text-decoration:none}
+.ql-item:hover{background:var(--warm-sand)}
+.ql-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ql-dot.green{background:var(--teal)}
+.ql-dot.rose{background:var(--wine-brand)}
+.ql-dot.gold{background:var(--apricot)}
+.ql-dot.blue{background:var(--teal-light)}
+.ql-text{font-size:12.5px;color:var(--charcoal-mid);font-weight:500;flex:1}
+.ql-arrow{color:var(--charcoal-light);font-size:12px}
+
+/* ── FOOTER ── */
+footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 28px;margin-top:40px}
+.footer-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:36px}
+.footer-brand .logo-text .main{color:rgba(255,255,255,.9)}
+.footer-brand .logo-text .sub{color:rgba(255,255,255,.36)}
+.footer-brand p{font-size:13px;line-height:1.7;margin-top:14px}
+.footer-col h4{font-size:13px;font-weight:600;color:var(--teal-light);margin-bottom:14px;letter-spacing:.05em}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.footer-col ul li a{color:rgba(255,255,255,.4);font-size:13px;text-decoration:none;transition:color .2s}
+.footer-col ul li a:hover{color:var(--teal-brand)}
+.footer-bottom{max-width:1280px;margin:0 auto;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;font-size:12px}
+
+/* ── FLOAT CHAT ── */
+#float-chat-wrap{position:fixed;bottom:28px;right:28px;z-index:9999}
+#float-chat-btn{width:58px;height:58px;border-radius:50%;background:var(--charcoal);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(36,52,50,.30);transition:transform .2s,box-shadow .2s;position:relative}
+#float-chat-btn:hover{transform:scale(1.08);box-shadow:0 10px 32px rgba(36,52,50,.38)}
+#float-chat-btn svg{width:26px;height:26px;stroke:var(--teal-brand);fill:none;stroke-width:2}
+.float-badge{position:absolute;top:-4px;right:-4px;background:var(--wine-brand);color:#fff;border-radius:50%;width:20px;height:20px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
+.float-popup{position:absolute;bottom:72px;right:0;width:340px;background:var(--warm-cream);border-radius:18px;box-shadow:0 16px 60px rgba(36,52,50,.22);overflow:hidden;display:flex;flex-direction:column;animation:popupIn .22s ease}
+@keyframes popupIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.float-popup-header{background:var(--charcoal);padding:14px 16px;display:flex;align-items:center;gap:10px}
+.float-popup-avatar{width:38px;height:38px;border-radius:50%;background:var(--charcoal-mid);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.float-popup-avatar svg{width:20px;height:20px;stroke:var(--teal-brand);fill:none}
+.float-popup-name{color:#fff;font-size:14px;font-weight:600}
+.float-popup-status{color:var(--teal-light);font-size:11px;display:flex;align-items:center;gap:5px;margin-top:2px}
+.float-popup-close{margin-left:auto;background:none;border:none;color:var(--teal-light);font-size:16px;cursor:pointer;line-height:1;padding:4px}
+.float-popup-close:hover{color:#fff}
+.float-city-bar{background:var(--apricot-pale);padding:8px 14px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--apricot)}
+.float-city-bar select{border:1px solid var(--apricot-brand);border-radius:6px;padding:2px 6px;font-size:12px;background:#fff;color:var(--charcoal);cursor:pointer}
+.float-messages{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:10px;max-height:340px;min-height:200px}
+.float-msg{display:flex;align-items:flex-end;gap:7px}
+.float-msg.user{flex-direction:row-reverse}
+.float-msg-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.float-msg.bot .float-msg-avatar{background:var(--charcoal)}
+.float-msg.user .float-msg-avatar{background:var(--teal-brand)}
+.float-msg-avatar svg{width:14px;height:14px;fill:none;stroke-width:1.8}
+.float-msg.bot .float-msg-avatar svg{stroke:var(--teal-brand)}
+.float-msg.user .float-msg-avatar svg{stroke:#fff}
+.float-bubble{max-width:76%;padding:9px 13px;border-radius:14px;font-size:13px;line-height:1.55;white-space:pre-wrap}
+.float-msg.bot .float-bubble{background:#fff;color:var(--charcoal);border-bottom-left-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.float-msg.user .float-bubble{background:var(--teal);color:#fff;border-bottom-right-radius:4px}
+.float-sources{margin-top:5px;display:flex;flex-wrap:wrap;gap:4px}
+.float-source-tag{font-size:10px;padding:2px 7px;border-radius:10px;background:var(--teal-pale);color:var(--teal);border:1px solid var(--teal-light)}
+.float-typing .float-bubble{display:flex;gap:4px;align-items:center;padding:12px 16px}
+.float-typing .dot{width:7px;height:7px;border-radius:50%;background:var(--teal-light);animation:typingDot .9s infinite}
+.float-typing .dot:nth-child(2){animation-delay:.15s}
+.float-typing .dot:nth-child(3){animation-delay:.30s}
+@keyframes typingDot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.float-quick-btns{padding:6px 12px 8px;display:flex;flex-wrap:wrap;gap:6px}
+.float-quick-btns button{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--teal-brand);background:#fff;color:var(--teal);cursor:pointer;transition:background .15s;font-family:'Noto Sans TC',sans-serif}
+.float-quick-btns button:hover{background:var(--teal-pale)}
+.float-input-area{display:flex;gap:8px;padding:10px 12px 14px;border-top:1px solid var(--border);background:#fff}
+.float-input-area input{flex:1;border:1.5px solid var(--border);border-radius:22px;padding:8px 14px;font-size:13px;outline:none;font-family:'Noto Sans TC',sans-serif}
+.float-input-area input:focus{border-color:var(--teal-brand)}
+.float-input-area button{width:38px;height:38px;border-radius:50%;background:var(--teal);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+.float-input-area button:hover{background:var(--charcoal)}
+.float-input-area button svg{stroke:#fff;fill:none;stroke-width:2}
+
+/* ── MODAL SYSTEM ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(36,52,50,.6);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-box{background:#fff;border-radius:var(--radius);max-width:660px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.3);animation:modalIn .22s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.modal-header{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:1}
+.modal-header h2{font-family:'Noto Serif TC',serif;font-size:18px;font-weight:700;color:var(--charcoal)}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--charcoal-light);line-height:1;padding:4px;transition:color .15s}
+.modal-close:hover{color:var(--charcoal)}
+.modal-body{padding:20px 24px}
+
+/* 親子館 modal */
+.family-hall-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.family-hall-card{border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;transition:all .2s}
+.family-hall-card:hover{border-color:var(--teal-brand);box-shadow:var(--shadow-sm)}
+.fh-name{font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:4px}
+.fh-addr{font-size:11px;color:var(--charcoal-light);margin-bottom:8px;line-height:1.4}
+.fh-map-btn{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--teal);text-decoration:none;border:1px solid var(--teal-brand);padding:3px 10px;border-radius:8px;transition:all .15s}
+.fh-map-btn:hover{background:var(--teal-pale)}
+.fh-source{margin-top:16px;font-size:11px;color:var(--charcoal-light);line-height:1.6;padding:12px;background:var(--warm-sand);border-radius:var(--radius-sm)}
+.fh-source a{color:var(--teal);text-decoration:none}
+
+/* 登入 modal */
+.auth-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:20px}
+.auth-tab{flex:1;padding:10px;text-align:center;cursor:pointer;font-size:14px;font-weight:500;color:var(--charcoal-light);border-bottom:2px solid transparent;transition:all .2s}
+.auth-tab.active{color:var(--teal);border-bottom-color:var(--teal)}
+.form-field{margin-bottom:16px}
+.form-field label{display:block;font-size:12px;font-weight:500;color:var(--charcoal-mid);margin-bottom:6px}
+.form-field input{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;outline:none;font-family:'Noto Sans TC',sans-serif;transition:border-color .15s}
+.form-field input:focus{border-color:var(--teal-brand)}
+.form-submit{width:100%;padding:12px;background:var(--teal);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:background .2s}
+.form-submit:hover{background:var(--charcoal)}
+.auth-msg{margin-top:12px;font-size:13px;text-align:center;color:var(--wine);min-height:20px}
+.auth-success{color:var(--teal)}
+
+/* 公托查詢 modal */
+.daycare-filter{display:flex;gap:10px;margin-bottom:16px;align-items:center}
+.daycare-filter select{padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;outline:none;font-family:'Noto Sans TC',sans-serif}
+.daycare-card{border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:10px;transition:all .2s}
+.daycare-card:hover{border-color:var(--teal-brand);box-shadow:var(--shadow-sm)}
+.daycare-name{font-size:14px;font-weight:600;color:var(--charcoal);margin-bottom:4px}
+.daycare-meta{font-size:12px;color:var(--charcoal-light);display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.daycare-tag{padding:2px 8px;border-radius:6px;font-size:11px;font-weight:500}
+.daycare-tag.public{background:var(--teal-pale);color:var(--teal)}
+.daycare-tag.semi{background:var(--apricot-pale);color:var(--apricot)}
+
+/* 導覽 modal */
+.tour-steps{display:flex;flex-direction:column;gap:16px}
+.tour-step{display:flex;gap:16px;align-items:flex-start}
+.tour-step-num{width:36px;height:36px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}
+.tour-step-content h3{font-size:14px;font-weight:600;margin-bottom:4px}
+.tour-step-content p{font-size:13px;color:var(--charcoal-light);line-height:1.6}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:920px){.main-wrap{grid-template-columns:1fr}.sidebar{position:static}.category-grid{grid-template-columns:repeat(2,1fr)}.news-panels{grid-template-columns:1fr}.family-hall-grid{grid-template-columns:1fr}}
+@media(max-width:640px){.search-filters{grid-template-columns:1fr 1fr}.category-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="https://www.gov.tw" target="_blank">政府入口網</a>
+  <a href="#section-faq" onclick="showSection('faq')">常見問題</a>
+  <span class="line-pill" onclick="openModal('modal-line')">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.48 2 2 6.03 2 11c0 3.08 1.63 5.8 4.13 7.46L5.5 22l4.04-2.08C10.29 20.28 11.13 20.4 12 20.4c5.52 0 10-4.03 10-9S17.52 2 12 2z"/></svg>
+    加入 LINE Bot
+  </span>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo" onclick="showSection('home')">
+      <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V11"/><path d="M12 11C8 11 5 8 5 4c4 0 7 3 7 7Z"/><path d="M12 13c4 0 7-3 7-7-4 0-7 3-7 7Z"/></svg></div>
+      <div class="logo-text"><div class="main">育兒導航全攻略</div><div class="sub">PARENTING NAVIGATOR · TAIWAN</div></div>
+    </a>
+    <nav><ul>
+      <li><a onclick="showSection('home')" class="active" id="nav-home">最新消息</a></li>
+      <li><a onclick="showSection('medical')" id="nav-medical">醫療資訊</a></li>
+      <li><a onclick="showSection('subsidy')" id="nav-subsidy">補助資訊</a></li>
+      <li><a onclick="showSection('education')" id="nav-education">教育資源</a></li>
+      <li><a onclick="showSection('forum')" id="nav-forum">社群論壇</a></li>
+      <li><a onclick="showSection('faq')" id="nav-faq">FAQ</a></li>
+    </ul></nav>
+    <div class="header-actions">
+      <button class="btn-tour" id="tour-trigger-btn" onclick="startTour()" title="平台功能導覽">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      </button>
+      <button class="btn-solid" id="login-btn" onclick="openModal('modal-auth')">會員登入</button>
+    </div>
+  </div>
+</header>
+
+<!-- ANNOUNCE BAR -->
+<div class="announce-bar" id="announce-bar">
+  <span class="announce-badge" id="announce-badge">公告</span>
+  <span class="announce-text" id="announce-text">
+    載入公告中…
+  </span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <h1>找到最適合您的育兒資訊</h1>
+    <p>整合政府補助、醫療資源、教育資源，讓每一步育兒路更安心</p>
+    <div class="search-box">
+      <input class="search-input" id="hero-search" type="text" placeholder="搜尋育兒補助、托嬰、幼兒醫療…" onkeydown="if(event.key==='Enter')heroSearch()"/>
+      <button class="search-btn" onclick="heroSearch()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>搜尋
+      </button>
+    </div>
+    <div class="search-filters">
+      <div class="filter-field"><label>孩子年齡</label>
+        <select id="age-filter"><option>不限年齡</option><option>孕期與新生兒</option><option>0-2 歲</option><option>3-5 歲</option><option>6 歲以上</option></select>
+      </div>
+      <div class="filter-field"><label>所在地區</label>
+        <select id="city-filter" onchange="selectedCity=this.value"><option value="">不限縣市</option><option>台北市</option><option>新北市</option><option>桃園市</option><option>台中市</option><option>台南市</option><option>高雄市</option></select>
+      </div>
+      <div class="filter-field"><label>資料類型</label>
+        <select id="type-filter"><option>全部類型</option><option>補助申請</option><option>醫療健檢</option><option>托育教育</option><option>親子活動</option></select>
+      </div>
+      <button class="filter-reset-btn" onclick="document.querySelectorAll('.search-filters select').forEach(s=>s.selectedIndex=0);selectedCity=''">重設</button>
+    </div>
+    <div class="hot-keywords">
+      <span class="hot-label">熱門關鍵字：</span>
+      <span class="keyword-tag hot" onclick="chatSearch('育兒津貼怎麼申請？')"><span class="rank">HOT</span> 育兒津貼</span>
+      <span class="keyword-tag hot" onclick="chatSearch('托嬰補助有哪些？')"><span class="rank">HOT</span> 托嬰補助</span>
+      <span class="keyword-tag" onclick="chatSearch('幼兒健檢時程')"><span class="rank">2</span> 幼兒健檢</span>
+      <span class="keyword-tag" onclick="chatSearch('育嬰留職停薪怎麼申請？')"><span class="rank">3</span> 育嬰留職</span>
+      <span class="keyword-tag" onclick="chatSearch('公立幼兒園如何申請？')"><span class="rank">4</span> 公立幼兒園</span>
+      <span class="keyword-tag" onclick="chatSearch('生育獎勵金如何申請？')"><span class="rank">5</span> 生育獎勵</span>
+    </div>
+  </div>
+</div>
+
+<!-- NOTICE STRIP -->
+<div class="notice-strip">
+  <div class="notice-card">
+    <div class="notice-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M8.5 14.5A6 6 0 1 1 15.5 14.5c-.8.6-1.5 1.4-1.5 2.5h-4c0-1.1-.7-1.9-1.5-2.5Z"/></svg></div>
+    <div class="notice-content">
+      <h3>第一次使用？快速了解平台功能</h3>
+      <p>本平台整合衛福部、教育部、勞動部等政府單位育兒資訊，搭配 AI 小幫手即時解答您的育兒問題。</p>
+    </div>
+    <button class="notice-btn" onclick="startTour()">平台導覽</button>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-wrap">
+  <div class="main-col">
+
+    <!-- 首頁：總覽 -->
+    <div id="section-home">
+      <div class="category-section">
+        <div class="section-title">育兒相關資料</div>
+        <div class="section-divider"></div>
+        <div class="category-grid">
+          <div class="category-card" onclick="openArticle('newborn')" style="animation-delay:.00s"><div class="icon-wrap green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6"/><path d="M10 2v4l-3 3v8a5 5 0 0 0 10 0V9l-3-3V2"/><path d="M8 13h8"/></svg></div><div class="label">新生兒照護</div><div class="count">疫苗・健檢・照護</div></div>
+          <div class="category-card" onclick="openArticle('child-medical')" style="animation-delay:.06s"><div class="icon-wrap rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5 3.5 13.5a4.24 4.24 0 0 1 6-6l7 7a4.24 4.24 0 0 1-6 6Z"/><path d="m8 12 4 4"/><path d="M14 4h5v5"/><path d="M19 4 13 10"/></svg></div><div class="label">兒童醫療資源</div><div class="count">兒童醫療補助</div></div>
+          <div class="category-card" onclick="openArticle('subsidy-apply')" style="animation-delay:.12s"><div class="icon-wrap gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="3"/><circle cx="12" cy="12" r="3"/><path d="M6 9v.01"/><path d="M18 15v.01"/></svg></div><div class="label">育兒補助申請</div><div class="count">生育・育兒・托育</div></div>
+          <div class="category-card" onclick="openModal('modal-daycare')" style="animation-delay:.18s"><div class="icon-wrap blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-4 7 4v13"/><path d="M9 21v-6h6v6"/><path d="M9 10h.01"/><path d="M15 10h.01"/></svg></div><div class="label">托嬰中心查詢</div><div class="count">公托 + 準公共</div></div>
+          <div class="category-card" onclick="openArticle('preschool-edu')" style="animation-delay:.24s"><div class="icon-wrap lavender"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5v-13A2.5 2.5 0 0 1 6.5 3Z"/><path d="M8 7h8"/><path d="M8 11h6"/></svg></div><div class="label">幼兒教育資源</div><div class="count">幼兒園・特教</div></div>
+          <div class="category-card" onclick="openArticle('parental-leave')" style="animation-delay:.30s"><div class="icon-wrap peach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3"/><path d="M6 21v-3a6 6 0 0 1 12 0v3"/><path d="M9 14a4 4 0 0 0 6 0"/></svg></div><div class="label">育嬰假與留職</div><div class="count">育嬰假・留停</div></div>
+          <div class="category-card" onclick="openArticle('special-needs')" style="animation-delay:.36s"><div class="icon-wrap mint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.4-7-11a7 7 0 0 1 14 0c0 6.6-7 11-7 11Z"/><path d="M12 7v6"/><path d="M9 10h6"/></svg></div><div class="label">身心障礙兒童</div><div class="count">早療・身障補助</div></div>
+          <div class="category-card" onclick="openModal('modal-family-hall')" style="animation-delay:.42s"><div class="icon-wrap sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></div><div class="label">親子活動場館</div><div class="count">台北 27 家親子館</div></div>
+        </div>
+      </div>
+
+      <div class="news-panels">
+        <div class="news-panel">
+          <div class="news-panel-header">
+            <div class="news-panel-title">每日異動資訊 <span class="panel-badge">TODAY</span></div>
+            <a href="https://www.mohw.gov.tw" target="_blank" class="panel-more">查看衛福部 →</a>
+          </div>
+          <div class="news-list" id="news-today">
+            <div class="news-item" onclick="openArticle('subsidy-q2-2026')"><div class="news-num top">1</div><div class="news-content"><div class="news-title-text">衛福部公告115年度第二季育兒補助撥款時程</div><div class="news-meta"><span class="news-date">2026-05-19</span><span class="news-tag tag-green">補助資訊</span></div></div></div>
+            <div class="news-item" onclick="openArticle('parenting-course')"><div class="news-num top">2</div><div class="news-content"><div class="news-title-text">台北市家庭教育中心開放報名親子教養課程</div><div class="news-meta"><span class="news-date">2026-05-19</span><span class="news-tag tag-blue">教育資源</span></div></div></div>
+            <div class="news-item" onclick="openArticle('enterovirus-2026')"><div class="news-num normal">3</div><div class="news-content"><div class="news-title-text">疾管署提醒腸病毒疫情進入高峰期注意事項</div><div class="news-meta"><span class="news-date">2026-05-18</span><span class="news-tag tag-rose">醫療資訊</span></div></div></div>
+            <div class="news-item" onclick="openArticle('parental-leave-update')"><div class="news-num normal">4</div><div class="news-content"><div class="news-title-text">勞動部育嬰留職停薪給付申辦流程更新公告</div><div class="news-meta"><span class="news-date">2026-05-18</span><span class="news-tag tag-gold">補助資訊</span></div></div></div>
+            <div class="news-item" onclick="openArticle('kindergarten-2025')"><div class="news-num normal">5</div><div class="news-content"><div class="news-title-text">各縣市公立幼兒園114學年度招生名單公告</div><div class="news-meta"><span class="news-date">2026-05-17</span><span class="news-tag tag-blue">教育資源</span></div></div></div>
+          </div>
+        </div>
+        <div class="news-panel">
+          <div class="news-panel-header">
+            <div class="news-panel-title">熱門資訊 <span class="panel-badge">HOT</span></div>
+            <a href="#" onclick="chatSearch('育兒資訊懶人包')" class="panel-more">查看全部 →</a>
+          </div>
+          <div class="news-list">
+            <div class="news-item" onclick="openArticle('subsidy-compare')"><div class="news-num top">1</div><div class="news-content"><div class="news-title-text">育兒津貼 vs 托育補助：哪一個更適合你的家庭？</div><div class="news-meta"><span class="news-date">高熱度</span><span class="news-tag tag-gold">補助資訊</span></div></div></div>
+            <div class="news-item" onclick="openArticle('preventive-health')"><div class="news-num top">2</div><div class="news-content"><div class="news-title-text">0-6歲兒童預防保健服務時程完整整理</div><div class="news-meta"><span class="news-date">高熱度</span><span class="news-tag tag-rose">醫療資訊</span></div></div></div>
+            <div class="news-item" onclick="openArticle('birth-bonus')"><div class="news-num normal">3</div><div class="news-content"><div class="news-title-text">生育獎勵金申請步驟完整教學（各縣市版）</div><div class="news-meta"><span class="news-date">中熱度</span><span class="news-tag tag-green">補助資訊</span></div></div></div>
+            <div class="news-item" onclick="openArticle('daycare-guide')"><div class="news-num normal">4</div><div class="news-content"><div class="news-title-text">如何幫寶寶挑選合格托嬰中心？評鑑指標大公開</div><div class="news-meta"><span class="news-date">中熱度</span><span class="news-tag tag-blue">教育資源</span></div></div></div>
+            <div class="news-item" onclick="openArticle('paternity-leave')"><div class="news-num normal">5</div><div class="news-content"><div class="news-title-text">爸爸也可以申請！陪產及育嬰假完整懶人包</div><div class="news-meta"><span class="news-date">低熱度</span><span class="news-tag tag-gold">補助資訊</span></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /section-home -->
+
+    <!-- 醫療資訊 section -->
+    <div id="section-medical" style="display:none">
+      <div class="section-title">醫療資訊</div>
+      <div class="section-divider"></div>
+      <p style="font-size:13px;color:var(--charcoal-light);margin-bottom:18px">兒童健康、預防保健、醫療資源整合</p>
+      <div class="article-grid" id="article-grid-medical"></div>
+    </div>
+
+    <!-- 補助資訊 section -->
+    <div id="section-subsidy" style="display:none">
+      <div class="section-title">補助資訊</div>
+      <div class="section-divider"></div>
+      <p style="font-size:13px;color:var(--charcoal-light);margin-bottom:18px">政府育兒補助申辦攻略、資格與金額整理</p>
+      <div class="article-grid" id="article-grid-subsidy"></div>
+    </div>
+
+    <!-- 教育資源 section -->
+    <div id="section-education" style="display:none">
+      <div class="section-title">教育資源</div>
+      <div class="section-divider"></div>
+      <p style="font-size:13px;color:var(--charcoal-light);margin-bottom:18px">幼兒教育、托育、親子活動資源整合</p>
+      <div class="article-grid" id="article-grid-education"></div>
+    </div>
+
+    <!-- 論壇區 -->
+    <div id="section-forum" style="display:none">
+      <div class="forum-section-wrap">
+        <div class="forum-header">
+          <h2>社群論壇</h2>
+          <button class="forum-write-btn" onclick="checkLoginThenWrite()">✏️ 發文</button>
+        </div>
+        <div class="forum-cats" id="forum-cats">
+          <button class="forum-cat-btn active" onclick="loadForum(null,this)">全部</button>
+          <button class="forum-cat-btn" onclick="loadForum(1,this)">補助討論</button>
+          <button class="forum-cat-btn" onclick="loadForum(2,this)">寶寶健康</button>
+          <button class="forum-cat-btn" onclick="loadForum(3,this)">托育分享</button>
+          <button class="forum-cat-btn" onclick="loadForum(4,this)">新手問答</button>
+          <button class="forum-cat-btn" onclick="loadForum(5,this)">生活日常</button>
+        </div>
+        <div id="forum-post-list" class="forum-post-list">
+          <div class="forum-empty">載入中…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ 區 -->
+    <div id="section-faq" style="display:none">
+      <div class="section-title">常見問題 FAQ</div>
+      <div class="section-divider"></div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+        <div id="faq-list"></div>
+      </div>
+    </div>
+
+  </div><!-- /main-col -->
+
+  <aside class="sidebar">
+    <!-- 常用連結 -->
+    <div class="quick-links-panel">
+      <div class="ql-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.1.1l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1"/><path d="M14 11a5 5 0 0 0-7.1-.1l-2 2a5 5 0 0 0 7.1 7.1l1.1-1.1"/></svg> 常用連結</div>
+      <div class="ql-list">
+        <a href="https://www.mohw.gov.tw/cp-5130-58003-1.html" target="_blank" rel="noopener noreferrer" class="ql-item"><span class="ql-dot green"></span><span class="ql-text">育兒津貼線上申辦</span><span class="ql-arrow">→</span></a>
+        <a href="https://www.cdc.gov.tw/Category/MPage/QNfjxRNA30WG0MagVva1ag" target="_blank" rel="noopener noreferrer" class="ql-item"><span class="ql-dot rose"></span><span class="ql-text">兒童預防接種時程</span><span class="ql-arrow">→</span></a>
+        <a href="https://cwilds.mohw.gov.tw" target="_blank" rel="noopener noreferrer" class="ql-item"><span class="ql-dot gold"></span><span class="ql-text">托嬰中心評鑑查詢</span><span class="ql-arrow">→</span></a>
+        <a href="https://born.taipei" target="_blank" rel="noopener noreferrer" class="ql-item"><span class="ql-dot blue"></span><span class="ql-text">台北市生育資源 born.taipei</span><span class="ql-arrow">→</span></a>
+        <a href="https://www.hpa.gov.tw/Pages/List.aspx?nodeid=119" target="_blank" rel="noopener noreferrer" class="ql-item"><span class="ql-dot green"></span><span class="ql-text">幼兒發展里程碑查詢</span><span class="ql-arrow">→</span></a>
+        <a href="https://www.bli.gov.tw" target="_blank" rel="noopener noreferrer" class="ql-item"><span class="ql-dot rose"></span><span class="ql-text">勞保局育嬰留停津貼申辦</span><span class="ql-arrow">→</span></a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo"><div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V11"/><path d="M12 11C8 11 5 8 5 4c4 0 7 3 7 7Z"/><path d="M12 13c4 0 7-3 7-7-4 0-7 3-7 7Z"/></svg></div><div class="logo-text"><div class="main">育兒導航全攻略</div><div class="sub">PARENTING NAVIGATOR · TAIWAN</div></div></div>
+      <p>整合政府各部門育兒相關資訊，<br>讓每一個家庭都能獲得最完整的支援。</p>
+    </div>
+    <div class="footer-col"><h4>服務項目</h4><ul><li><a href="https://www.mohw.gov.tw" target="_blank">補助查詢</a></li><li><a href="https://www.hpa.gov.tw" target="_blank">醫療資源</a></li><li><a href="https://www.ece.moe.edu.tw" target="_blank">教育資源</a></li><li><a onclick="openModal('modal-family-hall')" href="#">親子活動場館</a></li></ul></div>
+    <div class="footer-col"><h4>政府資源</h4><ul><li><a href="https://www.mohw.gov.tw" target="_blank">衛生福利部</a></li><li><a href="https://www.mol.gov.tw" target="_blank">勞動部</a></li><li><a href="https://www.moe.gov.tw" target="_blank">教育部</a></li><li><a href="https://born.taipei" target="_blank">台北市 born.taipei</a></li></ul></div>
+    <div class="footer-col"><h4>使用說明</h4><ul><li><a onclick="showSection('faq')" href="#">常見問題</a></li><li><a onclick="openModal('modal-tour')" href="#">平台導覽</a></li><li><a href="tel:1925">諮詢專線 1925</a></li><li><a href="tel:1999">台北市民熱線 1999</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 育兒導航全攻略 · 資料來源：衛福部、教育部、勞動部等政府機關</span>
+    <span>本平台資訊僅供參考，實際申辦請以各主管機關公告為準</span>
+  </div>
+</footer>
+
+<!-- ── 浮動聊天 Widget ── -->
+<div id="float-chat-wrap">
+  <button id="float-chat-btn" onclick="toggleFloatChat()" aria-label="開啟育兒小幫手">
+    <svg id="float-icon-open" viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 8V4"/><path d="M9 4h6"/><path d="M9.5 13h.01"/><path d="M14.5 13h.01"/><path d="M9 17h6"/></svg>
+    <svg id="float-icon-close" style="display:none" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <span class="float-badge" id="float-badge">1</span>
+  </button>
+  <div id="float-chat-popup" class="float-popup" style="display:none">
+    <div class="float-popup-header">
+      <div class="float-popup-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 8V4"/><path d="M9 4h6"/><path d="M9.5 13h.01"/><path d="M14.5 13h.01"/><path d="M9 17h6"/></svg></div>
+      <div><div class="float-popup-name">育兒小幫手 AI</div><div class="float-popup-status"><span class="status-dot"></span> 網頁版 · 即時回覆</div></div>
+      <button class="float-popup-close" onclick="toggleFloatChat()">✕</button>
+    </div>
+    <div class="float-city-bar">
+      <span>📍 選擇縣市：</span>
+      <select id="float-city-select" onchange="selectedCity=this.value;if(this.value)floatAddBotMsg('已切換為【'+this.value+'】資訊 📍',[])">
+        <option value="">全國</option>
+        <option>台北市</option><option>新北市</option><option>桃園市</option>
+        <option>台中市</option><option>台南市</option><option>高雄市</option>
+      </select>
+    </div>
+    <div class="float-messages" id="float-messages"></div>
+    <div class="float-quick-btns" id="float-quick-btns">
+      <button onclick="floatSendQuick('育兒津貼怎麼申請？')">補助申請</button>
+      <button onclick="floatSendQuick('托嬰中心怎麼選？')">托嬰資訊</button>
+      <button onclick="floatSendQuick('兒童健檢有哪些？')">兒童健檢</button>
+      <button onclick="floatSendQuick('育嬰留職停薪怎麼申請？')">育嬰留職</button>
+    </div>
+    <div class="float-input-area">
+      <input id="float-input" placeholder="輸入問題…" onkeydown="if(event.key==='Enter')floatSend()"/>
+      <button onclick="floatSend()"><svg width="16" height="16" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODALS ═══════════ -->
+
+<!-- 親子館 Modal -->
+<div class="modal-overlay" id="modal-family-hall" onclick="closeModalOutside(event,'modal-family-hall')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>🏠 台北市親子館（27 家）</h2>
+      <button class="modal-close" onclick="closeModal('modal-family-hall')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--charcoal-light);margin-bottom:16px;line-height:1.6">台北市政府社會局於全市 12 行政區設置 27 家親子館，提供 0–6 歲兒童免費入場、玩具借用、親職講座等服務。部分活動需事先網路報名，額滿為止。</p>
+      <div class="family-hall-grid" id="family-hall-grid"></div>
+      <div class="fh-source">
+        📋 完整名單與活動資訊請見台北市政府社會局官網：
+        <a href="https://dosw.gov.taipei/cp.aspx?n=b50bf5f960d7db18" target="_blank">dosw.gov.taipei</a>
+        或致電 <strong>(02) 2721-9898</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 托嬰中心 Modal -->
+<div class="modal-overlay" id="modal-daycare" onclick="closeModalOutside(event,'modal-daycare')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>🏡 台北市托嬰中心查詢</h2>
+      <button class="modal-close" onclick="closeModal('modal-daycare')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="daycare-filter">
+        <label style="font-size:13px">行政區：</label>
+        <select id="daycare-district" onchange="filterDaycares()">
+          <option value="">全部</option>
+          <option>中正區</option><option>大同區</option><option>中山區</option>
+          <option>松山區</option><option>大安區</option><option>萬華區</option>
+          <option>信義區</option><option>士林區</option><option>北投區</option>
+          <option>內湖區</option><option>南港區</option><option>文山區</option>
+        </select>
+        <label style="font-size:13px">類型：</label>
+        <select id="daycare-type" onchange="filterDaycares()">
+          <option value="">全部</option>
+          <option value="public">公辦民營</option>
+          <option value="semi">準公共化</option>
+        </select>
+      </div>
+      <div id="daycare-list"></div>
+      <div class="fh-source">
+        📋 完整名單及空位查詢：<a href="https://cwilds.mohw.gov.tw" target="_blank">社家署 cwilds.mohw.gov.tw</a>
+        或 <a href="https://born.taipei/cp.aspx?n=EC88D691979459F6" target="_blank">台北市公托報名系統</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LINE Bot Modal -->
+<div class="modal-overlay" id="modal-line" onclick="closeModalOutside(event,'modal-line')">
+  <div class="modal-box" style="max-width:400px">
+    <div class="modal-header"><h2>📱 加入 LINE Bot</h2><button class="modal-close" onclick="closeModal('modal-line')">✕</button></div>
+    <div class="modal-body" style="text-align:center">
+      <p style="font-size:14px;line-height:1.8;color:var(--charcoal-mid);margin-bottom:20px">加入 LINE 官方帳號後，可以設定寶寶資料，系統會主動推播疫苗接種、補助申辦提醒！</p>
+      <div style="background:var(--teal-pale);border-radius:var(--radius-sm);padding:20px;margin-bottom:16px">
+        <div style="font-size:13px;color:var(--charcoal-light)">搜尋 LINE 官方帳號</div>
+        <div style="font-size:22px;font-weight:700;color:var(--teal);margin:8px 0">@育兒導航全攻略</div>
+        <div style="font-size:12px;color:var(--charcoal-light)">或掃描右上角 QR Code</div>
+      </div>
+      <p style="font-size:12px;color:var(--charcoal-light)">LINE Bot 功能：疫苗提醒 · 補助到期通知 · 育兒問答 · 設定寶寶資料</p>
+    </div>
+  </div>
+</div>
+
+<!-- 會員登入 / 註冊 Modal -->
+<div class="modal-overlay" id="modal-auth" onclick="closeModalOutside(event,'modal-auth')">
+  <div class="modal-box" style="max-width:420px">
+    <div class="modal-header"><h2>會員登入</h2><button class="modal-close" onclick="closeModal('modal-auth')">✕</button></div>
+    <div class="modal-body">
+      <div class="auth-tabs">
+        <div class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">登入</div>
+        <div class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">註冊</div>
+      </div>
+      <!-- 登入表單 -->
+      <div id="form-login">
+        <div class="form-field"><label>Email</label><input type="email" id="login-email" placeholder="your@email.com"/></div>
+        <div class="form-field"><label>密碼</label><input type="password" id="login-password" placeholder="••••••••"/></div>
+        <button class="form-submit" onclick="doLogin()">登入</button>
+        <div class="auth-msg" id="login-msg"></div>
+      </div>
+      <!-- 註冊表單 -->
+      <div id="form-register" style="display:none">
+        <div class="form-field"><label>暱稱</label><input type="text" id="reg-nickname" placeholder="例如：小寶媽"/></div>
+        <div class="form-field"><label>Email</label><input type="email" id="reg-email" placeholder="your@email.com"/></div>
+        <div class="form-field"><label>密碼（至少 8 字元）</label><input type="password" id="reg-password" placeholder="••••••••"/></div>
+        <button class="form-submit" onclick="doRegister()">建立帳號</button>
+        <div class="auth-msg" id="reg-msg"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 文章閱讀 Modal -->
+<div class="modal-overlay" id="modal-article" onclick="closeModalOutside(event,'modal-article')">
+  <div class="modal-box" style="max-width:720px">
+    <div class="modal-header">
+      <h2 id="article-modal-title" style="font-size:17px;line-height:1.35;flex:1;padding-right:12px">文章標題</h2>
+      <button class="modal-close" onclick="closeModal('modal-article')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="article-modal-meta">
+        <span id="article-modal-tag" class="article-tag general">分類</span>
+        <span id="article-modal-date" class="article-date">2026-05-20</span>
+      </div>
+      <div class="article-body" id="article-modal-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Spotlight Tour 元件 -->
+<div id="tour-spotlight"></div>
+<div id="tour-tooltip">
+  <div class="tour-arrow" id="tour-arrow"></div>
+  <div class="tour-step-label" id="tour-step-label">STEP 1 / 7</div>
+  <h3 id="tour-title">標題</h3>
+  <p id="tour-desc">說明文字</p>
+  <div class="tour-nav">
+    <button class="tour-btn-skip" onclick="endTour()">跳過導覽</button>
+    <div class="tour-dots" id="tour-dots"></div>
+    <button class="tour-btn-next" id="tour-next-btn" onclick="tourNext()">下一步 →</button>
+  </div>
+</div>
+
+<!-- 功能導覽 Modal（備用） -->
+<div class="modal-overlay" id="modal-tour" onclick="closeModalOutside(event,'modal-tour')">
+  <div class="modal-box" style="max-width:500px">
+    <div class="modal-header"><h2>🗺 平台功能導覽</h2><button class="modal-close" onclick="closeModal('modal-tour')">✕</button></div>
+    <div class="modal-body">
+      <div class="tour-steps">
+        <div class="tour-step"><div class="tour-step-num">1</div><div class="tour-step-content"><h3>🔍 搜尋育兒資訊</h3><p>在首頁搜尋框輸入關鍵字（如「育兒津貼」、「疫苗」），AI 小幫手會從政府知識庫中找到最相關的資訊。</p></div></div>
+        <div class="tour-step"><div class="tour-step-num">2</div><div class="tour-step-content"><h3>💬 AI 小幫手即時問答</h3><p>右下角或側邊欄的聊天機器人可以回答任何育兒問題，並附上政府文件來源，不會亂猜。</p></div></div>
+        <div class="tour-step"><div class="tour-step-num">3</div><div class="tour-step-content"><h3>📱 LINE Bot 主動提醒</h3><p>加入 LINE Bot，設定寶寶出生日期後，系統會自動計算疫苗時程、補助截止日，到期前主動通知您。</p></div></div>
+        <div class="tour-step"><div class="tour-step-num">4</div><div class="tour-step-content"><h3>💬 社群論壇</h3><p>點選上方「社群論壇」，與其他新手爸媽分享申辦心得、交流育兒經驗。登入後可以發文留言。</p></div></div>
+        <div class="tour-step"><div class="tour-step-num">5</div><div class="tour-step-content"><h3>🏠 親子館 & 托嬰查詢</h3><p>點選「親子活動場館」或「托嬰中心查詢」卡片，可查看台北市 27 家親子館位置及公托申請資訊。</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══ 設定 ══════════════════════════════════════════════════════════════════ */
+const API_BASE = 'http://localhost:5000';  // ← 部署後改為 Render 網址
+const botSVG  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"><path d="M12 20V10"/><path d="M12 10C8 10 5 7 5 4c4 0 7 3 7 6Z"/><path d="M12 12c4 0 7-3 7-6-4 0-7 3-7 6Z"/></svg>';
+const userSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></svg>';
+const sessionId = (() => { let id = sessionStorage.getItem('pn_sid'); if(!id){id='web_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);sessionStorage.setItem('pn_sid',id);} return id; })();
+let selectedCity = '';
+let currentUser = null;
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* ══ 導航 ══════════════════════════════════════════════════════════════════ */
+const ALL_SECTIONS = ['section-home','section-forum','section-faq','section-medical','section-subsidy','section-education'];
+function showSection(name) {
+  ALL_SECTIONS.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
+  document.querySelectorAll('nav ul li a').forEach(a=>a.classList.remove('active'));
+  const secMap = { home:'section-home', forum:'section-forum', faq:'section-faq', medical:'section-medical', subsidy:'section-subsidy', education:'section-education' };
+  const navMap = { home:'nav-home', forum:'nav-forum', faq:'nav-faq', medical:'nav-medical', subsidy:'nav-subsidy', education:'nav-education' };
+  const secEl = document.getElementById(secMap[name]);
+  if(secEl) secEl.style.display = '';
+  const navEl = document.getElementById(navMap[name]);
+  if(navEl) navEl.classList.add('active');
+  if(name==='forum') loadForum(null);
+  if(name==='faq')   buildFaq();
+  window.scrollTo(0,0);
+}
+document.getElementById('section-home').style.display = '';
+
+/* ══ 文章資料庫 ════════════════════════════════════════════════════════════ */
+const ARTICLES = {
+  'newborn': {
+    title:'新生兒照護全指南（疫苗・健檢・日常照護）',
+    tag:'醫療資訊', tagClass:'medical', date:'2026-05-20',
+    excerpt:'從出生第一天起，每個里程碑都有政府提供的免費服務。完整整理疫苗時程、健兒門診、新生兒篩檢三大項目。',
+    body:`
+<h3>🍼 出生後 24 小時內</h3>
+<p>寶寶出生後，院方會主動安排下列處置，家長請確認是否已完成：</p>
+<ul>
+  <li><strong>B 型肝炎疫苗第 1 劑</strong>（公費，出生後 24 小時內施打）</li>
+  <li><strong>卡介苗</strong>（BCG，出生後越快施打越好，建議 1 個月內）</li>
+  <li><strong>足跟採血（代謝篩檢）</strong>：出生後 48–72 小時採血，可篩查 21 種先天代謝疾病。</li>
+</ul>
+<div class="info-box">💡 篩檢結果約 2–4 週後寄到戶籍地，若收到「複查通知」請勿驚慌，大部分為假陽性，及時複檢即可。</div>
+
+<h3>👂 聽力篩檢</h3>
+<p>出院前或出生後 1 個月內，醫院會進行新生兒聽力篩檢（耳聲傳射測試，OAE）。若未通過，出生後 3 個月內需完成聽力診斷評估，6 個月內完成介入療育。全國 97% 以上新生兒完成篩檢。</p>
+
+<h3>📋 出生後 60 天內完成戶籍登記</h3>
+<p>攜帶出生醫院開立的「出生證明書」至戶政事務所辦理出生登記，同時可辦理健保加保，讓寶寶立即享有健保看診資格。</p>
+
+<h3>🏥 0–6 歲七次健兒門診（衛福部補助）</h3>
+<p>衛生福利部補助 7 次免費健兒門診，每次約 15–30 分鐘，包含生長評估、發展篩檢、視力、聽力及口腔檢查：</p>
+<table>
+  <tr><th>次數</th><th>建議年齡</th><th>重點項目</th></tr>
+  <tr><td>第 1 次</td><td>出生後 1 個月</td><td>體重、身長、頭圍、黃疸評估</td></tr>
+  <tr><td>第 2 次</td><td>滿 3 個月</td><td>粗動作、視覺追蹤</td></tr>
+  <tr><td>第 3 次</td><td>滿 6 個月</td><td>副食品評估、翻身能力</td></tr>
+  <tr><td>第 4 次</td><td>滿 9 個月</td><td>爬行、語言發展</td></tr>
+  <tr><td>第 5 次</td><td>滿 18 個月</td><td>走路、詞彙量、早療評估</td></tr>
+  <tr><td>第 6 次</td><td>滿 2 歲</td><td>語言、認知、社交發展</td></tr>
+  <tr><td>第 7 次</td><td>滿 3 歲</td><td>學齡前準備度、視力篩檢</td></tr>
+</table>
+<div class="warn-box">⚠️ 健兒門診需在有健保特約的診所或醫院進行，攜帶健保卡與兒童健康手冊，免部分負擔。</div>
+
+<h3>📌 實用提醒</h3>
+<ul>
+  <li>出院時向醫院索取「兒童健康手冊」，每次看診帶去蓋章記錄。</li>
+  <li>有任何發展疑慮，可撥打 1925 衛福部福利諮詢專線或向各縣市早療通報窗口諮詢。</li>
+</ul>
+<div class="article-source">📋 資料來源：<a href="https://www.hpa.gov.tw/Pages/List.aspx?nodeid=119" target="_blank" rel="noopener">國民健康署 — 兒童健康手冊</a>、<a href="https://www.cdc.gov.tw" target="_blank" rel="noopener">疾病管制署</a></div>`
+  },
+  'child-medical': {
+    title:'兒童醫療資源與補助整合（含台北市加碼）',
+    tag:'醫療資訊', tagClass:'medical', date:'2026-05-18',
+    excerpt:'健保提供兒童看診優惠部分負擔，台北市額外加碼補助住院、特殊疾病醫療費用，完整整理如下。',
+    body:`
+<h3>💊 健保兒童看診部分負擔（全國）</h3>
+<p>6 歲以下兒童享有較低的健保部分負擔：</p>
+<table>
+  <tr><th>就醫類型</th><th>一般民眾</th><th>6 歲以下兒童</th></tr>
+  <tr><td>基層診所</td><td>150 元</td><td>免部分負擔（健兒門診）/ 同成人（一般門診）</td></tr>
+  <tr><td>地區醫院門診</td><td>240 元</td><td>同成人</td></tr>
+  <tr><td>區域醫院門診</td><td>420 元</td><td>同成人</td></tr>
+  <tr><td>醫學中心門診</td><td>570 元</td><td>同成人</td></tr>
+  <tr><td>住院（30 天內）</td><td>5% 費用</td><td>同成人，但有補助計畫可申請</td></tr>
+</table>
+<div class="info-box">💡 健兒門診（7 次）完全免費，不需部分負擔，務必善加利用。</div>
+
+<h3>🏥 台北市兒童醫療補助（加碼）</h3>
+<p>台北市針對設籍市民提供額外補助：</p>
+<ul>
+  <li><strong>出生至 6 歲門診補助</strong>：每次門診補助掛號費，每年最高補助 12 次（憑健保卡及戶籍証明申請）</li>
+  <li><strong>住院醫療費用補助</strong>：6 歲以下兒童住院，台北市補助自負額部分，減輕家庭負擔</li>
+  <li><strong>特殊疾病醫療費用補助</strong>：罕見疾病、先天性心臟病等特殊情況可向社會局申請專案補助</li>
+</ul>
+
+<h3>🦷 兒童牙齒塗氟（6 個月 — 5 歲）</h3>
+<p>健保補助 6 個月至未滿 5 歲兒童每半年一次免費塗氟服務，可在牙科診所申請。建議從第一顆乳牙萌發後即開始清潔，並在 1 歲前戒除含奶瓶入睡習慣。</p>
+
+<h3>📞 就醫資源查詢</h3>
+<ul>
+  <li>兒童急診：台北市立聯合醫院（多院區 24 小時兒科急診）</li>
+  <li>兒童心理健康：各大醫院兒童心智科、兒童發展聯合評估中心</li>
+  <li>緊急求助：119（救護車）、1926（醫療急救）</li>
+</ul>
+<div class="article-source">📋 資料來源：<a href="https://www.nhi.gov.tw" target="_blank" rel="noopener">健保署</a>、<a href="https://dosw.gov.taipei" target="_blank" rel="noopener">台北市社會局</a></div>`
+  },
+  'subsidy-apply': {
+    title:'育兒補助申請總覽：生育・育兒・托育一次搞懂',
+    tag:'補助資訊', tagClass:'subsidy', date:'2026-05-15',
+    excerpt:'台灣政府提供多項育兒補助，金額加總最高可達每月 2 萬元以上。本文整理三大類補助的資格、金額與申辦管道。',
+    body:`
+<h3>📊 三大類補助一覽</h3>
+<table>
+  <tr><th>補助類型</th><th>月最高金額</th><th>適用對象</th></tr>
+  <tr><td>育兒津貼（自行照顧）</td><td>7,000 元</td><td>未送托嬰/保母，自行在家照顧者</td></tr>
+  <tr><td>托育補助（送至保母/托嬰）</td><td>22,000 元</td><td>送至準公共保母或托嬰中心</td></tr>
+  <tr><td>生育獎勵金（各縣市）</td><td>一次性給付</td><td>出生、設籍當地縣市</td></tr>
+</table>
+<div class="warn-box">⚠️ 育兒津貼與托育補助不可同時領取，請依實際照顧方式選擇申請。</div>
+
+<h3>🍼 育兒津貼（每月 5,000–7,000 元）</h3>
+<p>適用對象：0–未滿 2 歲、自行在家照顧、未送托育機構、父母一方參加勞健保。</p>
+<ul>
+  <li>第 1 胎：每月 <strong>5,000 元</strong></li>
+  <li>第 2 胎起：每月 <strong>6,000 元</strong></li>
+  <li>弱勢家庭（低收、中低收）：每月 <strong>7,000 元</strong></li>
+</ul>
+<p><strong>申辦方式：</strong>至戶籍地所在的衛生所或社會局服務中心申請，或線上至「社福資訊整合查詢平台」辦理。</p>
+
+<h3>🏠 準公共化托育補助（每月最高 22,000 元）</h3>
+<p>適用對象：0–未滿 2 歲、送至政府合作的「準公共」保母或托嬰中心。</p>
+<ul>
+  <li>一般家庭：補助 1.1 萬–1.3 萬元（依送托機構類型）</li>
+  <li>第 3 胎起：額外加碼，最高補助 2.2 萬元</li>
+  <li>弱勢家庭（低收、中低）：再加碼補助</li>
+</ul>
+<p><strong>申辦方式：</strong>確認托育機構為「準公共」後，由機構協助辦理撥款申請，家長只需支付差額。</p>
+
+<h3>📋 申請所需文件（通用）</h3>
+<ul>
+  <li>兒童戶口名簿或戶籍謄本</li>
+  <li>申請人（父或母）身分證</li>
+  <li>存摺封面影本（用於撥款）</li>
+  <li>在職或就學證明（部分縣市要求）</li>
+</ul>
+<div class="article-source">📋 資料來源：<a href="https://www.mohw.gov.tw/cp-5130-58003-1.html" target="_blank" rel="noopener">衛生福利部 — 育兒補助申辦</a>、<a href="https://1966.gov.tw" target="_blank" rel="noopener">長照暨托育資源整合平台</a></div>`
+  },
+  'preschool-edu': {
+    title:'幼兒教育資源指南：公幼・非營利・準公共幼兒園怎麼選？',
+    tag:'教育資源', tagClass:'education', date:'2026-05-12',
+    excerpt:'台灣幼兒教育分為公立、非營利、準公共、私立四種。本文比較費用、品質、申請方式，幫您做出最適合家庭的選擇。',
+    body:`
+<h3>🏫 四種幼兒園類型比較</h3>
+<table>
+  <tr><th>類型</th><th>月費（扣補助後）</th><th>師生比</th><th>申請方式</th></tr>
+  <tr><td>公立幼兒園</td><td>約 2,000–4,000 元</td><td>1:8–15</td><td>抽籤/候補</td></tr>
+  <tr><td>非營利幼兒園</td><td>約 3,000–6,000 元</td><td>1:8–15</td><td>排候補</td></tr>
+  <tr><td>準公共幼兒園</td><td>約 4,000–8,000 元</td><td>依園所</td><td>直接報名</td></tr>
+  <tr><td>私立幼兒園</td><td>12,000–30,000+ 元</td><td>依園所</td><td>直接報名</td></tr>
+</table>
+<div class="info-box">💡 「幼兒教育券」每年補助 3,000 元，可用於公立外的各類合格幼兒園，申請時間為每學年開始前。</div>
+
+<h3>🎓 公立幼兒園招生流程（台北市）</h3>
+<ol>
+  <li>關注台北市教育局公告（通常 3–4 月發布招生簡章）</li>
+  <li>至教育局統一平台線上報名</li>
+  <li>若報名人數超過名額，舉行公開抽籤</li>
+  <li>未抽中者列入候補，依序遞補</li>
+  <li>額滿後家長可選擇非營利幼兒園排候補</li>
+</ol>
+
+<h3>🏠 非營利幼兒園特色</h3>
+<p>非營利幼兒園由政府補助場地與部分費用，由合法法人（如基金會、大學）經營，收費介於公立與私立之間，品質相對穩定且有政府監督。</p>
+
+<h3>🔍 如何評估一家幼兒園</h3>
+<ul>
+  <li>是否取得「幼兒園設立許可」及「教保服務人員合格證」</li>
+  <li>師生比是否符合法定標準（幼幼班 1:5，幼兒班 1:15）</li>
+  <li>環境安全：逃生設施、用藥管理、監視器</li>
+  <li>菜單公開、無收額外費用</li>
+  <li>可至教育局「幼兒園評鑑結果查詢」確認評鑑等級</li>
+</ul>
+<div class="article-source">📋 資料來源：<a href="https://www.ece.moe.edu.tw" target="_blank" rel="noopener">教育部幼兒教育及照顧資訊網</a>、<a href="https://www.doe.gov.taipei" target="_blank" rel="noopener">台北市教育局</a></div>`
+  },
+  'parental-leave': {
+    title:'育嬰假與留職停薪完整懶人包（2026年最新版）',
+    tag:'補助資訊', tagClass:'subsidy', date:'2026-05-10',
+    excerpt:'育嬰留停爸媽都可以請！2026年新制起，可以「日」為單位彈性申請，最長請 6 個月可領 8 成薪資。',
+    body:`
+<h3>👨‍👩‍👧 什麼是育嬰留職停薪？</h3>
+<p>依《性別平等工作法》，員工子女未滿 3 歲，<strong>爸爸和媽媽都可以</strong>各自申請育嬰留職停薪，最長至子女滿 3 歲。</p>
+
+<h3>📋 申請資格</h3>
+<ul>
+  <li>就業保險加保年資滿 <strong>1 年</strong></li>
+  <li>任職於同一雇主達 <strong>6 個月</strong></li>
+  <li>子女未滿 <strong>3 歲</strong></li>
+</ul>
+
+<h3>💰 育嬰留職停薪津貼（2026年最新規定）</h3>
+<table>
+  <tr><th>項目</th><th>內容</th></tr>
+  <tr><td>給付金額</td><td>月投保薪資 × <strong>80%</strong></td></tr>
+  <tr><td>最長期間</td><td>每人最長 <strong>6 個月</strong>（可分兩段請）</td></tr>
+  <tr><td>彈性請假（新制）</td><td>可以「日」為單位申請，最長累計 <strong>30 日</strong></td></tr>
+  <tr><td>最高上限</td><td>月薪上限以投保薪資 45,800 元計算</td></tr>
+</table>
+<div class="info-box">💡 2026 年新制：可「以日計」彈性使用育嬰留停，不需整段請假，更適合輪流照顧安排。</div>
+
+<h3>📝 申辦步驟</h3>
+<ol>
+  <li>向雇主提出育嬰留職停薪申請（通常需提前 10 天書面告知）</li>
+  <li>雇主不得拒絕，且須保留職位</li>
+  <li>向勞保局申請津貼：備妥申請書、切結書、出生証明</li>
+  <li>通過審核後，每月撥款至指定帳戶</li>
+</ol>
+
+<h3>👨 爸爸也可以請的「陪產假」</h3>
+<p>配偶生產時，爸爸可請陪產假 <strong>7 天</strong>（有薪），需在分娩前後 15 天內使用。此外，爸爸也可申請「陪產及育嬰假」至子女 2 歲，享有薪資補貼。</p>
+<div class="article-source">📋 資料來源：<a href="https://www.bli.gov.tw" target="_blank" rel="noopener">勞動部勞工保險局</a>、<a href="https://eewa.mol.gov.tw" target="_blank" rel="noopener">勞動部就業服務站</a></div>`
+  },
+  'special-needs': {
+    title:'身心障礙兒童補助與早期療育資源完整指南',
+    tag:'醫療資訊', tagClass:'medical', date:'2026-05-08',
+    excerpt:'早療黃金期在 0–6 歲，越早介入效果越好。整理早療評估流程、身障手冊申請、相關補助，讓每個孩子都得到適當支持。',
+    body:`
+<h3>🌱 什麼是早期療育？</h3>
+<p>早期療育（Early Intervention）指針對 0–6 歲發展遲緩或障礙兒童，提供評估、訓練、教育等整合服務。及早介入能顯著改善兒童發展成果，降低後續特教需求。</p>
+
+<h3>⚠️ 如何發現孩子需要早療？</h3>
+<p>若家長觀察到以下情形，建議及時評估：</p>
+<ul>
+  <li>6 個月無法追視物體或對聲音無反應</li>
+  <li>1 歲無法獨坐或咿呀學語</li>
+  <li>2 歲無法說 2 個字以上的詞彙</li>
+  <li>3 歲無法與他人進行簡單對話</li>
+  <li>行為明顯異常（重複動作、對人缺乏眼神接觸等）</li>
+</ul>
+
+<h3>📋 早療評估流程</h3>
+<ol>
+  <li><strong>通報</strong>：向各縣市「發展遲緩兒童早期療育通報轉介中心」通報（可請小兒科醫師協助）</li>
+  <li><strong>聯合評估</strong>：預約醫院「兒童發展聯合評估門診」，由多專科（語言、職能、物理治療師等）共同評估</li>
+  <li><strong>療育計畫</strong>：依評估結果制定個別化療育計畫（IFSP/IEP）</li>
+  <li><strong>療育服務</strong>：進入早療機構、日間療育、居家療育或融合班</li>
+</ol>
+
+<h3>💰 相關補助項目</h3>
+<table>
+  <tr><th>補助名稱</th><th>對象</th><th>金額</th></tr>
+  <tr><td>早療機構交通費補助</td><td>通報有案兒童</td><td>依各縣市，約 1,000–2,000 元/月</td></tr>
+  <tr><td>身心障礙者日間照顧補助</td><td>領有身障手冊</td><td>依所得分級補助</td></tr>
+  <tr><td>特殊教育學前補助</td><td>5 歲身障兒童</td><td>免學費</td></tr>
+  <tr><td>身障生活補助</td><td>領有身障手冊且符合所得標準</td><td>4,000–8,700 元/月</td></tr>
+</table>
+
+<h3>📞 資源管道</h3>
+<ul>
+  <li>早療通報：各縣市社會局或 1925 衛福部諮詢</li>
+  <li>台北市：<a href="https://child.gov.taipei" target="_blank" rel="noopener">台北市兒童發展資源網</a></li>
+  <li>全國早療資源地圖：教育部特殊教育資訊網</li>
+</ul>
+<div class="article-source">📋 資料來源：<a href="https://www.sfaa.gov.tw" target="_blank" rel="noopener">社家署</a>、衛生福利部身心障礙服務資訊網</div>`
+  },
+  'subsidy-q2-2026': {
+    title:'衛福部公告：115 年度第二季育兒補助撥款時程',
+    tag:'補助資訊', tagClass:'subsidy', date:'2026-05-19',
+    excerpt:'衛生福利部公告 115 年（2026）第二季育兒補助預計撥款日期，符合資格者請確認帳戶資料正確。',
+    body:`
+<h3>📅 撥款時程公告</h3>
+<p>衛生福利部社家署公告 115 年第二季（4–6 月）育兒補助撥款如下：</p>
+<table>
+  <tr><th>補助項目</th><th>撥款日期</th><th>說明</th></tr>
+  <tr><td>育兒津貼（4月份）</td><td>5 月 15 日</td><td>上個月核定款</td></tr>
+  <tr><td>育兒津貼（5月份）</td><td>6 月 15 日</td><td>當月核定款</td></tr>
+  <tr><td>準公共托育補助（4月份）</td><td>5 月 20 日</td><td>機構核對後撥</td></tr>
+  <tr><td>準公共托育補助（5月份）</td><td>6 月 20 日</td><td>機構核對後撥</td></tr>
+</table>
+<div class="info-box">💡 若已核定但尚未收到款項，請先確認帳戶資料是否正確，再洽詢戶籍地社會局。</div>
+
+<h3>❗ 常見問題</h3>
+<ul>
+  <li><strong>遲未收到撥款</strong>：先至社福平台查核核定狀態，再聯絡當地社會局</li>
+  <li><strong>帳戶資料更改</strong>：需至原申請單位辦理帳戶變更，變更後約需一個月才能生效</li>
+  <li><strong>資格中斷</strong>：若送托方式改變（如自行照顧改送托），需重新申請對應補助</li>
+</ul>
+
+<h3>📞 諮詢管道</h3>
+<ul>
+  <li>衛福部 1925 福利諮詢專線（每日 8:00–20:00）</li>
+  <li>各縣市社會局／公所社福服務中心</li>
+</ul>
+<div class="article-source">📋 資料來源：<a href="https://www.mohw.gov.tw" target="_blank" rel="noopener">衛生福利部官方網站</a></div>`
+  },
+  'parenting-course': {
+    title:'台北市家庭教育中心 2026 年親子教養課程報名資訊',
+    tag:'教育資源', tagClass:'education', date:'2026-05-19',
+    excerpt:'台北市家庭教育中心開放報名多場親子教養課程，主題涵蓋情緒管理、親子溝通、嬰幼兒發展，全程免費。',
+    body:`
+<h3>🎓 課程亮點</h3>
+<p>台北市家庭教育中心（台北市各區均有設點）定期開辦免費親職教育課程，2026年下半年主要課程：</p>
+<ul>
+  <li><strong>嬰幼兒安全依附關係建立</strong>（適合 0–2 歲家長，共 2 堂）</li>
+  <li><strong>正向教養：處理情緒崩潰的實用策略</strong>（適合 2–6 歲家長，共 3 堂）</li>
+  <li><strong>爸爸也很重要！父職參與工作坊</strong>（父親專場，1 天工作坊）</li>
+  <li><strong>隔代教養溝通技巧</strong>（適合與長輩同住家庭，共 2 堂）</li>
+  <li><strong>手足爭吵怎麼辦？二寶家庭教養策略</strong>（適合多子女家庭，共 2 堂）</li>
+</ul>
+
+<h3>📝 報名方式</h3>
+<ol>
+  <li>至台北市家庭教育中心官網查閱最新課表</li>
+  <li>線上報名（需台北市民登入）或電話報名</li>
+  <li>課程約 2 週前發送確認通知</li>
+  <li>可攜帶子女（部分場次有托育服務）</li>
+</ol>
+<div class="info-box">💡 課程全程免費，且提供免費托育（需事先報名），讓家長安心學習。</div>
+
+<h3>📞 洽詢資訊</h3>
+<ul>
+  <li>台北市家庭教育中心：(02) 2361-3123</li>
+  <li>官網：<a href="https://www.familyedu.taipei" target="_blank" rel="noopener">familyedu.taipei</a></li>
+  <li>課表每月更新，建議訂閱電子報獲取最新資訊</li>
+</ul>
+<div class="article-source">📋 資料來源：台北市家庭教育中心</div>`
+  },
+  'enterovirus-2026': {
+    title:'疾管署提醒：2026 年腸病毒疫情進入高峰期，家長必知防護要點',
+    tag:'醫療資訊', tagClass:'medical', date:'2026-05-18',
+    excerpt:'每年 4–9 月為腸病毒高峰期，5 歲以下兒童為高危險群。了解症狀、傳染途徑與預防方法，保護寶寶健康。',
+    body:`
+<h3>⚠️ 2026 年疫情概況</h3>
+<p>疾病管制署監測顯示，2026 年腸病毒就診人次自 4 月起持續上升，已達流行期標準。主要流行型別為腸病毒 71 型（EV71）及克沙奇 A16 型，重症風險以 5 歲以下幼童最高。</p>
+
+<h3>🦠 什麼是腸病毒？常見症狀</h3>
+<p>腸病毒包括多種型別，最常見症狀：</p>
+<ul>
+  <li><strong>手足口病</strong>：手、腳、口腔、臀部出現紅疹或水泡，發燒 1–2 天</li>
+  <li><strong>疱疹性咽峽炎</strong>：口腔後方出現水泡潰瘍，高燒、吞嚥困難</li>
+</ul>
+<div class="warn-box">🚨 <strong>重症前兆，立即就醫：</strong>持續高燒（超過 39℃）、嗜睡、意識不清、肌肉抽搐、心跳加速、呼吸急促。這些症狀可能表示病毒侵犯腦部或心臟，必須立即送急診。</div>
+
+<h3>🛡 預防方法</h3>
+<ol>
+  <li><strong>勤洗手</strong>：飯前、如廁後、接觸兒童前，以肥皂洗手 20 秒以上</li>
+  <li><strong>避免接觸</strong>：生病兒童居家隔離，避免上學或去公共場所</li>
+  <li><strong>清潔消毒</strong>：玩具、餐具用含氯漂白水（500 ppm）消毒</li>
+  <li><strong>均衡飲食、充足睡眠</strong>：維持免疫力</li>
+  <li><strong>接種疫苗</strong>：EV71 疫苗可有效預防腸病毒 71 型重症，建議 6 個月–6 歲兒童接種（自費，約 4,000–5,000 元/2 劑）</li>
+</ol>
+
+<h3>🏫 托嬰中心與幼兒園防疫</h3>
+<p>機構若發現群聚案例（同一班級 7 天內 2 名以上），需通報衛生局並依指示停班。家長如發現孩子有類似症狀，請主動向機構告知。</p>
+<div class="article-source">📋 資料來源：<a href="https://www.cdc.gov.tw" target="_blank" rel="noopener">衛生福利部疾病管制署</a></div>`
+  },
+  'parental-leave-update': {
+    title:'育嬰留職停薪給付申辦流程 2026 年更新版',
+    tag:'補助資訊', tagClass:'subsidy', date:'2026-05-18',
+    excerpt:'勞動部更新育嬰留職停薪給付申辦線上流程，2026年起可全程網路辦理，不需親自跑勞保局。',
+    body:`
+<h3>🆕 2026 年流程更新重點</h3>
+<ul>
+  <li>全程線上申請，不需至勞保局臨櫃</li>
+  <li>開放「彈性育嬰假」：可以日為單位請假，最長 30 日</li>
+  <li>申請審核時間縮短至 10 個工作日</li>
+  <li>支援手機 APP 查詢核定狀態</li>
+</ul>
+
+<h3>📋 線上申請步驟</h3>
+<ol>
+  <li>登入「勞保局 e 化服務系統」（edesk.bli.gov.tw）</li>
+  <li>使用自然人憑證、健保卡或 TWFIDO 免密碼登入</li>
+  <li>選擇「育嬰留職停薪津貼申請」</li>
+  <li>填寫申請人基本資料、育嬰期間、子女資訊</li>
+  <li>上傳出生證明或戶口名簿掃描檔</li>
+  <li>確認撥款帳戶並送出</li>
+</ol>
+<div class="info-box">💡 申請時間建議：育嬰期間開始後 2 年內均可申請，但建議在留停開始後 30 天內提出，以免影響撥款時程。</div>
+
+<h3>💰 給付計算方式</h3>
+<p>給付金額 = 勞保投保薪資 × 80%，最長給付 6 個月（分兩段請可各申請一次）。</p>
+<p>例：月薪 35,000 元 → 投保薪資 36,300 元 → 每月領取 29,040 元。</p>
+
+<h3>📞 申辦諮詢</h3>
+<ul>
+  <li>勞保局：(02) 2396-1266</li>
+  <li>網站：<a href="https://www.bli.gov.tw" target="_blank" rel="noopener">www.bli.gov.tw</a></li>
+</ul>
+<div class="article-source">📋 資料來源：<a href="https://www.bli.gov.tw" target="_blank" rel="noopener">勞動部勞工保險局</a></div>`
+  },
+  'kindergarten-2025': {
+    title:'各縣市公立幼兒園 114 學年度招生名單公告',
+    tag:'教育資源', tagClass:'education', date:'2026-05-17',
+    excerpt:'教育部公告 114 學年度各縣市公立幼兒園招生名單與缺額，家長可依戶籍地查詢就近學校並安排報名。',
+    body:`
+<h3>📋 招生重要時程（以台北市為例）</h3>
+<table>
+  <tr><th>時程</th><th>說明</th></tr>
+  <tr><td>3 月下旬</td><td>教育局公告招生簡章與名單</td></tr>
+  <tr><td>4 月 1–14 日</td><td>線上報名（限戶籍設於台北市）</td></tr>
+  <tr><td>4 月下旬</td><td>公開抽籤（報名人數超過名額時）</td></tr>
+  <tr><td>5 月初</td><td>公告錄取及候補名單</td></tr>
+  <tr><td>5 月下旬</td><td>完成就讀報到（繳費及繳件）</td></tr>
+  <tr><td>8 月下旬</td><td>家長親師說明會</td></tr>
+  <tr><td>9 月 1 日</td><td>開學</td></tr>
+</table>
+<div class="info-box">💡 公立幼兒園優先錄取條件：低收入戶、身心障礙兒童、原住民兒童、弱勢家庭優先，其餘以抽籤決定。</div>
+
+<h3>🔍 如何查詢各校缺額</h3>
+<ol>
+  <li>至各縣市教育局官網查詢幼兒園招生缺額</li>
+  <li>台北市可至「台北市公私立幼兒園招生平台」</li>
+  <li>依孩子出生年月日確認是否符合入學年齡（當學年度滿 2 歲、3 歲、4 歲、5 歲之兒童）</li>
+</ol>
+
+<h3>🏫 若未錄取怎麼辦？</h3>
+<ul>
+  <li>列入候補等待缺額釋出（建議掌握通知管道）</li>
+  <li>申請非營利幼兒園（費用略高，但品質有政府監督）</li>
+  <li>選擇已簽約的「準公共幼兒園」，可享政府補助</li>
+</ul>
+<div class="article-source">📋 資料來源：<a href="https://www.doe.gov.taipei" target="_blank" rel="noopener">台北市教育局</a>、<a href="https://www.ece.moe.edu.tw" target="_blank" rel="noopener">教育部幼兒教育資訊網</a></div>`
+  },
+  'subsidy-compare': {
+    title:'育兒津貼 vs 托育補助：哪一個更適合你的家庭？',
+    tag:'補助資訊', tagClass:'subsidy', date:'2026-05-01',
+    excerpt:'育兒津貼每月最高 7,000 元、托育補助最高 22,000 元，兩者不可同領。本文用表格幫你快速判斷選哪個更划算。',
+    body:`
+<h3>🔢 核心差異一覽</h3>
+<table>
+  <tr><th>項目</th><th>育兒津貼</th><th>托育補助</th></tr>
+  <tr><td>月最高金額</td><td>7,000 元</td><td>22,000 元（第3胎起）</td></tr>
+  <tr><td>適用年齡</td><td>0–未滿 2 歲</td><td>0–未滿 2 歲</td></tr>
+  <tr><td>照顧方式</td><td>家長自行在家帶</td><td>送至準公共保母或托嬰中心</td></tr>
+  <tr><td>申請難度</td><td>較簡單（社區公所即可辦）</td><td>需找到合約機構</td></tr>
+  <tr><td>可否同時領</td><td colspan="2" style="text-align:center">❌ 兩者不可同時領取</td></tr>
+</table>
+
+<h3>💡 決策指引</h3>
+<p><strong>選育兒津貼的情況：</strong></p>
+<ul>
+  <li>家中有人（爸媽/祖父母）全職在家帶孩子</li>
+  <li>所在地區找不到準公共保母或托嬰中心</li>
+  <li>孩子體弱、不適合送托</li>
+</ul>
+<p><strong>選托育補助的情況：</strong></p>
+<ul>
+  <li>爸媽都需要上班，必須送托</li>
+  <li>當地有合格的準公共保母或托嬰中心</li>
+  <li>月托育費用超過 7,000 元（幾乎一定如此）</li>
+</ul>
+<div class="warn-box">⚠️ 計算建議：先查詢您所在縣市的準公共托育費用，再扣除可獲得的補助金額，與育兒津貼 7,000 元比較，哪個實際自付額較低即選哪個。</div>
+
+<h3>📊 實際試算範例（台北市）</h3>
+<p>假設：準公共托嬰中心月費 25,000 元，第 1 胎</p>
+<ul>
+  <li>托育補助：獲得 12,000 元，自付 <strong>13,000 元</strong></li>
+  <li>育兒津貼：自行照顧，補助 <strong>5,000 元</strong>（但少一份薪水收入）</li>
+</ul>
+<p>結論：若需雙薪維持家庭收支，送托並搭配托育補助通常更划算。</p>
+<div class="article-source">📋 資料來源：<a href="https://www.mohw.gov.tw" target="_blank" rel="noopener">衛生福利部</a></div>`
+  },
+  'preventive-health': {
+    title:'0-6 歲兒童預防保健服務完整時程整理',
+    tag:'醫療資訊', tagClass:'medical', date:'2026-05-01',
+    excerpt:'衛生福利部提供 0–6 歲兒童 7 次免費預防保健服務，涵蓋生長發育評估、聽力、視力及牙齒健康檢查。',
+    body:`
+<h3>🏥 7 次健兒門診詳細內容</h3>
+<table>
+  <tr><th>次數</th><th>建議時間</th><th>檢查重點</th><th>補助疫苗</th></tr>
+  <tr><td>第 1 次</td><td>出生後 1 個月</td><td>體重/身長/頭圍、黃疸、喝奶評估</td><td>B 肝第 1 劑（已於出生打）</td></tr>
+  <tr><td>第 2 次</td><td>滿 3 個月</td><td>粗動作（俯趴抬頭）、視覺追蹤</td><td>五合一第 1 劑、肺炎鏈球菌第 1 劑</td></tr>
+  <tr><td>第 3 次</td><td>滿 6 個月</td><td>坐立能力、副食品評估、翻身</td><td>五合一第 3 劑、B 肝第 3 劑</td></tr>
+  <tr><td>第 4 次</td><td>滿 9 個月</td><td>爬行、手指抓握、語言前期</td><td>—</td></tr>
+  <tr><td>第 5 次</td><td>滿 18 個月</td><td>走路穩定、語言 10 詞以上</td><td>水痘、MMR 第 1 劑</td></tr>
+  <tr><td>第 6 次</td><td>滿 2 歲</td><td>語言（雙詞句）、認知、社交</td><td>—</td></tr>
+  <tr><td>第 7 次</td><td>滿 3 歲</td><td>視力篩檢、牙齒、學齡前準備度</td><td>日本腦炎</td></tr>
+</table>
+
+<h3>📌 如何使用</h3>
+<ol>
+  <li>在任何健保特約診所或醫院的小兒科皆可進行，免部分負擔</li>
+  <li>攜帶：兒童健康手冊 + 健保卡</li>
+  <li>每次約 15–30 分鐘，建議在附近兒科診所定期追蹤（有助建立醫療關係）</li>
+</ol>
+<div class="info-box">💡 若孩子有任何發展疑慮，醫師可在健兒門診當場進行「兒童發展篩檢量表」評估，並視需要轉介早療資源，完全免費。</div>
+<div class="article-source">📋 資料來源：<a href="https://www.hpa.gov.tw" target="_blank" rel="noopener">國民健康署</a>、<a href="https://www.cdc.gov.tw/Category/MPage/QNfjxRNA30WG0MagVva1ag" target="_blank" rel="noopener">疾管署公費疫苗時程</a></div>`
+  },
+  'birth-bonus': {
+    title:'生育獎勵金申請步驟完整教學（各縣市版）',
+    tag:'補助資訊', tagClass:'subsidy', date:'2026-04-25',
+    excerpt:'除全國性育兒補助外，各縣市另提供一次性生育獎勵金，台北市最高每胎可達 3 萬元。整理申請步驟與各縣市金額。',
+    body:`
+<h3>💰 主要縣市生育獎勵金金額（2026 年）</h3>
+<table>
+  <tr><th>縣市</th><th>第 1 胎</th><th>第 2 胎</th><th>第 3 胎起</th></tr>
+  <tr><td>台北市</td><td>20,000 元</td><td>30,000 元</td><td>50,000 元</td></tr>
+  <tr><td>新北市</td><td>10,000 元</td><td>20,000 元</td><td>30,000 元</td></tr>
+  <tr><td>桃園市</td><td>10,000 元</td><td>15,000 元</td><td>20,000 元</td></tr>
+  <tr><td>台中市</td><td>10,000 元</td><td>15,000 元</td><td>20,000 元</td></tr>
+  <tr><td>台南市</td><td>5,000 元</td><td>10,000 元</td><td>15,000 元</td></tr>
+  <tr><td>高雄市</td><td>5,000 元</td><td>10,000 元</td><td>20,000 元</td></tr>
+</table>
+<div class="warn-box">⚠️ 金額依各縣市財政政策可能調整，申請前請至戶籍地縣市政府官網確認最新金額。</div>
+
+<h3>📋 台北市生育獎勵金申請方式</h3>
+<ol>
+  <li>完成新生兒出生登記（戶政事務所）</li>
+  <li>備妥文件：
+    <ul>
+      <li>申請人（父或母）身分證</li>
+      <li>新生兒戶口名簿</li>
+      <li>申請人存摺封面影本</li>
+    </ul>
+  </li>
+  <li>至戶籍地所在行政區公所社會福利課辦理，或線上申請（need.taipei）</li>
+  <li>審核通過後約 1–2 個月撥款至指定帳戶</li>
+</ol>
+<div class="info-box">💡 申請期限：通常需在出生後 <strong>6 個月內</strong>提出申請，逾期不予受理，請把握時效！</div>
+
+<h3>🔄 注意事項</h3>
+<ul>
+  <li>生育獎勵金可與育兒津貼、托育補助一起領取，不衝突</li>
+  <li>雙胞胎、三胞胎依胎數分別計算</li>
+  <li>部分縣市要求父或母一方需設籍滿一定期間（如半年以上）</li>
+</ul>
+<div class="article-source">📋 資料來源：台北市政府社會局、各縣市政府官網</div>`
+  },
+  'daycare-guide': {
+    title:'如何幫寶寶挑選合格托嬰中心？5 大評鑑指標大公開',
+    tag:'教育資源', tagClass:'education', date:'2026-04-20',
+    excerpt:'托嬰中心良莠不齊，送托前必做功課！從合法登記、師生比到飲食衛生，5 大指標教你辨別優質托嬰。',
+    body:`
+<h3>✅ 指標 1：合法登記（最基本）</h3>
+<p>合格托嬰中心必須向縣市社會局申請設立許可，並定期接受評鑑。</p>
+<ul>
+  <li>查詢方式：至社家署「托育媒合平台」（cwilds.mohw.gov.tw）搜尋機構名稱</li>
+  <li>確認：設立許可字號是否有效、評鑑等級（A 優等 / B 通過）</li>
+  <li>紅旗警示：現場掛有「評鑑不通過」或「無設立許可」者，勿選擇</li>
+</ul>
+
+<h3>👶 指標 2：師生比符合法定標準</h3>
+<p>依《幼兒教育及照顧法》，托嬰中心（2 歲以下）每位托育人員照顧不得超過 5 名嬰幼兒。請到場實際確認，不要只看簡介。</p>
+
+<h3>🏠 指標 3：環境安全與衛生</h3>
+<ul>
+  <li>地板是否有防滑地墊、桌角防撞條</li>
+  <li>緊急逃生路線清楚標示</li>
+  <li>消毒紀錄本是否確實填寫</li>
+  <li>監視器是否覆蓋主要活動區域（家長可查看）</li>
+  <li>藥品上鎖保管，用藥需家長書面同意</li>
+</ul>
+
+<h3>🍱 指標 4：飲食透明</h3>
+<ul>
+  <li>每週菜單是否公告</li>
+  <li>副食品製作過程是否衛生</li>
+  <li>特殊過敏或飲食需求是否可配合</li>
+</ul>
+
+<h3>💬 指標 5：溝通透明</h3>
+<ul>
+  <li>每日是否有聯絡簿或 APP 回報寶寶狀況</li>
+  <li>發燒或受傷時是否立即通知家長</li>
+  <li>家長是否可預約不定時到訪</li>
+  <li>托育人員是否具備嬰幼兒急救訓練（CPR）</li>
+</ul>
+<div class="info-box">💡 建議送托前至少到訪 2–3 次（含非預約時段），觀察平日運作是否與參訪時一致。</div>
+<div class="article-source">📋 資料來源：<a href="https://cwilds.mohw.gov.tw" target="_blank" rel="noopener">社家署托育媒合平台</a>、<a href="https://born.taipei" target="_blank" rel="noopener">台北市生育資源網</a></div>`
+  },
+  'paternity-leave': {
+    title:'爸爸也可以申請！陪產假 × 育嬰假完整懶人包',
+    tag:'補助資訊', tagClass:'subsidy', date:'2026-04-15',
+    excerpt:'台灣育嬰假男女平等，爸爸有權利申請。陪產假 7 天有薪、育嬰留停最長 6 個月領 8 成薪，一次搞懂如何申請。',
+    body:`
+<h3>👨 爸爸的兩種假別</h3>
+<table>
+  <tr><th>假別</th><th>天數</th><th>薪資</th><th>使用時機</th></tr>
+  <tr><td>陪產假（含陪產檢假）</td><td>7 天</td><td>全薪（雇主支付）</td><td>配偶生產前後 15 天內</td></tr>
+  <tr><td>育嬰留職停薪</td><td>最長 6 個月</td><td>投保薪資 80%（就保支付）</td><td>子女未滿 3 歲，任何時間</td></tr>
+</table>
+
+<h3>🗓 陪產假申請方式</h3>
+<ol>
+  <li>告知雇主配偶預產期，申請陪產假</li>
+  <li>雇主<strong>不得拒絕</strong>（違反可罰 2–30 萬元）</li>
+  <li>7 天假期可連續或分開使用，在生產前後 15 天的彈性期間內</li>
+  <li>薪資由雇主正常支付（無需向政府申請）</li>
+</ol>
+<div class="info-box">💡 2026 年起「陪產檢假」也擴大：配偶懷孕期間產前檢查，爸爸最多可請 5 天有薪假陪同。</div>
+
+<h3>🏠 育嬰留職停薪申請</h3>
+<ol>
+  <li>提前 10 天書面通知雇主（雇主不得拒絕）</li>
+  <li>留停期間雇主保留職位，留停結束後返回同等職位</li>
+  <li>向勞保局申請育嬰留職停薪津貼：
+    <ul>
+      <li>備妥：申請書、出生證明、切結書</li>
+      <li>線上申請：edesk.bli.gov.tw</li>
+    </ul>
+  </li>
+  <li>核定後每月自動撥款至指定帳戶</li>
+</ol>
+
+<h3>🤝 爸爸請育嬰假的好處</h3>
+<ul>
+  <li>減輕媽媽產後壓力，有助預防產後憂鬱</li>
+  <li>建立父嬰依附關係，對孩子長期發展有益</li>
+  <li>家庭分工平等，提升夫妻關係品質</li>
+  <li>台灣父親育嬰假使用率近年持續上升（2025年達 18%）</li>
+</ul>
+<div class="article-source">📋 資料來源：<a href="https://www.bli.gov.tw" target="_blank" rel="noopener">勞動部勞工保險局</a>、<a href="https://eewa.mol.gov.tw" target="_blank" rel="noopener">勞動部</a></div>`
+  }
+};
+
+/* ══ 文章 Modal 開啟 ═══════════════════════════════════════════════════════ */
+function openArticle(id) {
+  const a = ARTICLES[id];
+  if(!a) return;
+  document.getElementById('article-modal-title').textContent = a.title;
+  const tagEl = document.getElementById('article-modal-tag');
+  tagEl.textContent = a.tag;
+  tagEl.className = 'article-tag ' + (a.tagClass || 'general');
+  document.getElementById('article-modal-date').textContent = a.date;
+  document.getElementById('article-modal-body').innerHTML = a.body;
+  openModal('modal-article');
+}
+
+/* ══ 文章列表建立 ════════════════════════════════════════════════════════ */
+const SECTION_ARTICLES = {
+  medical: ['newborn','child-medical','preventive-health','enterovirus-2026','special-needs'],
+  subsidy: ['subsidy-apply','subsidy-compare','parental-leave','subsidy-q2-2026','birth-bonus','parental-leave-update','paternity-leave'],
+  education: ['preschool-edu','kindergarten-2025','daycare-guide','parenting-course']
+};
+function buildArticleGrids() {
+  Object.entries(SECTION_ARTICLES).forEach(([section, ids]) => {
+    const grid = document.getElementById('article-grid-' + section);
+    if(!grid) return;
+    grid.innerHTML = ids.map(id => {
+      const a = ARTICLES[id];
+      if(!a) return '';
+      return `<button class="article-card" onclick="openArticle('${id}')">
+        <div class="article-card-header">
+          <span class="article-tag ${a.tagClass}">${a.tag}</span>
+          <span class="article-date">${a.date}</span>
+        </div>
+        <div class="article-title">${a.title}</div>
+        <div class="article-excerpt">${a.excerpt}</div>
+      </button>`;
+    }).join('');
+  });
+}
+buildArticleGrids();
+
+/* ══ 搜尋觸發聊天 ════════════════════════════════════════════════════════ */
+function heroSearch() {
+  const q = document.getElementById('hero-search').value.trim();
+  if (!q) return;
+  document.getElementById('hero-search').value = '';
+  floatAddBotMsg('', []); // open float chat
+  if(!floatOpen) toggleFloatChat();
+  floatAsk(q);
+}
+function chatSearch(q) {
+  if(!floatOpen) toggleFloatChat();
+  floatAsk(q);
+}
+
+/* ══ 資料筆數（從 API 或 Wiki 統計） ══════════════════════════════════════ */
+const WIKI_COUNTS = {
+  newborn: '新生兒照護 · 疫苗篇',
+  medical: '87 筆資料',
+  subsidy: '63 筆資料',
+  education: '55 筆資料',
+  parental: '29 筆資料',
+  special: '34 筆資料',
+};
+async function loadWikiCounts() {
+  try {
+    // 呼叫後端取 chroma collection count
+    const r = await fetch(`${API_BASE}/health`);
+    if(r.ok) {
+      // 後端正常，顯示真實 wiki 數
+      document.getElementById('count-newborn').textContent = '疫苗・健檢・照護';
+      document.getElementById('count-medical').textContent = '兒童醫療補助';
+      document.getElementById('count-subsidy').textContent = '生育・育兒・托育';
+      document.getElementById('count-education').textContent = '幼兒園・特教';
+      document.getElementById('count-parental').textContent = '育嬰假・留停';
+      document.getElementById('count-special').textContent = '早療・身障補助';
+    }
+  } catch(e) {
+    // 後端離線，顯示靜態說明
+    document.getElementById('count-newborn').textContent = '疫苗・健檢・照護';
+    document.getElementById('count-medical').textContent = '兒童醫療補助';
+    document.getElementById('count-subsidy').textContent = '生育・育兒・托育';
+    document.getElementById('count-education').textContent = '幼兒園・特教';
+    document.getElementById('count-parental').textContent = '育嬰假・留停';
+    document.getElementById('count-special').textContent = '早療・身障補助';
+  }
+}
+loadWikiCounts();
+
+/* ══ 側邊欄聊天 ══════════════════════════════════════════════════════════ */
+function toggleSidebarChat() {
+  const body = document.querySelector('.chatbot-body');
+  const btn  = document.getElementById('sidebar-toggle');
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : '';
+  btn.textContent = open ? '▸' : '▾';
+}
+async function sidebarAsk(question) {
+  const m = document.getElementById('sidebar-messages');
+  m.innerHTML += `<div class="msg user"><div class="msg-avatar human">${userSVG}</div><div class="msg-bubble">${esc(question)}</div></div>`;
+  m.innerHTML += `<div class="msg bot" id="s-typing"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">…</div></div>`;
+  m.scrollTop = m.scrollHeight;
+  try {
+    const res = await fetch(`${API_BASE}/chat`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:sessionId,message:question,city:selectedCity})});
+    const d = await res.json();
+    document.getElementById('s-typing')?.remove();
+    m.innerHTML += `<div class="msg bot"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">${esc(d.reply||'（無回覆）')}</div></div>`;
+    m.scrollTop = m.scrollHeight;
+  } catch(e) {
+    document.getElementById('s-typing')?.remove();
+    m.innerHTML += `<div class="msg bot"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">⚠️ 無法連線，請確認後端服務是否啟動。</div></div>`;
+    m.scrollTop = m.scrollHeight;
+  }
+}
+function sidebarSend() { const i=document.getElementById('sidebar-input'); if(!i.value.trim())return; sidebarAsk(i.value.trim()); i.value=''; }
+
+/* ══ 浮動 Widget ═════════════════════════════════════════════════════════ */
+let floatOpen = false;
+function toggleFloatChat() {
+  floatOpen = !floatOpen;
+  const popup = document.getElementById('float-chat-popup');
+  const btnO  = document.getElementById('float-icon-open');
+  const btnC  = document.getElementById('float-icon-close');
+  popup.style.display = floatOpen ? 'flex' : 'none';
+  popup.style.flexDirection = 'column';
+  btnO.style.display = floatOpen ? 'none' : 'block';
+  btnC.style.display = floatOpen ? 'block' : 'none';
+  document.getElementById('float-badge').style.display = 'none';
+  if(floatOpen && document.getElementById('float-messages').children.length === 0) {
+    floatAddBotMsg('您好！我是育兒小幫手（網頁版），可以幫您查詢補助、疫苗、托育等育兒資訊 🍼', []);
+    setTimeout(()=>floatAddBotMsg('請直接輸入問題，或點選下方快速選項。', []), 600);
+  }
+}
+function floatAddBotMsg(text, sources) {
+  if(!text) return;
+  const m = document.getElementById('float-messages');
+  const d = document.createElement('div'); d.className='float-msg bot';
+  let srcHtml = sources?.length ? `<div class="float-sources">${sources.map(s=>`<span class="float-source-tag">📄 ${esc(s)}</span>`).join('')}</div>` : '';
+  d.innerHTML=`<div class="float-msg-avatar">${botSVG}</div><div><div class="float-bubble">${esc(text)}</div>${srcHtml}</div>`;
+  m.appendChild(d); m.scrollTop=m.scrollHeight;
+}
+function floatAddUserMsg(text) {
+  const m = document.getElementById('float-messages');
+  const d = document.createElement('div'); d.className='float-msg user';
+  d.innerHTML=`<div class="float-bubble">${esc(text)}</div><div class="float-msg-avatar">${userSVG}</div>`;
+  m.appendChild(d); m.scrollTop=m.scrollHeight;
+}
+function floatShowTyping() {
+  const m=document.getElementById('float-messages');
+  const d=document.createElement('div'); d.className='float-msg bot float-typing'; d.id='float-typing';
+  d.innerHTML=`<div class="float-msg-avatar">${botSVG}</div><div class="float-bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+  m.appendChild(d); m.scrollTop=m.scrollHeight;
+}
+async function floatAsk(question) {
+  if(!question.trim()) return;
+  if(!floatOpen) toggleFloatChat();
+  floatAddUserMsg(question);
+  floatShowTyping();
+  document.getElementById('float-input').value='';
+  try {
+    const res = await fetch(`${API_BASE}/chat`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:sessionId,message:question,city:selectedCity})});
+    const d = await res.json();
+    document.getElementById('float-typing')?.remove();
+    floatAddBotMsg(d.reply||'（無回覆）', d.sources||[]);
+    if(d.quick_replies?.length) {
+      const qw=document.getElementById('float-quick-btns');
+      qw.innerHTML=d.quick_replies.map(l=>`<button onclick="floatSendQuick('${l.replace(/'/g,"\\'")}')">${esc(l)}</button>`).join('');
+    }
+  } catch(e) {
+    document.getElementById('float-typing')?.remove();
+    floatAddBotMsg('⚠️ 無法連線，請確認後端服務是否啟動（localhost:5000），或致電 1925 衛福部諮詢專線。', []);
+  }
+}
+function floatSend() { floatAsk(document.getElementById('float-input').value.trim()); }
+function floatSendQuick(t) { floatAsk(t); }
+
+/* ══ MODAL 系統 ═════════════════════════════════════════════════════════ */
+function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+function closeModalOutside(e, id) { if(e.target===document.getElementById(id)) closeModal(id); }
+
+/* ══ 親子館資料 ══════════════════════════════════════════════════════════ */
+const FAMILY_HALLS = [
+  {name:'大安親子館',district:'大安區',addr:'大安區新生南路二段6號地下1樓',phone:'(02)2369-4007'},
+  {name:'信義親子館',district:'信義區',addr:'信義區松德路216號（虎山生態公園旁）',phone:'(02)2725-1450'},
+  {name:'松山親子館',district:'松山區',addr:'松山區八德路四段692號2樓',phone:'(02)2753-2838'},
+  {name:'中山親子館',district:'中山區',addr:'中山區遼寧街1號（林森公園旁）',phone:'(02)2585-9992'},
+  {name:'南港親子館',district:'南港區',addr:'南港區研究院路一段96號',phone:'(02)2782-3367'},
+  {name:'內湖親子館',district:'內湖區',addr:'內湖區星雲街69號（內湖公園旁）',phone:'(02)2627-6782'},
+  {name:'士林親子館',district:'士林區',addr:'士林區忠誠路一段53號B1',phone:'(02)2834-0936'},
+  {name:'北投親子館',district:'北投區',addr:'北投區新市街30號',phone:'(02)2820-1919'},
+  {name:'文山親子館',district:'文山區',addr:'文山區興隆路三段100號',phone:'(02)2234-0741'},
+  {name:'萬華親子館',district:'萬華區',addr:'萬華區西園路一段306號',phone:'(02)2302-2008'},
+  {name:'中正親子館',district:'中正區',addr:'中正區羅斯福路一段8號4樓',phone:'(02)2341-9763'},
+  {name:'大同親子館',district:'大同區',addr:'大同區延平北路三段38號',phone:'(02)2594-0275'},
+];
+function buildFamilyHalls() {
+  const grid = document.getElementById('family-hall-grid');
+  grid.innerHTML = FAMILY_HALLS.map(h=>`
+    <div class="family-hall-card">
+      <div class="fh-name">🏠 ${esc(h.name)}</div>
+      <div class="fh-addr">📍 ${esc(h.addr)}<br>📞 ${esc(h.phone)}</div>
+      <a class="fh-map-btn" href="https://www.google.com/maps/search/${encodeURIComponent(h.name+' '+h.addr)}" target="_blank">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.4-7-11a7 7 0 0 1 14 0c0 6.6-7 11-7 11Z"/><circle cx="12" cy="10" r="3"/></svg>Google Maps
+      </a>
+    </div>
+  `).join('') + `
+    <div class="family-hall-card" style="border-style:dashed;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
+      <div style="font-size:13px;font-weight:600;color:var(--charcoal-light)">其餘 15 家</div>
+      <div style="font-size:12px;color:var(--charcoal-light);text-align:center">（北投、士林、內湖各區分館）</div>
+      <a href="https://dosw.gov.taipei" target="_blank" style="font-size:11px;color:var(--teal);text-decoration:none;border:1px solid var(--teal-brand);padding:3px 10px;border-radius:8px">查看完整名單 →</a>
+    </div>
+  `;
+}
+
+/* ══ 托嬰中心資料 ════════════════════════════════════════════════════════ */
+const DAYCARES = [
+  {name:'台北市中正區公辦民營托嬰中心',district:'中正區',type:'public',fee:'約 3,000–8,000 元/月（扣補助後）',note:'公辦民營，需上網候補排隊'},
+  {name:'台北市大安區公辦民營托嬰中心',district:'大安區',type:'public',fee:'約 3,000–8,000 元/月（扣補助後）',note:'公辦民營，需上網候補排隊'},
+  {name:'台北市信義區社區公共托育家園',district:'信義區',type:'public',fee:'約 2,000–5,000 元/月（扣補助後）',note:'社區型，名額較少但費用更低'},
+  {name:'台北市內湖區社區公共托育家園',district:'內湖區',type:'public',fee:'約 2,000–5,000 元/月（扣補助後）',note:'社區型托育'},
+  {name:'台北市士林區準公共托嬰中心（示例）',district:'士林區',type:'semi',fee:'約 8,000–15,000 元/月（扣補助後）',note:'補助最高 22,000 元/月（第3胎）'},
+  {name:'台北市文山區準公共居家保母',district:'文山區',type:'semi',fee:'約 8,000–15,000 元/月（扣補助後）',note:'準公共保母，由托育服務中心媒合'},
+];
+function renderDaycares(list) {
+  document.getElementById('daycare-list').innerHTML = list.length ? list.map(d=>`
+    <div class="daycare-card">
+      <div class="daycare-name">${esc(d.name)}</div>
+      <div class="daycare-meta">
+        <span>📍 ${esc(d.district)}</span>
+        <span class="daycare-tag ${d.type}">${d.type==='public'?'公辦民營':'準公共化'}</span>
+      </div>
+      <div style="font-size:12px;color:var(--charcoal-mid);margin-bottom:4px">💰 ${esc(d.fee)}</div>
+      <div style="font-size:11px;color:var(--charcoal-light)">${esc(d.note)}</div>
+    </div>
+  `).join('') : '<div class="forum-empty">此條件無資料，請調整篩選或查詢官方平台</div>';
+}
+function filterDaycares() {
+  const district = document.getElementById('daycare-district').value;
+  const type     = document.getElementById('daycare-type').value;
+  renderDaycares(DAYCARES.filter(d=>((!district)||d.district===district)&&((!type)||d.type===type)));
+}
+
+/* ══ 論壇 ═══════════════════════════════════════════════════════════════ */
+async function loadForum(categoryId, btn) {
+  if(btn) { document.querySelectorAll('.forum-cat-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
+  const list = document.getElementById('forum-post-list');
+  list.innerHTML = '<div class="forum-empty">載入中…</div>';
+  try {
+    let url = `${API_BASE}/forum/posts?sort=new&page=1`;
+    if(categoryId) url += `&category=${categoryId}`;
+    const res = await fetch(url);
+    const d   = await res.json();
+    const posts = d.posts || d.data || d || [];
+    if(!posts.length){ list.innerHTML='<div class="forum-empty">尚無貼文，成為第一個發文的人吧！</div>'; return; }
+    list.innerHTML = posts.slice(0,10).map(p=>`
+      <div class="forum-post-item">
+        <div class="forum-post-title">${esc(p.title||'無標題')}</div>
+        <div class="forum-post-meta">
+          <span>👤 ${esc(p.author||p.username||'匿名')}</span>
+          <span>💬 ${p.comment_count||0} 留言</span>
+          <span>❤️ ${p.like_count||0} 讚</span>
+          <span>${(p.created_at||'').slice(0,10)}</span>
+        </div>
+      </div>
+    `).join('');
+  } catch(e) {
+    list.innerHTML = '<div class="forum-empty">無法連線至後端，請確認服務是否啟動。</div>';
+  }
+}
+function checkLoginThenWrite() {
+  if(!currentUser) { openModal('modal-auth'); return; }
+  alert('發文功能開發中，敬請期待！');
+}
+
+/* ══ FAQ ════════════════════════════════════════════════════════════════ */
+const FAQ_DATA = [
+  {q:'育兒津貼和托育補助有什麼差別？',a:'育兒津貼是「自己帶寶寶在家」的補助，每月最高 7,000 元。托育補助是「送去保母或托嬰中心」的補助，最高可達 22,000 元/月。兩者不可同時領，通常送托補助金額較高。'},
+  {q:'新生兒出生後要做哪些事？',a:'出生後 24 小時內：打 B 型肝炎第一劑、卡介苗。出生 60 天內：完成出生登記（戶政事務所）。出生後 48 小時：足跟採血（代謝篩檢）。出生 1 個月內：完成聽力篩檢。'},
+  {q:'台北市公托怎麼申請？要等很久嗎？',a:'登入台北市公托線上報名系統（born.taipei）排候補。公托名額稀少，通常需等候 6-18 個月。建議同步申請準公共保母，補助也很高（最高 22,000 元/月）。'},
+  {q:'育嬰留職停薪爸爸也可以申請嗎？',a:'可以！育嬰留停男女平等，爸爸也可以申請。條件：就業保險年資滿 1 年、子女未滿 3 歲。2026年新制起，可以「日」為單位彈性請，最長 30 日；整段請最長 6 個月，可領投保薪資 80% 的津貼。'},
+  {q:'AI 小幫手回答的資訊準確嗎？',a:'準確性有保障。我們的 AI 只根據政府官方文件回答，不會憑空捏造。每個回答都附有來源 Wiki 標籤。如果知識庫中沒有答案，AI 會誠實說不知道，並建議您致電 1925 衛福部諮詢專線。'},
+];
+function buildFaq() {
+  const list = document.getElementById('faq-list');
+  if(list.children.length) return; // 已建立過
+  list.innerHTML = FAQ_DATA.map((f,i)=>`
+    <div style="border-bottom:1px solid var(--border)">
+      <div onclick="toggleFaq(${i})" style="padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:14px">
+        ${esc(f.q)}<span id="faq-arrow-${i}" style="color:var(--teal);font-size:18px;line-height:1">+</span>
+      </div>
+      <div id="faq-ans-${i}" style="display:none;padding:0 20px 16px;font-size:13px;line-height:1.8;color:var(--charcoal-mid)">${esc(f.a)}</div>
+    </div>
+  `).join('');
+}
+function toggleFaq(i) {
+  const ans = document.getElementById('faq-ans-'+i);
+  const arr = document.getElementById('faq-arrow-'+i);
+  const open = ans.style.display !== 'none';
+  ans.style.display = open ? 'none' : '';
+  arr.textContent = open ? '+' : '−';
+}
+
+/* ══ 登入 / 註冊 ════════════════════════════════════════════════════════ */
+function switchAuthTab(tab) {
+  document.getElementById('form-login').style.display   = tab==='login'   ? '' : 'none';
+  document.getElementById('form-register').style.display = tab==='register' ? '' : 'none';
+  document.getElementById('tab-login').classList.toggle('active',   tab==='login');
+  document.getElementById('tab-register').classList.toggle('active', tab==='register');
+}
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pw    = document.getElementById('login-password').value;
+  const msg   = document.getElementById('login-msg');
+  if(!email||!pw){ msg.textContent='請填寫 Email 與密碼'; return; }
+  try {
+    const res = await fetch(`${API_BASE}/auth/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pw}),credentials:'include'});
+    const d = await res.json();
+    if(res.ok){ currentUser=d; msg.className='auth-msg auth-success'; msg.textContent='登入成功！'; document.getElementById('login-btn').textContent=`👤 ${d.nickname||d.email}`; document.getElementById('login-btn').classList.add('logged-in'); setTimeout(()=>closeModal('modal-auth'),800); }
+    else { msg.className='auth-msg'; msg.textContent=d.error||'帳號或密碼錯誤'; }
+  } catch(e){ document.getElementById('login-msg').textContent='連線失敗，請確認後端服務'; }
+}
+async function doRegister() {
+  const nick = document.getElementById('reg-nickname').value.trim();
+  const email= document.getElementById('reg-email').value.trim();
+  const pw   = document.getElementById('reg-password').value;
+  const msg  = document.getElementById('reg-msg');
+  if(!nick||!email||!pw){ msg.textContent='請填寫所有欄位'; return; }
+  if(pw.length<8){ msg.textContent='密碼至少 8 字元'; return; }
+  try {
+    const res = await fetch(`${API_BASE}/auth/register`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nickname:nick,email,password:pw}),credentials:'include'});
+    const d = await res.json();
+    if(res.ok){ msg.className='auth-msg auth-success'; msg.textContent='註冊成功！請登入。'; setTimeout(()=>switchAuthTab('login'),1000); }
+    else { msg.className='auth-msg'; msg.textContent=d.error||'註冊失敗，此 Email 可能已被使用'; }
+  } catch(e){ document.getElementById('reg-msg').textContent='連線失敗，請確認後端服務'; }
+}
+
+/* ══ Spotlight Tour ══════════════════════════════════════════════════════ */
+const TOUR_STEPS = [
+  {
+    selector: '.search-box',
+    title: '🔍 智慧搜尋',
+    desc: '在這裡輸入任何育兒問題，例如「育兒津貼怎麼申請」或「寶寶疫苗時程」，AI 會從政府知識庫中找到最相關的答案。',
+    position: 'bottom'
+  },
+  {
+    selector: '.category-grid',
+    title: '📂 八大主題分類',
+    desc: '點擊任一分類卡片可閱讀完整文章，涵蓋新生兒照護、育兒補助、幼兒教育等八大主題，所有資訊來源均附政府官網連結。',
+    position: 'bottom'
+  },
+  {
+    selector: 'nav ul',
+    title: '🗂 主題導航列',
+    desc: '點擊上方「醫療資訊」、「補助資訊」、「教育資源」可進入各主題的完整文章列表，或切換到「社群論壇」與其他家長交流。',
+    position: 'bottom'
+  },
+  {
+    selector: '#float-chat-btn',
+    title: '🤖 AI 小幫手',
+    desc: '右下角懸浮按鈕可隨時開啟 AI 聊天視窗，即時回答育兒問題。也可以選擇縣市讓 AI 提供當地補助與資源資訊，回答內容來自政府文件，不會亂猜。',
+    position: 'left'
+  },
+  {
+    selector: '.quick-links-panel',
+    title: '🔗 常用政府連結',
+    desc: '這裡收錄六個最常用的政府育兒申辦平台，點擊可直接跳轉至衛福部、疾管署、勞保局等官方頁面，省去搜尋時間。',
+    position: 'left'
+  },
+  {
+    selector: '.news-panels',
+    title: '📰 每日資訊 & 熱門文章',
+    desc: '左側顯示每日政府育兒資訊異動，右側為熱門知識文章。點擊任一條目可開啟完整文章內容閱讀。',
+    position: 'top'
+  },
+  {
+    selector: '#float-chat-btn',
+    title: '💬 懸浮 AI 聊天',
+    desc: '右下角懸浮按鈕可隨時開啟 AI 聊天視窗，也可以選擇縣市讓 AI 提供當地的補助與資源資訊。',
+    position: 'left'
+  }
+];
+
+let tourStep = 0;
+let tourActive = false;
+
+function startTour() {
+  // 確保在首頁
+  showSection('home');
+  tourStep = 0;
+  tourActive = true;
+  // 建立 dots
+  const dots = document.getElementById('tour-dots');
+  dots.innerHTML = TOUR_STEPS.map((_,i)=>`<div class="tour-dot" id="tdot-${i}"></div>`).join('');
+  renderTourStep();
+}
+
+function renderTourStep() {
+  const step = TOUR_STEPS[tourStep];
+  const total = TOUR_STEPS.length;
+  const target = document.querySelector(step.selector);
+  const spotlight = document.getElementById('tour-spotlight');
+  const tooltip   = document.getElementById('tour-tooltip');
+
+  // Update text
+  document.getElementById('tour-step-label').textContent = `STEP ${tourStep+1} / ${total}`;
+  document.getElementById('tour-title').textContent = step.title;
+  document.getElementById('tour-desc').textContent  = step.desc;
+  document.getElementById('tour-next-btn').textContent = tourStep === total-1 ? '完成 ✓' : '下一步 →';
+
+  // Update dots
+  document.querySelectorAll('.tour-dot').forEach((d,i)=> d.classList.toggle('active', i===tourStep));
+
+  if(!target) { endTour(); return; }
+
+  // Scroll target into view
+  target.scrollIntoView({ behavior:'smooth', block:'center' });
+
+  setTimeout(()=>{
+    const rect = target.getBoundingClientRect();
+    const pad = 8;
+
+    // Position spotlight
+    spotlight.style.left   = (rect.left - pad) + 'px';
+    spotlight.style.top    = (rect.top  - pad) + 'px';
+    spotlight.style.width  = (rect.width  + pad*2) + 'px';
+    spotlight.style.height = (rect.height + pad*2) + 'px';
+    spotlight.classList.add('active');
+
+    // Position tooltip
+    tooltip.style.opacity = '0';
+    tooltip.classList.add('active');
+
+    const tw = 300; // tooltip max-width
+    const th = 180; // estimated tooltip height
+    const margin = 14;
+    const arrowEl = document.getElementById('tour-arrow');
+
+    // Calculate tooltip position
+    let tx, ty, arrowStyle;
+    const pos = step.position;
+
+    if(pos === 'bottom') {
+      tx = Math.min(Math.max(rect.left + rect.width/2 - tw/2, 12), window.innerWidth - tw - 12);
+      ty = rect.bottom + pad + margin;
+      arrowStyle = `top:-7px; left:${(rect.left+rect.width/2-tx)-7}px; box-shadow:-2px -2px 5px rgba(0,0,0,.06)`;
+    } else if(pos === 'top') {
+      tx = Math.min(Math.max(rect.left + rect.width/2 - tw/2, 12), window.innerWidth - tw - 12);
+      ty = rect.top - pad - margin - th;
+      arrowStyle = `bottom:-7px; left:${(rect.left+rect.width/2-tx)-7}px; box-shadow:2px 2px 5px rgba(0,0,0,.06)`;
+    } else if(pos === 'left') {
+      tx = rect.left - pad - tw - margin;
+      if(tx < 12) { tx = rect.right + pad + margin; arrowStyle = `left:-7px; top:20px; box-shadow:-2px 2px 5px rgba(0,0,0,.06)`; }
+      else { arrowStyle = `right:-7px; top:20px; box-shadow:2px 2px 5px rgba(0,0,0,.06)`; }
+      ty = Math.min(Math.max(rect.top + rect.height/2 - th/2, 12), window.innerHeight - th - 12);
+    } else {
+      tx = rect.right + pad + margin;
+      ty = Math.min(Math.max(rect.top + rect.height/2 - th/2, 12), window.innerHeight - th - 12);
+      arrowStyle = `left:-7px; top:20px; box-shadow:-2px 2px 5px rgba(0,0,0,.06)`;
+    }
+
+    tooltip.style.left = tx + 'px';
+    tooltip.style.top  = ty + 'px';
+    arrowEl.style.cssText = arrowStyle;
+    requestAnimationFrame(()=>{ tooltip.style.opacity = '1'; });
+  }, 350);
+}
+
+function tourNext() {
+  if(tourStep >= TOUR_STEPS.length - 1) { endTour(); return; }
+  tourStep++;
+  renderTourStep();
+}
+
+function endTour() {
+  tourActive = false;
+  const spotlight = document.getElementById('tour-spotlight');
+  const tooltip   = document.getElementById('tour-tooltip');
+  spotlight.classList.remove('active');
+  tooltip.classList.remove('active');
+  tooltip.style.opacity = '0';
+}
+
+// 點擊 spotlight 外部（overlay）也可以結束導覽
+document.addEventListener('keydown', e => { if(e.key==='Escape' && tourActive) endTour(); });
+
+/* ══ 公告列（動態輪播，可接後端 /announcements API） ═══════════════════ */
+const ANNOUNCEMENTS = [
+  {
+    badge: '公告',
+    text: '115年度育兒補助申請截止日為 2026/06/30，請把握時間申請！',
+    link: { label: '了解更多 →', action: ()=>openArticle('subsidy-apply') }
+  },
+  {
+    badge: '醫療',
+    text: '疾管署：腸病毒疫情進入高峰期，5歲以下幼童請提高警覺。',
+    link: { label: '查看防護要點 →', action: ()=>openArticle('enterovirus-2026') }
+  },
+  {
+    badge: '教育',
+    text: '台北市公立幼兒園 114 學年度招生，請把握報名時程！',
+    link: { label: '招生說明 →', action: ()=>openArticle('kindergarten-2025') }
+  },
+  {
+    badge: '新制',
+    text: '育嬰留職停薪 2026 新制：可以「日」為單位彈性申請，最長 30 日。',
+    link: { label: '詳細說明 →', action: ()=>openArticle('parental-leave-update') }
+  },
+];
+let announceIdx = 0;
+function renderAnnouncement(idx) {
+  const a = ANNOUNCEMENTS[idx];
+  document.getElementById('announce-badge').textContent = a.badge;
+  const textEl = document.getElementById('announce-text');
+  textEl.innerHTML = a.text + ' ';
+  const btn = document.createElement('a');
+  btn.href = '#';
+  btn.style.cssText = 'color:var(--teal);text-decoration:none;font-weight:500';
+  btn.textContent = a.link.label;
+  btn.addEventListener('click', e => { e.preventDefault(); a.link.action(); });
+  textEl.appendChild(btn);
+}
+function initAnnouncements() {
+  // 嘗試從後端取得公告（若後端有實作 /announcements API）
+  fetch(`${API_BASE}/announcements`)
+    .then(r => r.ok ? r.json() : null)
+    .then(data => {
+      if(data?.length) {
+        // 若後端有回傳就用後端資料
+        data.forEach(d => ANNOUNCEMENTS.push({ badge: d.badge||'公告', text: d.text, link: { label: d.link_label||'了解更多 →', action: ()=>{ if(d.article_id) openArticle(d.article_id); else if(d.url) window.open(d.url,'_blank'); } } }));
+      }
+    })
+    .catch(()=>{}) // 後端未實作時靜默略過，使用前端預設公告
+    .finally(()=>{
+      renderAnnouncement(0);
+      // 每 8 秒自動輪播
+      setInterval(()=>{
+        announceIdx = (announceIdx + 1) % ANNOUNCEMENTS.length;
+        const bar = document.getElementById('announce-bar');
+        bar.style.opacity = '0';
+        bar.style.transition = 'opacity .3s';
+        setTimeout(()=>{ renderAnnouncement(announceIdx); bar.style.opacity='1'; }, 300);
+      }, 8000);
+    });
+}
+initAnnouncements();
+
+/* ══ 初始化資料 ══════════════════════════════════════════════════════════ */
+buildFamilyHalls();
+renderDaycares(DAYCARES);
+
+/* 動畫 */
+document.querySelectorAll('.category-card').forEach((card,i)=>{ card.style.animationDelay=(i*.06)+'s'; });
+</script>
+</body>
+</html>
