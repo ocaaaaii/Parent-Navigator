@@ -45,7 +45,7 @@ RAG_TOP_K          = int(os.getenv("RAG_TOP_K", "5"))       # 取回幾個最相
 RAG_SCORE_THRESHOLD = float(os.getenv("RAG_SCORE_THRESHOLD", "0.35"))  # 相似度門檻
 
 # ── Wiki 資料夾 ────────────────────────────────────────────────────────────────
-WIKI_DIR = os.getenv("WIKI_DIR", "./wiki")  # 存放所有 .md wiki 檔案的資料夾
+WIKI_DIR = os.getenv("WIKI_DIR", "../wiki")  # 存放所有 .md wiki 檔案的資料夾（相對於 backend/ 目錄）
 
 # ── APScheduler ───────────────────────────────────────────────────────────────
 # 每日推播預設執行時間（24 小時制，本地時間）
