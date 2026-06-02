@@ -145,14 +145,10 @@ def _build_city_filter(city: Optional[str]) -> Optional[dict]:
     }
 
 
-def build_prompt(question: str, rag_chunks: list[dict],
-                 user_context: dict) -> str:
+def build_system_message(rag_chunks: list[dict], user_context: dict) -> str:
     """
-    組合完整的 RAG 提示詞（System + Context + Question）。
-
-    user_context 來自 db.get_user_context()，包含：
-        - household_city: 戶籍縣市
-        - children: [{nickname, age_months, birth_date, ...}]
+    組合 System Message（背景知識 + 使用者資訊）。
+    問題本身不放這裡，讓歷史對話可以正確插入 messages 陣列。
     """
     # 組裝知識庫片段
     if rag_chunks:
@@ -184,56 +180,74 @@ def build_prompt(question: str, rag_chunks: list[dict],
     else:
         child_info = "（尚未設定小孩資料）"
 
-    prompt = f"""{config.SYSTEM_PROMPT}
+    return f"""{config.SYSTEM_PROMPT}
 
 ═══ 使用者個人資訊 ═══
 戶籍縣市：{city}
 小孩資料：
 {child_info}
 
-═══ 知識庫相關內容 ═══
+═══ 知識庫相關內容（本輪問題的語意搜尋結果）═══
 {knowledge}
 
-═══ 使用者問題 ═══
-{question}
-
-請根據以上資訊，用繁體中文、親切口語的方式回覆使用者："""
-
-    return prompt
+請根據以上資訊與對話歷史，用繁體中文、親切口語的方式回覆使用者。"""
 
 
-def generate_reply(question: str, user_context: dict) -> str:
+# 保留舊函式名稱供 LINE Bot 路由使用（不帶歷史）
+def build_prompt(question: str, rag_chunks: list[dict], user_context: dict) -> str:
+    return build_system_message(rag_chunks, user_context) + f"\n\n使用者問題：{question}"
+
+
+def generate_reply(question: str, user_context: dict,
+                   history: list[dict] | None = None) -> str:
     """
     完整 RAG 問答流程的對外主要入口。
 
     流程：
         1. query_rag → 取得相關 chunk
-        2. build_prompt → 組合提示詞
-        3. OpenAI Chat Completion → 產生回覆
+        2. build_system_message → 組合 system prompt
+        3. 拼入對話歷史 history（[{role, content}, ...]）
+        4. OpenAI Chat Completion → 產生回覆
 
     Args:
         question:     使用者原始訊息
         user_context: 來自 db.get_user_context() 的使用者資料
+        history:      前端傳入的對話歷史，最多 10 輪
+                      格式：[{"role": "user"|"assistant", "content": "..."}]
 
     Returns:
-        str：LINE Bot 回覆文字
+        str：回覆文字
     """
     city = user_context.get("household_city")
 
-    # 步驟 1：語意搜尋
+    # 步驟 1：語意搜尋（用當前問題搜，不用歷史）
     chunks = query_rag(question, city=city)
 
-    # 步驟 2：組合提示詞
-    prompt = build_prompt(question, chunks, user_context)
+    # 步驟 2：組合 system message
+    system_content = build_system_message(chunks, user_context)
 
-    # 步驟 3：呼叫 LLM
+    # 步驟 3：組合完整 messages 陣列
+    # 結構：[system] + [history...] + [current user question]
+    messages = [{"role": "system", "content": system_content}]
+
+    if history:
+        # 驗證並過濾格式，最多保留最近 20 則（10輪）
+        valid_roles = {"user", "assistant"}
+        clean_history = [
+            {"role": h["role"], "content": str(h["content"])[:1000]}
+            for h in history[-20:]
+            if isinstance(h, dict) and h.get("role") in valid_roles and h.get("content")
+        ]
+        messages.extend(clean_history)
+
+    messages.append({"role": "user", "content": question})
+
+    # 步驟 4：呼叫 LLM
     client = _get_openai_client()
     try:
         response = client.chat.completions.create(
             model=config.OPENAI_MODEL,
-            messages=[
-                {"role": "user", "content": prompt}
-            ],
+            messages=messages,
             max_tokens=config.OPENAI_MAX_TOKENS,
             temperature=0.3,   # 育兒資訊需要精確，溫度偏低
         )

@@ -114,11 +114,14 @@ def web_chat():
     session_id = data.get("session_id", "web_anonymous")
     message    = (data.get("message") or "").strip()
     city       = data.get("city")
+    # 對話歷史：前端傳來的 [{role, content}] 陣列，可為 None 或空陣列
+    history    = data.get("history") or []
 
     if not message:
         return jsonify({"error": "message 不能為空"}), 400
 
-    logger.info("Web Chat：session=%s, city=%s, msg='%s'", session_id, city, message[:50])
+    logger.info("Web Chat：session=%s, city=%s, history_len=%d, msg='%s'",
+                session_id, city, len(history), message[:50])
 
     # 建立輕量版 user_context（網頁版無 LINE user_id，用 session_id 代替）
     user_context = {
@@ -128,12 +131,12 @@ def web_chat():
     }
 
     try:
-        # 語意搜尋
+        # 語意搜尋（只用當前問題做向量搜尋，不受歷史影響）
         chunks  = rag_engine.query_rag(message, city=city)
         sources = list({c["filename"] for c in chunks})
 
-        # LLM 生成回覆
-        reply = rag_engine.generate_reply(message, user_context)
+        # LLM 生成回覆（帶入對話歷史，AI 不再失憶）
+        reply = rag_engine.generate_reply(message, user_context, history=history)
 
         # 動態 Quick Reply：根據問題類型推薦後續問法
         quick_replies = _suggest_quick_replies(message, reply)

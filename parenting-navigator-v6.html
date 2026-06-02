@@ -456,7 +456,6 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
   <img class="hero-deco-flag" src="img/cropped/5.png" alt="">
   <img class="hero-deco-stroller" src="img/cropped/3.png" alt="">
   <img class="hero-deco-hearts" src="img/cropped/4.png" alt="">
-  <img class="hero-deco-stars" src="img/cropped/deco.png" alt="">
   <img class="hero-deco-mobile" src="img/cropped/deco3.png" alt="">
   <img class="hero-deco-girl" src="img/cropped/girl.png" alt="">
   <div class="hero-content">
@@ -1578,6 +1577,9 @@ function sidebarSend() { const i=document.getElementById('sidebar-input'); if(!i
 
 /* ══ 浮動 Widget ═════════════════════════════════════════════════════════ */
 let floatOpen = false;
+// 對話歷史：保留最近 10 輪（避免超出 context window）
+const floatHistory = [];
+const HISTORY_LIMIT = 10;
 function toggleFloatChat() {
   floatOpen = !floatOpen;
   const popup = document.getElementById('float-chat-popup');
@@ -1619,11 +1621,29 @@ async function floatAsk(question) {
   floatAddUserMsg(question);
   floatShowTyping();
   document.getElementById('float-input').value='';
+
+  // 把這一輪使用者問題加入歷史
+  floatHistory.push({role:'user', content:question});
+  // 只保留最近 HISTORY_LIMIT 輪
+  if(floatHistory.length > HISTORY_LIMIT * 2) floatHistory.splice(0, 2);
+
   try {
-    const res = await fetch(`${API_BASE}/chat`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:sessionId,message:question,city:selectedCity})});
+    const res = await fetch(`${API_BASE}/chat`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        session_id: sessionId,
+        message:    question,
+        city:       selectedCity,
+        history:    floatHistory.slice(0, -1) // 送這句之前的歷史
+      })
+    });
     const d = await res.json();
     document.getElementById('float-typing')?.remove();
-    floatAddBotMsg(d.reply||'（無回覆）', d.sources||[]);
+    const reply = d.reply || '（無回覆）';
+    floatAddBotMsg(reply, d.sources||[]);
+    // 把 AI 回覆也存進歷史
+    floatHistory.push({role:'assistant', content:reply});
     if(d.quick_replies?.length) {
       const qw=document.getElementById('float-quick-btns');
       qw.innerHTML=d.quick_replies.map(l=>`<button onclick="floatSendQuick('${l.replace(/'/g,"\\'")}')">${esc(l)}</button>`).join('');
@@ -1631,6 +1651,7 @@ async function floatAsk(question) {
   } catch(e) {
     document.getElementById('float-typing')?.remove();
     floatAddBotMsg('⚠️ 無法連線，請確認後端服務是否啟動（localhost:5000），或致電 1925 衛福部諮詢專線。', []);
+    floatHistory.pop(); // 失敗就把這輪問題移除
   }
 }
 function floatSend() { floatAsk(document.getElementById('float-input').value.trim()); }
