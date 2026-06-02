@@ -7,14 +7,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --teal:#6E9896; --teal-brand:#99B6B4; --teal-light:#BACFCE; --teal-pale:#DDF0EF;
-  --apricot:#B8795A; --apricot-brand:#DFB199; --apricot-pale:#F5E8DC;
-  --wine:#C07070; --wine-brand:#D48982; --wine-pale:#F5E4E3;
-  --warm-cream:#EEF4F3; --warm-sand:#E0ECEA;
-  --charcoal:#243432; --charcoal-mid:#3E5856; --charcoal-light:#6E8E8C;
-  --white:#FFFFFF; --border:#C8DEDD;
-  --shadow-sm:0 2px 12px rgba(36,52,50,.06);
-  --shadow-md:0 8px 32px rgba(36,52,50,.10);
+  /* 莫蘭迪鼠尾草綠 — 杏林朝露 淡化版 */
+  --teal:#8EAD88; --teal-brand:#AABCA5; --teal-light:#C4D2C0; --teal-pale:#EDF3EB;
+  --apricot:#C8965A; --apricot-brand:#E8C49A; --apricot-pale:#FAF3E9;
+  --wine:#C49898; --wine-brand:#D4A09A; --wine-pale:#F9EDEB;
+  --warm-cream:#F1EEE9; --warm-sand:#E8E3DC;
+  --charcoal:#2C3A2A; --charcoal-mid:#4A5A46; --charcoal-light:#7A8A76;
+  --white:#FFFFFF; --border:#D8D2C8;
+  --shadow-sm:0 2px 12px rgba(44,58,42,.06);
+  --shadow-md:0 8px 32px rgba(44,58,42,.10);
   --radius:16px; --radius-sm:10px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -255,8 +256,38 @@ nav ul li a:hover,nav ul li a.active{background:var(--teal-pale);color:var(--tea
 .ql-text{font-size:12.5px;color:var(--charcoal-mid);font-weight:500;flex:1}
 .ql-arrow{color:var(--charcoal-light);font-size:12px}
 
+/* ── HERO DECORATIONS ── */
+.hero{position:relative;overflow:hidden}
+.hero-deco-girl{position:absolute;right:0;bottom:0;height:90%;max-height:320px;width:auto;object-fit:contain;object-position:bottom right;pointer-events:none;user-select:none;opacity:.92}
+.hero-deco-mobile{position:absolute;top:-10px;right:200px;height:200px;width:auto;object-fit:contain;pointer-events:none;user-select:none;opacity:.85}
+.hero-deco-stars{position:absolute;top:10px;left:20px;height:120px;width:auto;object-fit:contain;pointer-events:none;user-select:none;opacity:.55}
+.hero-deco-stars2{position:absolute;bottom:10px;left:60px;height:80px;width:auto;object-fit:contain;pointer-events:none;user-select:none;opacity:.40}
+/* 新增裝飾 */
+.hero-deco-flag{position:absolute;top:-18px;left:0;width:100%;height:72px;object-fit:cover;object-position:top center;pointer-events:none;user-select:none;opacity:.60}
+.hero-deco-stroller{position:absolute;left:16px;bottom:0;height:160px;object-fit:contain;pointer-events:none;user-select:none;opacity:.78}
+.hero-deco-hearts{display:none} /* 改用 CSS 鋪滿方式 */
+.hero::before{content:'';position:absolute;inset:0;background-image:url('img/cropped/4.png');background-repeat:repeat;background-size:90px auto;opacity:.10;pointer-events:none;z-index:0}
+.hero-content{position:relative;z-index:1}
+@media(max-width:900px){.hero-deco-girl,.hero-deco-mobile,.hero-deco-stroller{display:none}}
+
+/* ── CLOTHESLINE STRIP ── */
+.deco-strip{width:100%;overflow:hidden;line-height:0;margin:-4px 0 20px;opacity:.78;pointer-events:none}
+.deco-strip img{width:100%;object-fit:cover;object-position:center;max-height:80px}
+
+/* ── SIDEBAR DECO ── */
+.sidebar-deco{text-align:center;padding:8px 0 0;pointer-events:none}
+.sidebar-deco img{width:80%;max-width:180px;object-fit:contain;opacity:.72}
+
+/* ── FOOTER DECO ── */
+.footer-deco-wrap{position:relative;overflow:hidden}
+.footer-deco-babies{position:absolute;bottom:0;right:32px;height:130px;opacity:.18;pointer-events:none;object-fit:contain}
+.footer-deco-stars{position:absolute;top:24px;left:24px;height:60px;opacity:.15;pointer-events:none;object-fit:contain}
+
+/* ── LOGO IMG ── */
+.logo-icon-img{width:40px;height:40px;object-fit:contain;border-radius:8px}
+
 /* ── FOOTER ── */
-footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 28px;margin-top:40px}
+footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 28px;margin-top:40px;position:relative;overflow:hidden}
 .footer-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:36px}
 .footer-brand .logo-text .main{color:rgba(255,255,255,.9)}
 .footer-brand .logo-text .sub{color:rgba(255,255,255,.36)}
@@ -388,7 +419,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 <header>
   <div class="header-inner">
     <a href="#" class="logo" onclick="showSection('home')">
-      <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V11"/><path d="M12 11C8 11 5 8 5 4c4 0 7 3 7 7Z"/><path d="M12 13c4 0 7-3 7-7-4 0-7 3-7 7Z"/></svg></div>
+      <div class="logo-icon" style="background:transparent;border-radius:0"><img class="logo-icon-img" src="img/cropped/2.png" alt="育兒導航"></div>
       <div class="logo-text"><div class="main">育兒導航全攻略</div><div class="sub">PARENTING NAVIGATOR · TAIWAN</div></div>
     </a>
     <nav><ul>
@@ -418,6 +449,12 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 
 <!-- HERO -->
 <div class="hero">
+  <img class="hero-deco-flag" src="img/cropped/5.png" alt="">
+  <img class="hero-deco-stroller" src="img/cropped/3.png" alt="">
+  <img class="hero-deco-hearts" src="img/cropped/4.png" alt="">
+  <img class="hero-deco-stars" src="img/cropped/deco.png" alt="">
+  <img class="hero-deco-mobile" src="img/cropped/deco3.png" alt="">
+  <img class="hero-deco-girl" src="img/cropped/girl.png" alt="">
   <div class="hero-content">
     <h1>找到最適合您的育兒資訊</h1>
     <p>整合政府補助、醫療資源、教育資源，讓每一步育兒路更安心</p>
@@ -484,6 +521,11 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
         </div>
       </div>
 
+      <!-- 熊熊旗串分隔 -->
+      <div style="text-align:center;margin:-4px 0 18px;line-height:0;pointer-events:none">
+        <img src="img/cropped/1.png" alt="" style="height:54px;object-fit:contain;opacity:.75">
+      </div>
+
       <div class="news-panels">
         <div class="news-panel">
           <div class="news-panel-header">
@@ -516,7 +558,10 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 
     <!-- 醫療資訊 section -->
     <div id="section-medical" style="display:none">
-      <div class="section-title">醫療資訊</div>
+      <div style="display:flex;align-items:flex-end;gap:12px;margin-bottom:4px">
+        <div style="flex:1"><div class="section-title">醫療資訊</div></div>
+        <img src="img/cropped/baby2.png" alt="" style="height:70px;object-fit:contain;opacity:.8;margin-bottom:-4px">
+      </div>
       <div class="section-divider"></div>
       <p style="font-size:13px;color:var(--charcoal-light);margin-bottom:18px">兒童健康、預防保健、醫療資源整合</p>
       <div class="article-grid" id="article-grid-medical"></div>
@@ -524,7 +569,10 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 
     <!-- 補助資訊 section -->
     <div id="section-subsidy" style="display:none">
-      <div class="section-title">補助資訊</div>
+      <div style="display:flex;align-items:flex-end;gap:12px;margin-bottom:4px">
+        <div style="flex:1"><div class="section-title">補助資訊</div></div>
+        <img src="img/cropped/baby3.png" alt="" style="height:70px;object-fit:contain;opacity:.8;margin-bottom:-4px">
+      </div>
       <div class="section-divider"></div>
       <p style="font-size:13px;color:var(--charcoal-light);margin-bottom:18px">政府育兒補助申辦攻略、資格與金額整理</p>
       <div class="article-grid" id="article-grid-subsidy"></div>
@@ -532,7 +580,10 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 
     <!-- 教育資源 section -->
     <div id="section-education" style="display:none">
-      <div class="section-title">教育資源</div>
+      <div style="display:flex;align-items:flex-end;gap:12px;margin-bottom:4px">
+        <div style="flex:1"><div class="section-title">教育資源</div></div>
+        <img src="img/cropped/girl.png" alt="" style="height:70px;object-fit:contain;opacity:.8;margin-bottom:-4px">
+      </div>
       <div class="section-divider"></div>
       <p style="font-size:13px;color:var(--charcoal-light);margin-bottom:18px">幼兒教育、托育、親子活動資源整合</p>
       <div class="article-grid" id="article-grid-education"></div>
@@ -583,6 +634,11 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
         <a href="https://www.bli.gov.tw" target="_blank" rel="noopener noreferrer" class="ql-item"><span class="ql-dot rose"></span><span class="ql-text">勞保局育嬰留停津貼申辦</span><span class="ql-arrow">→</span></a>
       </div>
     </div>
+    <!-- 側邊裝飾小寶寶 -->
+    <div class="sidebar-deco" style="display:flex;justify-content:center;align-items:flex-end;gap:0;overflow:hidden">
+      <img src="img/cropped/baby5.png" alt="" style="height:100px;object-fit:contain;opacity:.85;flex-shrink:0">
+      <img src="img/cropped/baby1.png" alt="" style="height:115px;object-fit:contain;opacity:.85;flex-shrink:0;margin-left:-12px">
+    </div>
   </aside>
 </div>
 
@@ -590,7 +646,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <div class="logo"><div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V11"/><path d="M12 11C8 11 5 8 5 4c4 0 7 3 7 7Z"/><path d="M12 13c4 0 7-3 7-7-4 0-7 3-7 7Z"/></svg></div><div class="logo-text"><div class="main">育兒導航全攻略</div><div class="sub">PARENTING NAVIGATOR · TAIWAN</div></div></div>
+      <div class="logo"><div class="logo-icon" style="background:transparent;border-radius:0"><img class="logo-icon-img" src="img/cropped/2.png" alt="育兒導航" style="opacity:.75"></div><div class="logo-text"><div class="main">育兒導航全攻略</div><div class="sub">PARENTING NAVIGATOR · TAIWAN</div></div></div>
       <p>整合政府各部門育兒相關資訊，<br>讓每一個家庭都能獲得最完整的支援。</p>
     </div>
     <div class="footer-col"><h4>服務項目</h4><ul><li><a href="https://www.mohw.gov.tw" target="_blank">補助查詢</a></li><li><a href="https://www.hpa.gov.tw" target="_blank">醫療資源</a></li><li><a href="https://www.ece.moe.edu.tw" target="_blank">教育資源</a></li><li><a onclick="openModal('modal-family-hall')" href="#">親子活動場館</a></li></ul></div>
@@ -601,6 +657,9 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
     <span>© 2026 育兒導航全攻略 · 資料來源：衛福部、教育部、勞動部等政府機關</span>
     <span>本平台資訊僅供參考，實際申辦請以各主管機關公告為準</span>
   </div>
+  <!-- 頁腳裝飾 -->
+  <img class="footer-deco-babies" src="img/cropped/babys.png" alt="">
+  <img class="footer-deco-stars" src="img/cropped/deco4.png" alt="">
 </footer>
 
 <!-- ── 浮動聊天 Widget ── -->
