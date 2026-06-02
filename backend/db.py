@@ -171,11 +171,20 @@ def upsert_child(user_id: str, nickname: str, birth_date: str,
 
 
 def update_user_city(user_id: str, city: str) -> None:
-    """更新使用者戶籍縣市（Postback 選單觸發）。"""
-    sql = "UPDATE users SET household_city = %s WHERE user_id = %s"
+    """
+    更新使用者戶籍縣市（Postback 選單觸發）。
+    使用 INSERT ON DUPLICATE KEY UPDATE 確保 users 記錄存在，
+    避免新用戶直接進設定流程時 FK 外鍵約束失敗。
+    """
+    sql = """
+        INSERT INTO users (user_id, household_city, created_at)
+        VALUES (%s, %s, NOW())
+        ON DUPLICATE KEY UPDATE
+            household_city = VALUES(household_city)
+    """
     with get_conn() as conn:
         with conn.cursor() as cur:
-            cur.execute(sql, (city, user_id))
+            cur.execute(sql, (user_id, city))
         conn.commit()
 
 
