@@ -79,40 +79,37 @@ APScheduler 每天早上 09:00 掃描這張表，找出今天到期的事件，�
 
 ## 系統架構
 
-```
-使用者（LINE / 網頁）
-        │
-        ▼
-┌─────────────────────────────────┐
-│         Flask Backend           │
-│  ┌──────────┐  ┌─────────────┐  │
-│  │LINE      │  │REST /chat   │  │
-│  │Webhook   │  │API          │  │
-│  └────┬─────┘  └──────┬──────┘  │
-│       │               │         │
-│  ┌────▼───────────────▼──────┐  │
-│  │      核心模組               │  │
-│  │  conversation.py  狀態機   │  │
-│  │  rag_engine.py    問答引擎  │  │
-│  │  scheduler.py     推播排程  │  │
-│  │  forum.py         論壇 API  │  │
-│  └────────────────────────────┘  │
-└──────────┬──────────────────────┘
-           │
-    ┌──────┴───────┐
-    │              │
-┌───▼───┐    ┌─────▼────┐    ┌──────────┐
-│ MySQL │    │ChromaDB  │    │OpenAI API│
-│users  │    │向量知識庫 │    │GPT-4o    │
-│children│   │26+ wikis │    │Embedding │
-│forum  │    │          │    │          │
-└───────┘    └──────────┘    └──────────┘
-                  ▲
-         ┌────────┘
-    ┌────┴──────┐
-    │crawler.py │  每週一 02:00 自動爬蟲更新
-    │wiki_loader│  PDF / MD 向量化
-    └───────────┘
+```mermaid
+flowchart TD
+    User["👨‍👩‍👧 使用者（LINE / 網頁）"]
+
+    subgraph Flask["⚙️ Flask Backend"]
+        direction TB
+        LINE["📱 LINE Webhook"]
+        REST["🌐 REST /chat API"]
+
+        subgraph Core["核心模組"]
+            direction LR
+            conv["conversation.py　狀態機"]
+            rag["rag_engine.py　問答引擎"]
+            sched["scheduler.py　推播排程"]
+            forum["forum.py　論壇 API"]
+        end
+
+        LINE --> Core
+        REST --> Core
+    end
+
+    MySQL[("🗄️ MySQL\nusers / children\nforum / push_schedule")]
+    Chroma[("🔍 ChromaDB\n向量知識庫\n26+ wikis")]
+    OpenAI["🤖 OpenAI API\nGPT-4o-mini / Embedding"]
+
+    Crawler["🕷️ crawler.py\n每週一 02:00 自動爬蟲"]
+    Loader["📄 wiki_loader\nPDF / MD 切塊向量化"]
+
+    User --> LINE & REST
+    Core --> MySQL & Chroma & OpenAI
+    Crawler --> Loader --> Chroma
 ```
 
 ---
