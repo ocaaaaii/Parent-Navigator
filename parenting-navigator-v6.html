@@ -521,6 +521,8 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
           <div class="category-card" onclick="openArticle('parental-leave')" style="animation-delay:.30s"><div class="icon-wrap peach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3"/><path d="M6 21v-3a6 6 0 0 1 12 0v3"/><path d="M9 14a4 4 0 0 0 6 0"/></svg></div><div class="label">育嬰假與留職</div><div class="count">育嬰假・留停</div></div>
           <div class="category-card" onclick="openArticle('special-needs')" style="animation-delay:.36s"><div class="icon-wrap mint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.4-7-11a7 7 0 0 1 14 0c0 6.6-7 11-7 11Z"/><path d="M12 7v6"/><path d="M9 10h6"/></svg></div><div class="label">身心障礙兒童</div><div class="count">早療・身障補助</div></div>
           <div class="category-card" onclick="openModal('modal-family-hall')" style="animation-delay:.42s"><div class="icon-wrap sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></div><div class="label">親子活動場館</div><div class="count">台北 27 家親子館</div></div>
+          <div class="category-card" onclick="openArticle('pregnancy-care')" style="animation-delay:.48s"><div class="icon-wrap rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.5-.5 2.8-1.3 3.8C16.1 11 17 12.9 17 15a5 5 0 0 1-10 0c0-2.1.9-4 2.3-5.2A6 6 0 0 1 8 6a4 4 0 0 1 4-4Z"/><path d="M9.5 9.5c.8.8 1.5 1.9 1.5 3"/></svg></div><div class="label">孕期注意事項</div><div class="count">孕期・產檢・準備</div></div>
+          <div class="category-card" onclick="openArticle('baby-food')" style="animation-delay:.54s"><div class="icon-wrap gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18"/><path d="M11 3H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9"/><path d="M18 3v4"/><path d="M15 5h6"/><circle cx="9" cy="15" r="1"/><circle cx="13" cy="15" r="1"/></svg></div><div class="label">寶寶副食品菜單</div><div class="count">4M～2歲・食譜推薦</div></div>
         </div>
       </div>
 
@@ -1416,6 +1418,107 @@ const ARTICLES = {
 <div class="info-box">💡 建議送托前至少到訪 2–3 次（含非預約時段），觀察平日運作是否與參訪時一致。</div>
 <div class="article-source">📋 資料來源：<a href="https://cwilds.mohw.gov.tw" target="_blank" rel="noopener">社家署托育媒合平台</a>、<a href="https://born.taipei" target="_blank" rel="noopener">台北市生育資源網</a></div>`
   },
+  'pregnancy-care': {
+    title:'孕媽咪必看！0 到 40 週孕期注意事項完整指南',
+    tag:'醫療資訊', tagClass:'medical', date:'2026-05-10',
+    excerpt:'從懷孕確認到生產，產檢時程、飲食禁忌、孕期不適處理，一篇全搞定。',
+    body:`<h3>🗓 產檢時程總覽</h3>
+<p>台灣政府提供<strong>14 次公費產檢</strong>，建議配合以下時間點完成：</p>
+<div class="info-box">
+<strong>第1次（6-8週）</strong>：確認懷孕、子宮外孕排除、計算預產期<br>
+<strong>第2次（10-16週）</strong>：唐氏症篩檢（抽血）、胎兒頸部透明帶<br>
+<strong>第3次（16-20週）</strong>：高層次超音波（自費，建議做）<br>
+<strong>第4次（20-24週）</strong>：大畸形篩檢超音波<br>
+<strong>第5次（24-28週）</strong>：妊娠糖尿病篩檢（75g 葡萄糖耐受試驗）<br>
+<strong>第6-10次（28-36週）</strong>：每 4 週追蹤一次<br>
+<strong>第11-14次（36-40週）</strong>：每週一次，直到生產
+</div>
+<h3>🥗 孕期飲食重點</h3>
+<p>孕期每日建議多攝取 300 大卡（第三孕期），重點營養素：</p>
+<ul>
+<li><strong>葉酸</strong>：孕前3個月到孕期前3個月每日 400-600mcg（預防神經管缺損）</li>
+<li><strong>鐵質</strong>：孕期需求增加，每日 27mg；多吃紅肉、菠菜、豆腐</li>
+<li><strong>鈣質</strong>：每日 1000mg；牛奶、起司、豆腐、芝麻</li>
+<li><strong>DHA</strong>：每日 200mg；深海魚（鮭魚、鯖魚）、核桃</li>
+<li><strong>碘</strong>：每日 220mcg；海帶、海苔</li>
+</ul>
+<div class="warn-box">⚠️ <strong>孕期禁忌食物：</strong>生魚片、生蠔、未熟肉類、高汞魚（鯊魚、旗魚、大型鮪魚）、酒精、大量咖啡因（每日 &lt; 200mg）、未殺菌乳製品</div>
+<h3>🤒 常見孕期不適與處理</h3>
+<ul>
+<li><strong>孕吐（6-12週高峰）</strong>：少量多餐、避免油膩；嚴重者可請醫師開止吐藥</li>
+<li><strong>背痛</strong>：避免久站、穿低跟鞋、使用托腹帶（24週後）</li>
+<li><strong>水腫</strong>：抬高腿部、減少鹽分、穿彈性褲襪</li>
+<li><strong>便祕</strong>：多喝水、多攝取膳食纖維、適度散步</li>
+<li><strong>尿頻</strong>：正常現象，但若排尿疼痛需就醫排除尿道炎</li>
+</ul>
+<h3>⚠️ 立即就醫的警示症狀</h3>
+<div class="warn-box">
+• 陰道出血或大量分泌物<br>
+• 劇烈腹痛或持續性收縮<br>
+• 胎動突然減少（28週後每2小時應感覺10次以上）<br>
+• 頭痛劇烈、視力模糊、手腳突然水腫（子癇前症徵兆）<br>
+• 破水（透明或淡黃色液體持續流出）
+</div>
+<h3>📋 生產前準備清單</h3>
+<ul>
+<li>健保卡、孕婦手冊、身分證</li>
+<li>待產包：換洗衣物、哺乳胸罩、衛生棉（產褥墊）</li>
+<li>寶寶用品：包巾、連身衣（3-5件）、紙尿褲</li>
+<li>確認坐月子方式（月子中心/月嫂/家人照顧）</li>
+</ul>
+<div class="article-source">📋 資料來源：<a href="https://www.hpa.gov.tw" target="_blank" rel="noopener">國民健康署</a>、<a href="https://www.mohw.gov.tw" target="_blank" rel="noopener">衛生福利部</a>、台灣婦產科醫學會</div>`
+  },
+
+  'baby-food': {
+    title:'寶寶副食品完全攻略：4個月到2歲食譜 × 時程 × 禁忌',
+    tag:'醫療資訊', tagClass:'medical', date:'2026-05-25',
+    excerpt:'什麼時候開始吃副食品？怎麼做？哪些不能吃？從泥狀到固體食物完整進度說明，附食譜推薦。',
+    body:`<h3>🍼 何時開始副食品？</h3>
+<div class="info-box">
+<strong>建議時機：滿 4-6 個月</strong>（純母乳寶寶建議 6 個月）<br>
+<strong>準備好的跡象：</strong><br>
+• 頭頸可以穩定支撐（不再需要支撐頭部）<br>
+• 對大人食物表現興趣<br>
+• 舌頭反射消失（不再把食物推出來）<br>
+• 體重達出生時的兩倍以上
+</div>
+<h3>📅 副食品進程時間表</h3>
+<table>
+<tr><th>月齡</th><th>質地</th><th>每日次數</th><th>推薦食物</th></tr>
+<tr><td>4-6 個月</td><td>細滑泥狀</td><td>1 次</td><td>米糊、南瓜泥、地瓜泥、蘋果泥</td></tr>
+<tr><td>7-9 個月</td><td>泥狀→半固體</td><td>2 次</td><td>加入蔬菜泥、豆腐、蛋黃、魚肉</td></tr>
+<tr><td>10-12 個月</td><td>小塊軟食</td><td>3 次</td><td>可嘗試軟飯、麵條、碎肉、全蛋</td></tr>
+<tr><td>1-2 歲</td><td>家庭食物（調整版）</td><td>3 餐 + 2 點心</td><td>大部分食物均可，少鹽少糖</td></tr>
+</table>
+<h3>🚫 副食品禁忌食物</h3>
+<div class="warn-box">
+<strong>1歲前絕對禁止：</strong><br>
+• 蜂蜜（肉毒桿菌風險）<br>
+• 鮮奶（腎臟負擔過重，母乳/配方奶為主）<br>
+• 鹽巴、醬油、味精（腎臟未發育成熟）<br>
+• 堅果（窒息風險）<br>
+• 大塊圓形食物（葡萄、花生、爆米花）<br><br>
+<strong>1歲前謹慎嘗試：</strong><br>
+• 易過敏食物（花生、蛋白、海鮮）→ 每次只加一種新食材，觀察 3 天
+</div>
+<h3>🥣 新手必學食譜推薦</h3>
+<p>以下食譜難度低、營養豐富，適合副食品初期：</p>
+<ul>
+<li><strong>南瓜米糊</strong>：南瓜蒸熟打泥 + 米湯攪拌，顏色漂亮寶寶愛吃</li>
+<li><strong>蘋果梨子泥</strong>：蒸熟打泥，天然甜味不需加糖</li>
+<li><strong>雞肉蔬菜粥</strong>：雞胸肉 + 紅蘿蔔 + 白米煮爛，壓成泥</li>
+<li><strong>豆腐蛋黃泥</strong>：嫩豆腐壓泥 + 蒸熟蛋黃攪拌，高蛋白</li>
+<li><strong>鮭魚馬鈴薯泥</strong>：去刺鮭魚 + 蒸馬鈴薯壓泥，富含 DHA</li>
+</ul>
+<h3>🔗 更多食譜資源</h3>
+<ul>
+<li><a href="https://icook.tw/search/%E5%AF%B6%E5%AF%B6%E5%89%AF%E9%A3%9F%E5%93%81/" target="_blank" rel="noopener">iCook 寶寶副食品食譜搜尋 →</a>（數百道社群實作食譜）</li>
+<li><a href="https://www.hpa.gov.tw/Pages/List.aspx?nodeid=119" target="_blank" rel="noopener">國民健康署：嬰幼兒飲食指南 →</a></li>
+<li><a href="https://www.mohw.gov.tw" target="_blank" rel="noopener">衛福部：兒童飲食營養資訊 →</a></li>
+</ul>
+<div class="article-source">📋 資料來源：<a href="https://www.hpa.gov.tw" target="_blank" rel="noopener">國民健康署嬰幼兒飲食指南</a>、<a href="https://icook.tw" target="_blank" rel="noopener">iCook 台灣</a>、台灣兒科醫學會</div>`
+  },
+
   'paternity-leave': {
     title:'爸爸也可以申請！陪產假 × 育嬰假完整懶人包',
     tag:'補助資訊', tagClass:'subsidy', date:'2026-04-15',
@@ -1476,7 +1579,7 @@ function openArticle(id) {
 
 /* ══ 文章列表建立 ════════════════════════════════════════════════════════ */
 const SECTION_ARTICLES = {
-  medical: ['newborn','child-medical','preventive-health','enterovirus-2026','special-needs'],
+  medical: ['newborn','child-medical','preventive-health','enterovirus-2026','special-needs','pregnancy-care','baby-food'],
   subsidy: ['subsidy-apply','subsidy-compare','parental-leave','subsidy-q2-2026','birth-bonus','parental-leave-update','paternity-leave'],
   education: ['preschool-edu','kindergarten-2025','daycare-guide','parenting-course']
 };
