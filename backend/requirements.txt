@@ -1,31 +1,26 @@
 # 育兒導航 Agent — Python 套件依賴
 # 安裝：pip install -r requirements.txt
+# 已從 MySQL + ChromaDB 遷移至 Supabase PostgreSQL + pgvector
 
-# ── Web 框架 ────────────────────────────────────────────────────
+# ── Web 框架 ────────────────────────────────────────────────
 flask==3.1.0
-gunicorn==23.0.0          # 正式部署用
+gunicorn==23.0.0          # 正式部署用（Render）
+flask-cors==5.0.0         # 網頁 Widget 跨域支援
 
-# ── LINE Bot SDK（v3） ────────────────────────────────────────────
+# ── LINE Bot SDK（v3） ────────────────────────────────────────
 line-bot-sdk==3.14.0
 
-# ── 資料庫 ───────────────────────────────────────────────────────
-PyMySQL==1.1.1
-DBUtils==3.1.0            # 連線池（PooledDB）
-cryptography==44.0.0      # PyMySQL SSL 支援
+# ── 資料庫（PostgreSQL / Supabase） ──────────────────────────
+psycopg2-binary==2.9.10   # PostgreSQL 驅動（binary 版，無需額外 pg 標頭）
+pgvector==0.3.6            # psycopg2 pgvector 型別支援（<=> 運算子）
 
-# ── ORM（選用，課程展示可不裝） ────────────────────────────────────
-# SQLAlchemy==2.0.36
-
-# ── RAG / 向量資料庫 ──────────────────────────────────────────────
+# ── OpenAI / LLM ─────────────────────────────────────────────
 openai==1.58.1
-chromadb==0.6.3
-langchain==0.3.14         # 整合用（可選）
-langchain-openai==0.2.14  # LangChain OpenAI 整合
 
-# ── 排程 ─────────────────────────────────────────────────────────
+# ── 排程 ─────────────────────────────────────────────────────
 APScheduler==3.10.4
 
-# ── 工具套件 ─────────────────────────────────────────────────────
+# ── 工具套件 ─────────────────────────────────────────────────
 python-dotenv==1.0.1      # .env 讀取
 python-dateutil==2.9.0    # relativedelta（月份計算）
 PyYAML==6.0.2             # Frontmatter 解析
@@ -33,9 +28,8 @@ pdfplumber==0.11.4        # PDF 文字提取
 beautifulsoup4==4.12.3    # HTML 爬蟲解析
 lxml==5.3.0               # BeautifulSoup HTML parser
 requests==2.32.3          # HTTP 呼叫
-flask-cors==5.0.0         # 網頁 Widget 跨域支援
 bcrypt==4.2.1             # 密碼雜湊
 
-# ── 開發工具（正式環境可移除） ────────────────────────────────────
+# ── 開發工具（正式環境可移除） ────────────────────────────────
 pytest==8.3.4
 black==24.10.0

@@ -30,12 +30,12 @@ RAG（Retrieval-Augmented Generation，檢索增強生成）是本專案的核�
 1. 知識庫建立
    政府網站 / PDF → 人工或爬蟲整理 → Markdown 文件
    → 切成 500 字的小段落（Chunk）
-   → OpenAI text-embedding-3-small 轉成向量數字
-   → 存入 ChromaDB 向量資料庫
+   → OpenAI text-embedding-3-small 轉成向量數字（1536 維）
+   → 存入 Supabase PostgreSQL rag_chunks 表（pgvector 欄位）
 
 2. 使用者提問時
    問題 → 同樣轉成向量
-   → 在 ChromaDB 中找出語意最相近的 3~5 段知識
+   → pgvector HNSW 索引用 <=> cosine 距離找出最相近的 3~5 段知識
    → 加入使用者的縣市、寶寶年齡（Context Enrichment）
    → 組合成完整 Prompt 交給 GPT-4o-mini 生成回覆
    → 附上來源 Wiki 標籤回傳給使用者
@@ -47,7 +47,7 @@ RAG（Retrieval-Augmented Generation，檢索增強生成）是本專案的核�
 
 ### 主動時序推播
 
-對話狀態機（conversation.py）引導使用者完成 6 步驟建檔（縣市 → 暱稱 → 生日 → 性別），建檔完成後系統自動計算出寶寶一生中每個疫苗接種時間點、補助申辦截止日，全部寫入 MySQL 的 `push_schedule` 表。
+對話狀態機（conversation.py）引導使用者完成 6 步驟建檔（縣市 → 暱稱 → 生日 → 性別），建檔完成後系統自動計算出寶寶一生中每個疫苗接種時間點、補助申辦截止日，全部寫入 Supabase PostgreSQL 的 `push_schedule` 表。
 
 APScheduler 每天早上 09:00 掃描這張表，找出今天到期的事件，透過 LINE Push Message API 主動發送 Flex 卡片通知，不需要使用者自己記得。
 
@@ -65,7 +65,7 @@ APScheduler 每天早上 09:00 掃描這張表，找出今天到期的事件，�
 
 1. **品質控管**：人工整理過的文件去除公文廢話，chunk 資訊密度更高，搜尋結果更精準
 2. **縣市過濾**：每個 chunk 帶有 `cities` metadata，RAG 查詢時直接過濾，台北市用戶只看到台北市的資料，不會混到桃園的補助金額
-3. **時序驅動的主動推播**：`時序規則` 欄位被 `wiki_loader.py` 解析成 MySQL `milestones` 表裡的結構化資料（`trigger_type: age_months`, `trigger_value: 2`），APScheduler 每天掃這張表，才能主動推播「寶寶下週滿 2 個月，記得打疫苗」——這是純向量 RAG 做不到的功能
+3. **時序驅動的主動推播**：`時序規則` 欄位被 `wiki_loader.py` 解析成 Supabase `milestones` 表裡的結構化資料（`trigger_type: age_months`, `trigger_value: 2`），APScheduler 每天掃這張表，才能主動推播「寶寶下週滿 2 個月，記得打疫苗」——這是純向量 RAG 做不到的功能
 
 簡單說：**LLM Wiki 讓知識從「可搜尋的文字」升級為「可驅動行為的結構化資料」**。
 
@@ -100,16 +100,15 @@ flowchart TD
         REST --> Core
     end
 
-    MySQL[("🗄️ MySQL\nusers / children\nforum / push_schedule")]
-    Chroma[("🔍 ChromaDB\n向量知識庫\n26+ wikis")]
+    Supabase[("🗄️ Supabase PostgreSQL\nusers / children\nforum / push_schedule\nrag_chunks + pgvector")]
     OpenAI["🤖 OpenAI API\nGPT-4o-mini / Embedding"]
 
     Crawler["🕷️ crawler.py\n每週一 02:00 自動爬蟲"]
-    Loader["📄 wiki_loader\nPDF / MD 切塊向量化"]
+    Loader["📄 wiki_loader\nPDF / MD 切塊向量化\n直接存入 pgvector"]
 
     User --> LINE & REST
-    Core --> MySQL & Chroma & OpenAI
-    Crawler --> Loader --> Chroma
+    Core --> Supabase & OpenAI
+    Crawler --> Loader --> Supabase
 ```
 
 ---
@@ -121,35 +120,35 @@ flowchart TD
 | 模組 | 說明 |
 |------|------|
 | `app.py` | Flask 主程式，整合 LINE Webhook 與 REST API |
-| `rag_engine.py` | ChromaDB 向量搜尋 + Context Enrichment + GPT-4o-mini 生成 |
-| `conversation.py` | 6 步驟對話狀態機（IDLE → ASK_CITY → … → DONE），狀態存於 MySQL |
+| `rag_engine.py` | pgvector `<=>` cosine 搜尋 + Context Enrichment + GPT-4o-mini 生成 |
+| `conversation.py` | 6 步驟對話狀態機（IDLE → ASK_CITY → … → DONE），狀態存於 Supabase |
 | `scheduler.py` | APScheduler：每日 09:00 推播里程碑，每週一 02:00 觸發爬蟲 |
-| `wiki_loader.py` | 解析 `.md` 與 `.pdf`，切塊向量化存入 ChromaDB，並將時序規則寫入 MySQL |
+| `wiki_loader.py` | 解析 `.md` 與 `.pdf`，切塊後呼叫 OpenAI Embedding，直接寫入 PostgreSQL `rag_chunks.embedding` |
 | `crawler.py` | BeautifulSoup 爬取 5 個政府網站，MD5 hash 比對後自動更新知識庫 |
 | `flex_templates.py` | LINE Flex Message 卡片模板（推播通知、RAG 回覆、歡迎卡） |
 | `auth.py` | 網頁版帳號系統（bcrypt 雜湊、Flask Session） |
 | `forum.py` | Dcard 風格社群論壇 API（5 大板塊、匿名發文、巢狀留言、按讚） |
-| `db.py` | PyMySQL + DBUtils 連線池，封裝常用查詢 |
-| `config.py` | 從 `.env` 讀取所有環境變數 |
+| `db.py` | psycopg2 + ThreadedConnectionPool，封裝常用查詢與 batch_save_embeddings |
+| `config.py` | 從 `.env` 讀取所有環境變數（DATABASE_URL / SUPABASE_URL） |
 
 ### 前端
 
 | 檔案 | 說明 |
 |------|------|
-| `parenting-navigator-v5.html` | 單頁式網站，右下角浮動聊天 Widget，呼叫 `/chat` API |
+| `parenting-navigator-v6.html` | 單頁式網站，右下角浮動聊天 Widget，呼叫 `/chat` API |
 
-### 資料庫
+### 資料庫（Supabase PostgreSQL）
 
 | 表格 | 用途 |
 |------|------|
 | `users` | LINE 使用者資料（戶籍縣市） |
 | `children` | 寶寶基本資料（暱稱、生日、性別） |
-| `milestones` | 已觸發的里程碑記錄 |
+| `milestones` | 里程碑定義（疫苗 / 補助，含 trigger_type + trigger_value） |
 | `push_schedule` | 待推播事件（疫苗、補助到期） |
-| `wiki_articles` | Wiki 文件元資料 |
-| `rag_chunks` | 向量化 Chunk 紀錄（供去重） |
+| `wiki_articles` | Wiki 文件元資料（filename、tags、file_hash） |
+| `rag_chunks` | 切塊 + embedding 向量（`vector(1536)`，pgvector HNSW 索引） |
 | `crawl_log` | 爬蟲執行記錄 |
-| `conversation_state` | 對話狀態機當前狀態 |
+| `conversation_state` | 對話狀態機當前狀態（JSONB temp_data） |
 | `web_users` | 網頁版帳號 |
 | `forum_categories` | 論壇板塊（5 類） |
 | `forum_posts` | 貼文 |
@@ -160,8 +159,8 @@ flowchart TD
 
 - **Wiki 格式**：`.md` 含 YAML Frontmatter（`tags`、`適用縣市`、`時序規則`）
 - **PDF 格式**：命名慣例 `縣市_標題.pdf`，自動解析縣市與標題
-- **向量化流程**：文字 → 500 字切塊 → OpenAI `text-embedding-3-small` → ChromaDB
-- **搜尋策略**：Metadata 過濾 `{$or: [{city: 目標縣市}, {city: 全國}]}`，搭配 Context Enrichment 個人化
+- **向量化流程**：文字 → 500 字切塊 → OpenAI `text-embedding-3-small`（1536 維）→ 直接存入 Supabase `rag_chunks.embedding`
+- **搜尋策略**：SQL `WHERE meta_cities ILIKE '%縣市%' OR ILIKE '%全國%'`，搭配 HNSW `<=>` cosine 距離排序，Context Enrichment 個人化
 
 ---
 
@@ -185,7 +184,7 @@ flowchart TD
 
 ### 網頁版
 
-1. 開啟 `parenting-navigator-v5.html`（或部署後的網址）
+1. 開啟 `parenting-navigator-v6.html`（或部署後的網址）
 2. 右下角點擊聊天泡泡開啟浮動視窗
 3. 選擇縣市（可選）後直接輸入問題
 4. 回覆下方顯示來源 Wiki 標籤與延伸提問快捷鍵

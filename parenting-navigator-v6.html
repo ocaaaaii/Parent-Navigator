@@ -2043,7 +2043,7 @@ const TOUR_STEPS = [
     selector: '.category-grid',
     title: '📂 八大主題分類',
     desc: '點擊任一分類卡片可閱讀完整文章，涵蓋新生兒照護、育兒補助、幼兒教育等八大主題，所有資訊來源均附政府官網連結。',
-    position: 'bottom'
+    position: 'top'
   },
   {
     selector: 'nav ul',
@@ -2055,7 +2055,7 @@ const TOUR_STEPS = [
     selector: '#float-chat-btn',
     title: '🤖 AI 小幫手',
     desc: '右下角懸浮按鈕可隨時開啟 AI 聊天視窗，即時回答育兒問題。也可以選擇縣市讓 AI 提供當地補助與資源資訊，回答內容來自政府文件，不會亂猜。',
-    position: 'left'
+    position: 'top'
   },
   {
     selector: '.quick-links-panel',
@@ -2073,7 +2073,7 @@ const TOUR_STEPS = [
     selector: '#float-chat-btn',
     title: '💬 懸浮 AI 聊天',
     desc: '右下角懸浮按鈕可隨時開啟 AI 聊天視窗，也可以選擇縣市讓 AI 提供當地的補助與資源資訊。',
-    position: 'left'
+    position: 'top'
   }
 ];
 
@@ -2128,7 +2128,7 @@ function renderTourStep() {
     tooltip.classList.add('active');
 
     const tw = 300; // tooltip max-width
-    const th = 180; // estimated tooltip height
+    const th = tooltip.offsetHeight || 220; // actual or estimated tooltip height
     const margin = 14;
     const arrowEl = document.getElementById('tour-arrow');
 
@@ -2138,11 +2138,11 @@ function renderTourStep() {
 
     if(pos === 'bottom') {
       tx = Math.min(Math.max(rect.left + rect.width/2 - tw/2, 12), window.innerWidth - tw - 12);
-      ty = rect.bottom + pad + margin;
+      ty = Math.min(rect.bottom + pad + margin, window.innerHeight - th - 16);
       arrowStyle = `top:-7px; left:${(rect.left+rect.width/2-tx)-7}px; box-shadow:-2px -2px 5px rgba(0,0,0,.06)`;
     } else if(pos === 'top') {
       tx = Math.min(Math.max(rect.left + rect.width/2 - tw/2, 12), window.innerWidth - tw - 12);
-      ty = rect.top - pad - margin - th;
+      ty = Math.max(rect.top - pad - margin - th, 16);
       arrowStyle = `bottom:-7px; left:${(rect.left+rect.width/2-tx)-7}px; box-shadow:2px 2px 5px rgba(0,0,0,.06)`;
     } else if(pos === 'left') {
       tx = rect.left - pad - tw - margin;

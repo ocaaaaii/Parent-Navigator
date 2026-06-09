@@ -17,18 +17,15 @@ FLASK_PORT       = int(os.getenv("FLASK_PORT", "5000"))
 LINE_CHANNEL_ACCESS_TOKEN = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", "")
 LINE_CHANNEL_SECRET       = os.getenv("LINE_CHANNEL_SECRET", "")
 
-# ── MySQL ──────────────────────────────────────────────────────────────────────
-DB_HOST     = os.getenv("DB_HOST", "127.0.0.1")
-DB_PORT     = int(os.getenv("DB_PORT", "3306"))
-DB_NAME     = os.getenv("DB_NAME", "parenting_navigator")
-DB_USER     = os.getenv("DB_USER", "root")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "")
-DB_CHARSET  = "utf8mb4"
+# ── Supabase / PostgreSQL ──────────────────────────────────────────────────────
+# 格式：postgresql://USER:PASSWORD@HOST:PORT/DBNAME
+DATABASE_URL  = os.getenv("DATABASE_URL", "")
+SUPABASE_URL  = os.getenv("SUPABASE_URL", "")   # https://xxxx.supabase.co
+SUPABASE_KEY  = os.getenv("SUPABASE_KEY", "")   # service_role key（後端專用）
 
 # 連線池設定
-DB_POOL_SIZE    = int(os.getenv("DB_POOL_SIZE", "5"))
-DB_POOL_TIMEOUT = int(os.getenv("DB_POOL_TIMEOUT", "30"))   # 秒
-DB_POOL_RECYCLE = int(os.getenv("DB_POOL_RECYCLE", "3600"))  # 每小時回收連線
+DB_POOL_MIN  = int(os.getenv("DB_POOL_MIN", "1"))
+DB_POOL_MAX  = int(os.getenv("DB_POOL_MAX", "5"))
 
 # ── OpenAI / LLM ──────────────────────────────────────────────────────────────
 OPENAI_API_KEY   = os.getenv("OPENAI_API_KEY", "")
@@ -36,11 +33,7 @@ OPENAI_MODEL     = os.getenv("OPENAI_MODEL", "gpt-4o-mini")  # 可換 gpt-4o
 OPENAI_MAX_TOKENS = int(os.getenv("OPENAI_MAX_TOKENS", "1024"))
 EMBEDDING_MODEL  = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
 
-# ── ChromaDB ──────────────────────────────────────────────────────────────────
-CHROMA_PERSIST_DIR = os.getenv("CHROMA_PERSIST_DIR", "./chroma_db")
-CHROMA_COLLECTION  = os.getenv("CHROMA_COLLECTION", "parenting_wiki")
-
-# RAG 查詢設定
+# ── pgvector / RAG 查詢設定 ──────────────────────────────────────────────────
 RAG_TOP_K          = int(os.getenv("RAG_TOP_K", "5"))       # 取回幾個最相關 chunk
 RAG_SCORE_THRESHOLD = float(os.getenv("RAG_SCORE_THRESHOLD", "0.35"))  # 相似度門檻
 

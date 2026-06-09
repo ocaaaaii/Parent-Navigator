@@ -3,8 +3,8 @@
 # 功能：
 #   1. 掃描 WIKI_DIR 下所有 .md 檔案
 #   2. 解析 YAML Frontmatter（tags, 適用縣市, 時序規則）
-#   3. 將正文切塊（chunk），寫入 MySQL rag_chunks
-#   4. 呼叫 rag_engine 將 chunk 向量化至 ChromaDB
+#   3. 將正文切塊（chunk），寫入 PostgreSQL rag_chunks
+#   4. 呼叫 rag_engine.embed_texts 取得 OpenAI embedding，直接存入 rag_chunks.embedding
 #   5. 解析「時序規則」，插入 milestones 表
 #
 # 執行方式（一次性重建知識庫）：
@@ -127,23 +127,29 @@ def chunk_text(text: str, chunk_size: int = CHUNK_SIZE,
     return [c for c in chunks if c]   # 過濾空字串
 
 
-# ── MySQL 資料寫入 ────────────────────────────────────────────────────────────
+# ── PostgreSQL 資料寫入 ───────────────────────────────────────────────────────
 
 def upsert_article(parsed: dict) -> int:
     """
     將解析後的 wiki 資料 upsert 至 wiki_articles 表。
-    回傳 article_id。
+    回傳 article_id（用 RETURNING 取得）。
     """
-    sql = """
-        INSERT INTO wiki_articles (filename, title, tags, meta_cities, is_active, updated_at)
-        VALUES (%s, %s, %s, %s, 1, NOW())
-        ON DUPLICATE KEY UPDATE
-            title       = VALUES(title),
-            tags        = VALUES(tags),
-            meta_cities = VALUES(meta_cities),
-            updated_at  = NOW()
-    """
+    import hashlib
     tags_str = ",".join(parsed["tags"])
+    # 計算檔案內容 hash（用 body + tags 混合，簡單防止無謂重建）
+    file_hash = hashlib.md5((parsed["body"] + tags_str).encode()).hexdigest()
+
+    sql = """
+        INSERT INTO wiki_articles (filename, title, tags, cities, file_hash, is_active, updated_at)
+        VALUES (%s, %s, %s, %s, %s, TRUE, NOW())
+        ON CONFLICT (filename) DO UPDATE SET
+            title      = EXCLUDED.title,
+            tags       = EXCLUDED.tags,
+            cities     = EXCLUDED.cities,
+            file_hash  = EXCLUDED.file_hash,
+            updated_at = NOW()
+        RETURNING article_id
+    """
 
     with db.get_conn() as conn:
         with conn.cursor() as cur:
@@ -152,17 +158,9 @@ def upsert_article(parsed: dict) -> int:
                 parsed["title"],
                 tags_str,
                 parsed["cities"],
+                file_hash,
             ))
-            # 取得 article_id（INSERT 或 SELECT）
-            if cur.lastrowid:
-                article_id = cur.lastrowid
-            else:
-                cur.execute(
-                    "SELECT article_id FROM wiki_articles WHERE filename = %s",
-                    (parsed["filename"],)
-                )
-                row = cur.fetchone()
-                article_id = row["article_id"]
+            article_id = cur.fetchone()["article_id"]
         conn.commit()
 
     return article_id
@@ -170,37 +168,45 @@ def upsert_article(parsed: dict) -> int:
 
 def insert_chunks(article_id: int, chunks: list[str], cities: str) -> list[int]:
     """
-    批次插入 chunk 至 rag_chunks 表，回傳新插入的 chunk_id 列表。
-    ON DUPLICATE KEY UPDATE 確保重新載入時不重複。
+    批次插入 chunk 至 rag_chunks 表（用 chunk_hash 去重），回傳 chunk_id 列表。
+    重複執行安全：hash 不變則跳過，is_indexed 重置為 FALSE 觸發重新向量化。
     """
-    sql = """
-        INSERT INTO rag_chunks (article_id, chunk_index, chunk_text, meta_cities, is_indexed)
-        VALUES (%s, %s, %s, %s, 0)
-        ON DUPLICATE KEY UPDATE
-            chunk_text  = VALUES(chunk_text),
-            meta_cities = VALUES(meta_cities),
-            is_indexed  = 0
-    """
-    rows = [(article_id, i, chunk, cities) for i, chunk in enumerate(chunks)]
-    chunk_ids = []
+    import hashlib
 
+    # 先刪除此 article 舊有 chunk（重建模式；增量模式可改為 DO NOTHING）
+    sql_delete = "DELETE FROM rag_chunks WHERE article_id = %s"
+
+    sql_insert = """
+        INSERT INTO rag_chunks
+            (article_id, chunk_text, chunk_hash, meta_cities, filename, is_indexed)
+        VALUES (%s, %s, %s, %s, %s, FALSE)
+        ON CONFLICT (chunk_hash) DO UPDATE SET
+            meta_cities = EXCLUDED.meta_cities,
+            is_indexed  = FALSE
+        RETURNING chunk_id
+    """
+
+    # 從 wiki_articles 取得 filename（供 rag_chunks.filename 存放）
+    sql_fn = "SELECT filename FROM wiki_articles WHERE article_id = %s"
+
+    chunk_ids = []
     with db.get_conn() as conn:
         with conn.cursor() as cur:
-            for row in rows:
-                cur.execute(sql, row)
-                if cur.lastrowid:
-                    chunk_ids.append(cur.lastrowid)
-        conn.commit()
+            cur.execute(sql_fn, (article_id,))
+            fn_row = cur.fetchone()
+            filename = fn_row["filename"] if fn_row else ""
 
-    # 若 ON DUPLICATE KEY 觸發，lastrowid 可能為 0，重新查詢
-    if len(chunk_ids) < len(chunks):
-        with db.get_conn() as conn:
-            with conn.cursor() as cur:
-                cur.execute(
-                    "SELECT chunk_id FROM rag_chunks WHERE article_id = %s ORDER BY chunk_index",
-                    (article_id,)
-                )
-                chunk_ids = [r["chunk_id"] for r in cur.fetchall()]
+            cur.execute(sql_delete, (article_id,))
+
+            for chunk_text in chunks:
+                chunk_hash = hashlib.md5(chunk_text.encode()).hexdigest()
+                cur.execute(sql_insert, (
+                    article_id, chunk_text, chunk_hash, cities, filename
+                ))
+                row = cur.fetchone()
+                if row:
+                    chunk_ids.append(row["chunk_id"])
+        conn.commit()
 
     return chunk_ids
 
@@ -253,29 +259,28 @@ def parse_timing_rules(rules: list[str], article_id: int) -> list[dict]:
 
 
 def upsert_milestones(milestones: list[dict]) -> None:
-    """批次寫入 milestones 表。"""
+    """批次寫入 milestones 表（PostgreSQL ON CONFLICT 語法）。"""
     if not milestones:
         return
 
     sql = """
         INSERT INTO milestones
-            (article_id, trigger_type, trigger_value, label,
+            (trigger_type, trigger_value, label,
              notify_days_before, message_template, priority)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
-        ON DUPLICATE KEY UPDATE
-            label               = VALUES(label),
-            notify_days_before  = VALUES(notify_days_before),
-            updated_at          = NOW()
+        VALUES (%s, %s, %s, %s, %s, %s)
+        ON CONFLICT (trigger_type, trigger_value, label) DO UPDATE SET
+            notify_days_before = EXCLUDED.notify_days_before
     """
     rows = [
-        (m["article_id"], m["trigger_type"], m["trigger_value"],
+        (m["trigger_type"], m["trigger_value"],
          m["label"], m["notify_days_before"], m["message_template"], m["priority"])
         for m in milestones
     ]
 
+    import psycopg2.extras
     with db.get_conn() as conn:
         with conn.cursor() as cur:
-            cur.executemany(sql, rows)
+            psycopg2.extras.execute_batch(cur, sql, rows)
         conn.commit()
 
     logger.info("寫入 %d 筆時序里程碑", len(milestones))
@@ -384,13 +389,14 @@ def load_all_wikis(wiki_dir: str = None, rebuild: bool = False) -> None:
         len(md_files), total_chunks, total_milestone
     )
 
-    # 5. 向量化（取未 indexed 的 chunk）
+    # 5. 向量化（取未 indexed 的 chunk，直接存入 PostgreSQL）
     vectorize_pending_chunks()
 
 
 def vectorize_pending_chunks() -> None:
     """
-    從 MySQL 取出未向量化的 chunk，批次寫入 ChromaDB。
+    從 PostgreSQL 取出未向量化的 chunk，
+    呼叫 OpenAI Embedding API，再批次寫回 rag_chunks.embedding。
     可獨立呼叫，支援增量更新。
     """
     pending = db.get_pending_chunks()
@@ -400,14 +406,17 @@ def vectorize_pending_chunks() -> None:
 
     logger.info("開始向量化 %d 筆 chunk...", len(pending))
 
-    # 批次處理（每批 50 筆，避免單次 API 請求過大）
+    # 每批 50 筆（OpenAI embedding API 最大 2048 tokens/item，50 筆足夠安全）
     BATCH_SIZE = 50
     for i in range(0, len(pending), BATCH_SIZE):
         batch = pending[i:i + BATCH_SIZE]
+        texts = [c["chunk_text"] for c in batch]
         try:
-            chroma_ids = rag_engine.add_chunks_to_chroma(batch)
-            for chunk, chroma_id in zip(batch, chroma_ids):
-                db.mark_chunk_indexed(chunk["chunk_id"], chroma_id)
+            embeddings = rag_engine.embed_texts(texts)
+            pairs = [(c["chunk_id"], emb) for c, emb in zip(batch, embeddings)]
+            db.batch_save_embeddings(pairs)
+            logger.info("向量化批次 %d/%d 完成", i // BATCH_SIZE + 1,
+                        (len(pending) - 1) // BATCH_SIZE + 1)
         except Exception as e:
             logger.error("向量化批次 %d 失敗：%s", i // BATCH_SIZE, e)
 
@@ -436,7 +445,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    db.get_pool()  # 初始化連線池
+    db.get_pool()  # 初始化 PostgreSQL 連線池
 
     if args.vectorize_only:
         vectorize_pending_chunks()
