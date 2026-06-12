@@ -599,7 +599,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
       <div class="forum-section-wrap">
         <div class="forum-header">
           <h2>社群論壇</h2>
-          <button class="forum-write-btn" onclick="checkLoginThenWrite()">✏️ 發文</button>
+          <button class="forum-write-btn" onclick="checkLoginThenWrite()">發文</button>
         </div>
         <div class="forum-cats" id="forum-cats">
           <button class="forum-cat-btn active" onclick="loadForum(null,this)">全部</button>
@@ -681,7 +681,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
       <button class="float-popup-close" onclick="toggleFloatChat()">✕</button>
     </div>
     <div class="float-city-bar">
-      <span>📍 選擇縣市：</span>
+      <span>選擇縣市：</span>
       <select id="float-city-select" onchange="selectedCity=this.value;if(this.value)floatAddBotMsg('已切換為【'+this.value+'】資訊 📍',[])">
         <option value="">全國</option>
         <option>台北市</option><option>新北市</option><option>桃園市</option>
@@ -708,14 +708,14 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 <div class="modal-overlay" id="modal-family-hall" onclick="closeModalOutside(event,'modal-family-hall')">
   <div class="modal-box">
     <div class="modal-header">
-      <h2>🏠 台北市親子館（27 家）</h2>
+      <h2>台北市親子館（27 家）</h2>
       <button class="modal-close" onclick="closeModal('modal-family-hall')">✕</button>
     </div>
     <div class="modal-body">
       <p style="font-size:13px;color:var(--charcoal-light);margin-bottom:16px;line-height:1.6">台北市政府社會局於全市 12 行政區設置 27 家親子館，提供 0–6 歲兒童免費入場、玩具借用、親職講座等服務。部分活動需事先網路報名，額滿為止。</p>
       <div class="family-hall-grid" id="family-hall-grid"></div>
       <div class="fh-source">
-        📋 完整名單與活動資訊請見台北市政府社會局官網：
+        完整名單與活動資訊請見台北市政府社會局官網：
         <a href="https://dosw.gov.taipei/cp.aspx?n=b50bf5f960d7db18" target="_blank">dosw.gov.taipei</a>
         或致電 <strong>(02) 2721-9898</strong>
       </div>
@@ -727,7 +727,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 <div class="modal-overlay" id="modal-daycare" onclick="closeModalOutside(event,'modal-daycare')">
   <div class="modal-box">
     <div class="modal-header">
-      <h2>🏡 台北市托嬰中心查詢</h2>
+      <h2>台北市托嬰中心查詢</h2>
       <button class="modal-close" onclick="closeModal('modal-daycare')">✕</button>
     </div>
     <div class="modal-body">
@@ -749,7 +749,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
       </div>
       <div id="daycare-list"></div>
       <div class="fh-source">
-        📋 完整名單及空位查詢：<a href="https://cwilds.mohw.gov.tw" target="_blank">社家署 cwilds.mohw.gov.tw</a>
+        完整名單及空位查詢：<a href="https://cwilds.mohw.gov.tw" target="_blank">社家署 cwilds.mohw.gov.tw</a>
         或 <a href="https://born.taipei/cp.aspx?n=EC88D691979459F6" target="_blank">台北市公托報名系統</a>
       </div>
     </div>
@@ -759,7 +759,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 <!-- LINE Bot Modal -->
 <div class="modal-overlay" id="modal-line" onclick="closeModalOutside(event,'modal-line')">
   <div class="modal-box" style="max-width:400px">
-    <div class="modal-header"><h2>📱 加入 LINE Bot</h2><button class="modal-close" onclick="closeModal('modal-line')">✕</button></div>
+    <div class="modal-header"><h2>加入 LINE Bot</h2><button class="modal-close" onclick="closeModal('modal-line')">✕</button></div>
     <div class="modal-body" style="text-align:center">
       <p style="font-size:14px;line-height:1.8;color:var(--charcoal-mid);margin-bottom:20px">加入 LINE 官方帳號後，可以設定寶寶資料，系統會主動推播疫苗接種、補助申辦提醒！</p>
       <div style="background:var(--teal-pale);border-radius:var(--radius-sm);padding:20px;margin-bottom:16px">
@@ -834,14 +834,14 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 <!-- 功能導覽 Modal（備用） -->
 <div class="modal-overlay" id="modal-tour" onclick="closeModalOutside(event,'modal-tour')">
   <div class="modal-box" style="max-width:500px">
-    <div class="modal-header"><h2>🗺 平台功能導覽</h2><button class="modal-close" onclick="closeModal('modal-tour')">✕</button></div>
+    <div class="modal-header"><h2>平台功能導覽</h2><button class="modal-close" onclick="closeModal('modal-tour')">✕</button></div>
     <div class="modal-body">
       <div class="tour-steps">
-        <div class="tour-step"><div class="tour-step-num">1</div><div class="tour-step-content"><h3>🔍 搜尋育兒資訊</h3><p>在首頁搜尋框輸入關鍵字（如「育兒津貼」、「疫苗」），AI 小幫手會從政府知識庫中找到最相關的資訊。</p></div></div>
-        <div class="tour-step"><div class="tour-step-num">2</div><div class="tour-step-content"><h3>💬 AI 小幫手即時問答</h3><p>右下角或側邊欄的聊天機器人可以回答任何育兒問題，並附上政府文件來源，不會亂猜。</p></div></div>
-        <div class="tour-step"><div class="tour-step-num">3</div><div class="tour-step-content"><h3>📱 LINE Bot 主動提醒</h3><p>加入 LINE Bot，設定寶寶出生日期後，系統會自動計算疫苗時程、補助截止日，到期前主動通知您。</p></div></div>
-        <div class="tour-step"><div class="tour-step-num">4</div><div class="tour-step-content"><h3>💬 社群論壇</h3><p>點選上方「社群論壇」，與其他新手爸媽分享申辦心得、交流育兒經驗。登入後可以發文留言。</p></div></div>
-        <div class="tour-step"><div class="tour-step-num">5</div><div class="tour-step-content"><h3>🏠 親子館 & 托嬰查詢</h3><p>點選「親子活動場館」或「托嬰中心查詢」卡片，可查看台北市 27 家親子館位置及公托申請資訊。</p></div></div>
+        <div class="tour-step"><div class="tour-step-num">1</div><div class="tour-step-content"><h3>搜尋育兒資訊</h3><p>在首頁搜尋框輸入關鍵字（如「育兒津貼」、「疫苗」），AI 小幫手會從政府知識庫中找到最相關的資訊。</p></div></div>
+        <div class="tour-step"><div class="tour-step-num">2</div><div class="tour-step-content"><h3>AI 小幫手即時問答</h3><p>右下角或側邊欄的聊天機器人可以回答任何育兒問題，並附上政府文件來源，不會亂猜。</p></div></div>
+        <div class="tour-step"><div class="tour-step-num">3</div><div class="tour-step-content"><h3>LINE Bot 主動提醒</h3><p>加入 LINE Bot，設定寶寶出生日期後，系統會自動計算疫苗時程、補助截止日，到期前主動通知您。</p></div></div>
+        <div class="tour-step"><div class="tour-step-num">4</div><div class="tour-step-content"><h3>社群論壇</h3><p>點選上方「社群論壇」，與其他新手爸媽分享申辦心得、交流育兒經驗。登入後可以發文留言。</p></div></div>
+        <div class="tour-step"><div class="tour-step-num">5</div><div class="tour-step-content"><h3>親子館 & 托嬰查詢</h3><p>點選「親子活動場館」或「托嬰中心查詢」卡片，可查看台北市 27 家親子館位置及公托申請資訊。</p></div></div>
       </div>
     </div>
   </div>
@@ -882,22 +882,22 @@ const ARTICLES = {
     tag:'醫療資訊', tagClass:'medical', date:'2026-05-20',
     excerpt:'從出生第一天起，每個里程碑都有政府提供的免費服務。完整整理疫苗時程、健兒門診、新生兒篩檢三大項目。',
     body:`
-<h3>🍼 出生後 24 小時內</h3>
+<h3>出生後 24 小時內</h3>
 <p>寶寶出生後，院方會主動安排下列處置，家長請確認是否已完成：</p>
 <ul>
   <li><strong>B 型肝炎疫苗第 1 劑</strong>（公費，出生後 24 小時內施打）</li>
   <li><strong>卡介苗</strong>（BCG，出生後越快施打越好，建議 1 個月內）</li>
   <li><strong>足跟採血（代謝篩檢）</strong>：出生後 48–72 小時採血，可篩查 21 種先天代謝疾病。</li>
 </ul>
-<div class="info-box">💡 篩檢結果約 2–4 週後寄到戶籍地，若收到「複查通知」請勿驚慌，大部分為假陽性，及時複檢即可。</div>
+<div class="info-box">篩檢結果約 2–4 週後寄到戶籍地，若收到「複查通知」請勿驚慌，大部分為假陽性，及時複檢即可。</div>
 
-<h3>👂 聽力篩檢</h3>
+<h3>聽力篩檢</h3>
 <p>出院前或出生後 1 個月內，醫院會進行新生兒聽力篩檢（耳聲傳射測試，OAE）。若未通過，出生後 3 個月內需完成聽力診斷評估，6 個月內完成介入療育。全國 97% 以上新生兒完成篩檢。</p>
 
-<h3>📋 出生後 60 天內完成戶籍登記</h3>
+<h3>出生後 60 天內完成戶籍登記</h3>
 <p>攜帶出生醫院開立的「出生證明書」至戶政事務所辦理出生登記，同時可辦理健保加保，讓寶寶立即享有健保看診資格。</p>
 
-<h3>🏥 0–6 歲七次健兒門診（衛福部補助）</h3>
+<h3>0–6 歲七次健兒門診（衛福部補助）</h3>
 <p>衛生福利部補助 7 次免費健兒門診，每次約 15–30 分鐘，包含生長評估、發展篩檢、視力、聽力及口腔檢查：</p>
 <table>
   <tr><th>次數</th><th>年齡區間</th><th>重點項目</th></tr>
@@ -909,22 +909,22 @@ const ARTICLES = {
   <tr><td>第 6 次</td><td>滿30個月至滿48個月</td><td>口腔檢查、視力初篩</td></tr>
   <tr><td>第 7 次</td><td>滿48個月至滿84個月</td><td>上學前整體評估、視力、聽力精細測驗</td></tr>
 </table>
-<p>📌 2024年7月起新增 <strong>6 次兒童發展篩檢</strong>（與健檢整合），早期發現粗細動作、語言、社會性發展遲緩，免費。</p>
-<div class="warn-box">⚠️ 健兒門診需在有健保特約的診所或醫院進行，攜帶<strong>兒童健康手冊</strong>與健保卡，免部分負擔。全國約 3,540 家醫療院所可進行。</div>
+<p>2024年7月起新增 <strong>6 次兒童發展篩檢</strong>（與健檢整合），早期發現粗細動作、語言、社會性發展遲緩，免費。</p>
+<div class="warn-box">健兒門診需在有健保特約的診所或醫院進行，攜帶<strong>兒童健康手冊</strong>與健保卡，免部分負擔。全國約 3,540 家醫療院所可進行。</div>
 
-<h3>📌 實用提醒</h3>
+<h3>實用提醒</h3>
 <ul>
   <li>出院時向醫院索取「兒童健康手冊」，每次看診帶去蓋章記錄。</li>
   <li>有任何發展疑慮，可撥打 1925 衛福部福利諮詢專線或向各縣市早療通報窗口諮詢。</li>
 </ul>
-<div class="article-source">📋 資料來源：<a href="https://www.hpa.gov.tw/Pages/List.aspx?nodeid=119" target="_blank" rel="noopener">國民健康署 — 兒童健康手冊</a>、<a href="https://www.cdc.gov.tw" target="_blank" rel="noopener">疾病管制署</a></div>`
+<div class="article-source">資料來源：<a href="https://www.hpa.gov.tw/Pages/List.aspx?nodeid=119" target="_blank" rel="noopener">國民健康署 — 兒童健康手冊</a>、<a href="https://www.cdc.gov.tw" target="_blank" rel="noopener">疾病管制署</a></div>`
   },
   'child-medical': {
     title:'台北市兒童醫療補助完整說明（三類對象、申請地點）',
     tag:'醫療資訊', tagClass:'medical', date:'2026-05-18',
     excerpt:'台北市自民國84年起針對未滿6歲（特殊身分至12歲）兒童補助急診掛號費、住院費用，分三類對象辦理。',
     body:`
-<h3>🏥 補助對象（三類）</h3>
+<h3>補助對象（三類）</h3>
 <h4>第一類：一般設籍台北市未滿 6 歲兒童</h4>
 <p><strong>申請資格：</strong>設籍台北市、未滿 6 歲，父、母或監護人至少一人設籍並實際居住台北市<strong>滿10個月</strong></p>
 <p><strong>補助項目：</strong>急診掛號費及部分負擔、7次兒童預防保健門診掛號費與健康諮詢費、住院部分負擔費用</p>
@@ -942,7 +942,7 @@ const ARTICLES = {
 <h4>第三類：第3胎（含）以上未滿 6 歲兒童</h4>
 <p>→ 至台北市任一區<strong>戶政事務所</strong>辦理（注意：非健康服務中心）</p>
 
-<h3>📅 申請時機</h3>
+<h3>申請時機</h3>
 <table>
   <tr><th>時間點</th><th>事項</th></tr>
   <tr><td>出生後</td><td>極低體重兒可立即申請第二類補助</td></tr>
@@ -951,44 +951,44 @@ const ARTICLES = {
   <tr><td>子女滿 6 歲</td><td>一般第一類補助到期</td></tr>
 </table>
 
-<h3>💡 使用方式</h3>
+<h3>使用方式</h3>
 <p>持「兒童醫療補助識別碼」（數位化，無實體卡）至特約醫療院所就醫，系統自動扣抵。</p>
-<div class="info-box">💡 第一類補助<strong>不得</strong>與低收入戶健保費減免重複申請，可擇優選擇。</div>
+<div class="info-box">第一類補助<strong>不得</strong>與低收入戶健保費減免重複申請，可擇優選擇。</div>
 
-<h3>🦷 健保兒童口腔補助（全國）</h3>
+<h3>健保兒童口腔補助（全國）</h3>
 <p>健保補助 6 個月至未滿 5 歲兒童每半年一次免費塗氟；建議從第一顆乳牙萌發後即開始清潔。</p>
-<div class="article-source">📋 資料來源：<a href="https://born.taipei/cp.aspx?n=5B39C05FDAD35C72" target="_blank" rel="noopener">助您好孕 — 台北市兒童醫療補助（114年版）</a>｜洽詢：1999 分機 7122</div>`
+<div class="article-source">資料來源：<a href="https://born.taipei/cp.aspx?n=5B39C05FDAD35C72" target="_blank" rel="noopener">助您好孕 — 台北市兒童醫療補助（114年版）</a>｜洽詢：1999 分機 7122</div>`
   },
   'subsidy-apply': {
     title:'育兒補助申請總覽：生育・育兒・托育一次搞懂（113年新制）',
     tag:'補助資訊', tagClass:'subsidy', date:'2026-05-15',
     excerpt:'「0至6歲國家一起養」政策下，育兒津貼第1胎5,000元、托育補助最高每月18,000元起，113年起取消排富、全面調漲！',
     body:`
-<h3>📊 育兒津貼 vs 托育補助（擇一申請）</h3>
-<div class="warn-box">⚠️ 育兒津貼與托育補助<strong>每月只能擇一領取</strong>，請依實際照顧方式選擇。</div>
+<h3>育兒津貼 vs 托育補助（擇一申請）</h3>
+<div class="warn-box">育兒津貼與托育補助<strong>每月只能擇一領取</strong>，請依實際照顧方式選擇。</div>
 <table>
   <tr><th>子女別</th><th>育兒津貼（自行照顧）</th><th>公共化托育補助</th><th>準公共托育補助</th></tr>
   <tr><td>第 1 名</td><td><strong>5,000 元/月</strong></td><td><strong>9,500 元/月</strong></td><td><strong>13,000 元/月</strong></td></tr>
   <tr><td>第 2 名</td><td><strong>6,000 元/月</strong></td><td><strong>11,000 元/月</strong></td><td><strong>18,000 元/月</strong></td></tr>
   <tr><td>第 3 名起</td><td><strong>7,000 元/月</strong></td><td><strong>11,000 元/月</strong></td><td><strong>18,000 元/月</strong></td></tr>
 </table>
-<p>📌 112年起<strong>全面取消排富限制</strong>，不論收入高低皆可申請。113年起大幅調漲金額。</p>
+<p>112年起<strong>全面取消排富限制</strong>，不論收入高低皆可申請。113年起大幅調漲金額。</p>
 
-<h3>🍼 育兒津貼申辦</h3>
+<h3>育兒津貼申辦</h3>
 <p>適用：0–未滿2歲、自行在家照顧、未送托育機構</p>
 <ol>
   <li><strong>線上申請</strong>（推薦）：登入<a href="https://ncwisweb.sfaa.gov.tw/home/index" target="_blank" rel="noopener">社福通</a>，使用健保卡或自然人憑證</li>
   <li><strong>臨櫃申請</strong>：至戶籍地鄉鎮市區公所社政課</li>
 </ol>
 
-<h3>🏠 托育補助申辦</h3>
+<h3>托育補助申辦</h3>
 <p>適用：0–未滿2歲、送至政府合作的準公共保母或托嬰中心</p>
 <ul>
   <li>送托後由機構協助辦理，補助直接撥付，家長支付差額</li>
   <li>準公共合約機構查詢：<a href="https://ncwisweb.sfaa.gov.tw/home/index" target="_blank" rel="noopener">衛福部社家署托育媒合平台</a></li>
 </ul>
 
-<h3>📋 申請所需文件（通用）</h3>
+<h3>申請所需文件（通用）</h3>
 <table>
   <tr><th>文件</th><th>說明</th></tr>
   <tr><td>申請人身分證正本</td><td>父或母</td></tr>
@@ -997,16 +997,16 @@ const ARTICLES = {
   <tr><td>送托機構收費收據</td><td>準公共送托才需要</td></tr>
 </table>
 
-<h3>🔗 延長補助（2至3歲）</h3>
+<h3>延長補助（2至3歲）</h3>
 <p>滿2歲兒童續留準公共居家托育人員或準公共托嬰中心，補助可<strong>延長至未滿3歲</strong>，無縫銜接幼兒園。</p>
-<div class="article-source">📋 資料來源：<a href="https://www.mohw.gov.tw/cp-5130-58003-1.html" target="_blank" rel="noopener">衛生福利部 — 未滿2歲幼兒照顧政策</a>｜洽詢：<strong>1957</strong> 福利諮詢專線</div>`
+<div class="article-source">資料來源：<a href="https://www.mohw.gov.tw/cp-5130-58003-1.html" target="_blank" rel="noopener">衛生福利部 — 未滿2歲幼兒照顧政策</a>｜洽詢：<strong>1957</strong> 福利諮詢專線</div>`
   },
   'preschool-edu': {
     title:'台北市幼兒園申請指南：公幼・非營利・準公共怎麼選？',
     tag:'教育資源', tagClass:'education', date:'2026-05-12',
     excerpt:'台北市幼兒園每年1月公告招生簡章、3-4月線上報名，競爭激烈！本文整理四種類型費用、招生流程與評鑑重點。',
     body:`
-<h3>🏫 四種幼兒園類型比較</h3>
+<h3>四種幼兒園類型比較</h3>
 <table>
   <tr><th>類型</th><th>月費（扣補助後）</th><th>申請方式</th><th>補助狀況</th></tr>
   <tr><td>公立幼兒園</td><td>約 3,000–5,000 元</td><td>抽籤（競爭激烈）</td><td>政府補貼學費</td></tr>
@@ -1015,7 +1015,7 @@ const ARTICLES = {
   <tr><td>一般私立幼兒園</td><td>較高（自費）</td><td>直接報名</td><td>可申請幼兒教育補助</td></tr>
 </table>
 
-<h3>📅 台北市招生時程（每年固定節奏）</h3>
+<h3>台北市招生時程（每年固定節奏）</h3>
 <table>
   <tr><th>時間</th><th>事項</th></tr>
   <tr><td><strong>每年 1 月</strong></td><td>公立 / 非營利幼兒園招生簡章公告</td></tr>
@@ -1023,16 +1023,16 @@ const ARTICLES = {
   <tr><td><strong>名額不足時</strong></td><td>舉行電腦公開抽籤，未中者列候補</td></tr>
   <tr><td><strong>每年 8-9 月</strong></td><td>新學年開始</td></tr>
 </table>
-<div class="warn-box">⚠️ 公立幼兒園<strong>名額有限、競爭激烈</strong>，建議每年1月後立即追蹤教育局公告，同時備案非營利幼兒園。</div>
+<div class="warn-box">公立幼兒園<strong>名額有限、競爭激烈</strong>，建議每年1月後立即追蹤教育局公告，同時備案非營利幼兒園。</div>
 
-<h3>📌 申請資格</h3>
+<h3>申請資格</h3>
 <ul>
   <li>公立幼兒園：設籍台北市、滿 <strong>2 歲</strong>至未滿 6 歲幼兒</li>
   <li>5歲幼兒：就讀私立幼兒園者可申請<strong>幼兒教育補助</strong>（教育部）</li>
   <li>幼兒滿 6 歲：依學區就讀國小（無需抽籤）</li>
 </ul>
 
-<h3>🔍 如何評估一家幼兒園</h3>
+<h3>如何評估一家幼兒園</h3>
 <ul>
   <li>確認<strong>幼兒園設立許可</strong>及<strong>教保服務人員合格證</strong></li>
   <li>師生比是否符合法定標準（幼幼班 1:5，幼兒班 1:15）</li>
@@ -1040,30 +1040,30 @@ const ARTICLES = {
   <li>環境安全：逃生設施、用藥管理、監視器覆蓋率</li>
   <li>菜單公開、無收額外費用、家長可不定時到訪</li>
 </ul>
-<div class="article-source">📋 資料來源：<a href="https://www.doe.gov.taipei/Content_List.aspx?n=305F9E1B993B9A27" target="_blank" rel="noopener">台北市教育局 — 學前教育科</a>、<a href="https://www.ece.moe.edu.tw" target="_blank" rel="noopener">教育部幼兒教育及照顧資訊網</a></div>`
+<div class="article-source">資料來源：<a href="https://www.doe.gov.taipei/Content_List.aspx?n=305F9E1B993B9A27" target="_blank" rel="noopener">台北市教育局 — 學前教育科</a>、<a href="https://www.ece.moe.edu.tw" target="_blank" rel="noopener">教育部幼兒教育及照顧資訊網</a></div>`
   },
   'parental-leave': {
     title:'育嬰留職停薪完整懶人包：80%薪資、彈性申請（2026年版）',
     tag:'補助資訊', tagClass:'subsidy', date:'2026-05-10',
     excerpt:'110年7月起加發20%薪資補助，合計可領月薪80%！111年起父母可同時申請，115年起更可以「日」為單位彈性請假。',
     body:`
-<h3>💰 津貼金額：月投保薪資 × 80%</h3>
+<h3>津貼金額：月投保薪資 × 80%</h3>
 <table>
   <tr><th>項目</th><th>計算方式</th></tr>
   <tr><td>育嬰留職停薪津貼</td><td>月投保薪資 × <strong>60%</strong></td></tr>
   <tr><td>政府薪資補助（110年7月起）</td><td>月投保薪資 × <strong>20%</strong>（自動合併發給）</td></tr>
   <tr><td><strong>合計</strong></td><td>月投保薪資 × <strong>80%</strong></td></tr>
 </table>
-<p>💡 月投保薪資以育嬰留停<strong>當月起前6個月</strong>平均月投保薪資計算。</p>
+<p>月投保薪資以育嬰留停<strong>當月起前6個月</strong>平均月投保薪資計算。</p>
 
-<h3>📋 請領資格（三個條件同時符合）</h3>
+<h3>請領資格（三個條件同時符合）</h3>
 <ol>
   <li>就業保險年資合計滿 <strong>1 年</strong>以上</li>
   <li>子女<strong>未滿 3 歲</strong></li>
   <li>已向雇主辦妥<strong>育嬰留職停薪</strong>手續（依性別平等工作法，雇主不得拒絕）</li>
 </ol>
 
-<h3>📅 申請時機</h3>
+<h3>申請時機</h3>
 <table>
   <tr><th>時間點</th><th>事項</th></tr>
   <tr><td>子女出生後</td><td>向雇主提出育嬰留職停薪申請</td></tr>
@@ -1072,33 +1072,33 @@ const ARTICLES = {
   <tr><td>提前復職時</td><td>立即通知勞保局停發</td></tr>
 </table>
 
-<h3>🆕 新制重點</h3>
+<h3>新制重點</h3>
 <ul>
   <li><strong>111年起</strong>：父母可<strong>同時</strong>申請，同一子女父母各請6個月，合計最長 <strong>12 個月</strong></li>
   <li><strong>115年起</strong>：可以<strong>「日」為單位</strong>彈性申請，不超過30日，更適合輪流照顧</li>
   <li>取消不得同時領取托育補助的限制</li>
 </ul>
 
-<h3>📝 申請方式</h3>
+<h3>申請方式</h3>
 <ol>
   <li><strong>線上申辦</strong>（推薦）：<a href="https://edesk.bli.gov.tw/me/" target="_blank" rel="noopener">勞保局 e 化服務系統</a>，使用自然人憑證或行動身分認證</li>
   <li><strong>臨櫃/郵寄</strong>：各地勞保局辦事處，備妥申請書、子女戶口名簿、雇主簽章育嬰留停同意書</li>
 </ol>
 
-<h3>👨 爸爸的陪產假</h3>
+<h3>爸爸的陪產假</h3>
 <p>配偶生產時，爸爸可請陪產假 <strong>7 天</strong>（有薪），需在分娩前後 15 天內使用。</p>
-<div class="warn-box">⚠️ 留停期間<strong>不得另有工作</strong>或參加職業訓練領有津貼，否則需繳回。</div>
-<div class="article-source">📋 資料來源：<a href="https://www.bli.gov.tw/0020785.html" target="_blank" rel="noopener">勞保局育嬰留職停薪津貼 FAQ</a>｜洽詢：(02) 2396-1266</div>`
+<div class="warn-box">留停期間<strong>不得另有工作</strong>或參加職業訓練領有津貼，否則需繳回。</div>
+<div class="article-source">資料來源：<a href="https://www.bli.gov.tw/0020785.html" target="_blank" rel="noopener">勞保局育嬰留職停薪津貼 FAQ</a>｜洽詢：(02) 2396-1266</div>`
   },
   'special-needs': {
     title:'台北市早產兒、身心障礙兒童補助與早期療育資源指南',
     tag:'醫療資訊', tagClass:'medical', date:'2026-05-08',
     excerpt:'早療黃金期在 0–6 歲，越早介入越好！整理台北市早產兒資源、身障補助加碼、低收入戶加碼、早療評估流程。',
     body:`
-<h3>🌱 早期療育（Early Intervention）</h3>
+<h3>早期療育（Early Intervention）</h3>
 <p>針對 0–6 歲發展遲緩或障礙兒童提供評估、訓練、教育等整合服務。及早介入能顯著改善發展成果。</p>
 
-<h3>⚠️ 如何發現孩子需要早療？</h3>
+<h3>如何發現孩子需要早療？</h3>
 <p>若家長觀察到以下情形，建議及時評估：</p>
 <ul>
   <li>6 個月無法追視物體或對聲音無反應</li>
@@ -1108,7 +1108,7 @@ const ARTICLES = {
   <li>行為明顯異常（重複動作、對人缺乏眼神接觸等）</li>
 </ul>
 
-<h3>📋 早療評估流程</h3>
+<h3>早療評估流程</h3>
 <ol>
   <li><strong>通報</strong>：向各縣市「發展遲緩兒童早期療育通報轉介中心」通報（可請小兒科醫師協助）</li>
   <li><strong>聯合評估</strong>：預約醫院「兒童發展聯合評估門診」，由多專科（語言、職能、物理治療師等）共同評估</li>
@@ -1116,15 +1116,15 @@ const ARTICLES = {
   <li><strong>療育服務</strong>：進入早療機構、日間療育、居家療育或融合班</li>
 </ol>
 
-<h3>👶 早產兒相關服務（台北市）</h3>
+<h3>早產兒相關服務（台北市）</h3>
 <ul>
   <li><strong>早產兒定義</strong>：妊娠未滿 37 週出生；出生體重未滿 2,500 克者列為低體重新生兒</li>
   <li><strong>NICU 照護</strong>：健保給付新生兒重症加護住院費用</li>
   <li><strong>早療服務</strong>：6 歲前可申請兒童發展評估，費用由政府補助</li>
 </ul>
-<div class="info-box">💡 台北市目前<strong>無單獨以「早產兒」身分給予的現金補助</strong>，但可透過早療評估取得療育資源，並視是否符合低收入戶加碼。</div>
+<div class="info-box">台北市目前<strong>無單獨以「早產兒」身分給予的現金補助</strong>，但可透過早療評估取得療育資源，並視是否符合低收入戶加碼。</div>
 
-<h3>♿ 身心障礙兒童補助加碼</h3>
+<h3>身心障礙兒童補助加碼</h3>
 <table>
   <tr><th>補助項目</th><th>說明</th></tr>
   <tr><td>托育補助加碼</td><td>身心障礙兒童送托，補助金額提高</td></tr>
@@ -1133,27 +1133,27 @@ const ARTICLES = {
   <tr><td>特殊教育資源</td><td>進入特幼班或接受巡迴輔導</td></tr>
 </table>
 
-<h3>💰 低收入戶 / 中低收入戶加碼（台北市）</h3>
+<h3>低收入戶 / 中低收入戶加碼（台北市）</h3>
 <table>
   <tr><th>身分</th><th>托育補助加碼</th><th>育兒津貼加碼</th></tr>
   <tr><td>低收入戶</td><td>另加 <strong>1,500 元/月</strong></td><td>另加 <strong>1,500 元/月</strong></td></tr>
   <tr><td>中低收入戶</td><td>另加 <strong>750 元/月</strong></td><td>另加 <strong>750 元/月</strong></td></tr>
 </table>
 
-<h3>📋 早療申請流程</h3>
+<h3>早療申請流程</h3>
 <ol>
   <li>向各縣市<strong>發展遲緩兒童早期療育通報轉介中心</strong>通報（可請小兒科醫師協助）</li>
   <li>預約<strong>兒童發展聯合評估門診</strong>（台北市立聯合醫院、台大、榮總等）</li>
   <li>依評估結果制定個別化療育計畫，進入早療機構、居家療育或融合班</li>
 </ol>
-<div class="article-source">📋 資料來源：<a href="https://born.taipei" target="_blank" rel="noopener">born.taipei 生育資源網</a>｜洽詢：台北市早療通報 (02) 2523-3648 / 1999</div>`
+<div class="article-source">資料來源：<a href="https://born.taipei" target="_blank" rel="noopener">born.taipei 生育資源網</a>｜洽詢：台北市早療通報 (02) 2523-3648 / 1999</div>`
   },
   'subsidy-q2-2026': {
     title:'衛福部公告：115 年度第二季育兒補助撥款時程',
     tag:'補助資訊', tagClass:'subsidy', date:'2026-05-19',
     excerpt:'衛生福利部公告 115 年（2026）第二季育兒補助預計撥款日期，符合資格者請確認帳戶資料正確。',
     body:`
-<h3>📅 撥款時程公告</h3>
+<h3>撥款時程公告</h3>
 <p>衛生福利部社家署公告 115 年第二季（4–6 月）育兒補助撥款如下：</p>
 <table>
   <tr><th>補助項目</th><th>撥款日期</th><th>說明</th></tr>
@@ -1162,28 +1162,28 @@ const ARTICLES = {
   <tr><td>準公共托育補助（4月份）</td><td>5 月 20 日</td><td>機構核對後撥</td></tr>
   <tr><td>準公共托育補助（5月份）</td><td>6 月 20 日</td><td>機構核對後撥</td></tr>
 </table>
-<div class="info-box">💡 若已核定但尚未收到款項，請先確認帳戶資料是否正確，再洽詢戶籍地社會局。</div>
+<div class="info-box">若已核定但尚未收到款項，請先確認帳戶資料是否正確，再洽詢戶籍地社會局。</div>
 
-<h3>❗ 常見問題</h3>
+<h3>常見問題</h3>
 <ul>
   <li><strong>遲未收到撥款</strong>：先至社福平台查核核定狀態，再聯絡當地社會局</li>
   <li><strong>帳戶資料更改</strong>：需至原申請單位辦理帳戶變更，變更後約需一個月才能生效</li>
   <li><strong>資格中斷</strong>：若送托方式改變（如自行照顧改送托），需重新申請對應補助</li>
 </ul>
 
-<h3>📞 諮詢管道</h3>
+<h3>諮詢管道</h3>
 <ul>
   <li>衛福部 1925 福利諮詢專線（每日 8:00–20:00）</li>
   <li>各縣市社會局／公所社福服務中心</li>
 </ul>
-<div class="article-source">📋 資料來源：<a href="https://www.mohw.gov.tw" target="_blank" rel="noopener">衛生福利部官方網站</a></div>`
+<div class="article-source">資料來源：<a href="https://www.mohw.gov.tw" target="_blank" rel="noopener">衛生福利部官方網站</a></div>`
   },
   'parenting-course': {
     title:'台北市家庭教育中心 2026 年親子教養課程報名資訊',
     tag:'教育資源', tagClass:'education', date:'2026-05-19',
     excerpt:'台北市家庭教育中心開放報名多場親子教養課程，主題涵蓋情緒管理、親子溝通、嬰幼兒發展，全程免費。',
     body:`
-<h3>🎓 課程亮點</h3>
+<h3>課程亮點</h3>
 <p>台北市家庭教育中心（台北市各區均有設點）定期開辦免費親職教育課程，2026年下半年主要課程：</p>
 <ul>
   <li><strong>嬰幼兒安全依附關係建立</strong>（適合 0–2 歲家長，共 2 堂）</li>
@@ -1193,40 +1193,40 @@ const ARTICLES = {
   <li><strong>手足爭吵怎麼辦？二寶家庭教養策略</strong>（適合多子女家庭，共 2 堂）</li>
 </ul>
 
-<h3>📝 報名方式</h3>
+<h3>報名方式</h3>
 <ol>
   <li>至台北市家庭教育中心官網查閱最新課表</li>
   <li>線上報名（需台北市民登入）或電話報名</li>
   <li>課程約 2 週前發送確認通知</li>
   <li>可攜帶子女（部分場次有托育服務）</li>
 </ol>
-<div class="info-box">💡 課程全程免費，且提供免費托育（需事先報名），讓家長安心學習。</div>
+<div class="info-box">課程全程免費，且提供免費托育（需事先報名），讓家長安心學習。</div>
 
-<h3>📞 洽詢資訊</h3>
+<h3>洽詢資訊</h3>
 <ul>
   <li>台北市家庭教育中心：(02) 2361-3123</li>
   <li>官網：<a href="https://www.familyedu.taipei" target="_blank" rel="noopener">familyedu.taipei</a></li>
   <li>課表每月更新，建議訂閱電子報獲取最新資訊</li>
 </ul>
-<div class="article-source">📋 資料來源：台北市家庭教育中心</div>`
+<div class="article-source">資料來源：台北市家庭教育中心</div>`
   },
   'enterovirus-2026': {
     title:'疾管署提醒：2026 年腸病毒疫情進入高峰期，家長必知防護要點',
     tag:'醫療資訊', tagClass:'medical', date:'2026-05-18',
     excerpt:'每年 4–9 月為腸病毒高峰期，5 歲以下兒童為高危險群。了解症狀、傳染途徑與預防方法，保護寶寶健康。',
     body:`
-<h3>⚠️ 2026 年疫情概況</h3>
+<h3>2026 年疫情概況</h3>
 <p>疾病管制署監測顯示，2026 年腸病毒就診人次自 4 月起持續上升，已達流行期標準。主要流行型別為腸病毒 71 型（EV71）及克沙奇 A16 型，重症風險以 5 歲以下幼童最高。</p>
 
-<h3>🦠 什麼是腸病毒？常見症狀</h3>
+<h3>什麼是腸病毒？常見症狀</h3>
 <p>腸病毒包括多種型別，最常見症狀：</p>
 <ul>
   <li><strong>手足口病</strong>：手、腳、口腔、臀部出現紅疹或水泡，發燒 1–2 天</li>
   <li><strong>疱疹性咽峽炎</strong>：口腔後方出現水泡潰瘍，高燒、吞嚥困難</li>
 </ul>
-<div class="warn-box">🚨 <strong>重症前兆，立即就醫：</strong>持續高燒（超過 39℃）、嗜睡、意識不清、肌肉抽搐、心跳加速、呼吸急促。這些症狀可能表示病毒侵犯腦部或心臟，必須立即送急診。</div>
+<div class="warn-box"><strong>重症前兆，立即就醫：</strong>持續高燒（超過 39℃）、嗜睡、意識不清、肌肉抽搐、心跳加速、呼吸急促。這些症狀可能表示病毒侵犯腦部或心臟，必須立即送急診。</div>
 
-<h3>🛡 預防方法</h3>
+<h3>預防方法</h3>
 <ol>
   <li><strong>勤洗手</strong>：飯前、如廁後、接觸兒童前，以肥皂洗手 20 秒以上</li>
   <li><strong>避免接觸</strong>：生病兒童居家隔離，避免上學或去公共場所</li>
@@ -1235,16 +1235,16 @@ const ARTICLES = {
   <li><strong>接種疫苗</strong>：EV71 疫苗可有效預防腸病毒 71 型重症，建議 6 個月–6 歲兒童接種（自費，約 4,000–5,000 元/2 劑）</li>
 </ol>
 
-<h3>🏫 托嬰中心與幼兒園防疫</h3>
+<h3>托嬰中心與幼兒園防疫</h3>
 <p>機構若發現群聚案例（同一班級 7 天內 2 名以上），需通報衛生局並依指示停班。家長如發現孩子有類似症狀，請主動向機構告知。</p>
-<div class="article-source">📋 資料來源：<a href="https://www.cdc.gov.tw" target="_blank" rel="noopener">衛生福利部疾病管制署</a></div>`
+<div class="article-source">資料來源：<a href="https://www.cdc.gov.tw" target="_blank" rel="noopener">衛生福利部疾病管制署</a></div>`
   },
   'parental-leave-update': {
     title:'育嬰留職停薪給付申辦流程 2026 年更新版',
     tag:'補助資訊', tagClass:'subsidy', date:'2026-05-18',
     excerpt:'勞動部更新育嬰留職停薪給付申辦線上流程，2026年起可全程網路辦理，不需親自跑勞保局。',
     body:`
-<h3>🆕 2026 年流程更新重點</h3>
+<h3>2026 年流程更新重點</h3>
 <ul>
   <li>全程線上申請，不需至勞保局臨櫃</li>
   <li>開放「彈性育嬰假」：可以日為單位請假，最長 30 日</li>
@@ -1252,7 +1252,7 @@ const ARTICLES = {
   <li>支援手機 APP 查詢核定狀態</li>
 </ul>
 
-<h3>📋 線上申請步驟</h3>
+<h3>線上申請步驟</h3>
 <ol>
   <li>登入「勞保局 e 化服務系統」（edesk.bli.gov.tw）</li>
   <li>使用自然人憑證、健保卡或 TWFIDO 免密碼登入</li>
@@ -1261,25 +1261,25 @@ const ARTICLES = {
   <li>上傳出生證明或戶口名簿掃描檔</li>
   <li>確認撥款帳戶並送出</li>
 </ol>
-<div class="info-box">💡 申請時間建議：育嬰期間開始後 2 年內均可申請，但建議在留停開始後 30 天內提出，以免影響撥款時程。</div>
+<div class="info-box">申請時間建議：育嬰期間開始後 2 年內均可申請，但建議在留停開始後 30 天內提出，以免影響撥款時程。</div>
 
-<h3>💰 給付計算方式</h3>
+<h3>給付計算方式</h3>
 <p>給付金額 = 勞保投保薪資 × 80%，最長給付 6 個月（分兩段請可各申請一次）。</p>
 <p>例：月薪 35,000 元 → 投保薪資 36,300 元 → 每月領取 29,040 元。</p>
 
-<h3>📞 申辦諮詢</h3>
+<h3>申辦諮詢</h3>
 <ul>
   <li>勞保局：(02) 2396-1266</li>
   <li>網站：<a href="https://www.bli.gov.tw" target="_blank" rel="noopener">www.bli.gov.tw</a></li>
 </ul>
-<div class="article-source">📋 資料來源：<a href="https://www.bli.gov.tw" target="_blank" rel="noopener">勞動部勞工保險局</a></div>`
+<div class="article-source">資料來源：<a href="https://www.bli.gov.tw" target="_blank" rel="noopener">勞動部勞工保險局</a></div>`
   },
   'kindergarten-2025': {
     title:'各縣市公立幼兒園 114 學年度招生名單公告',
     tag:'教育資源', tagClass:'education', date:'2026-05-17',
     excerpt:'教育部公告 114 學年度各縣市公立幼兒園招生名單與缺額，家長可依戶籍地查詢就近學校並安排報名。',
     body:`
-<h3>📋 招生重要時程（以台北市為例）</h3>
+<h3>招生重要時程（以台北市為例）</h3>
 <table>
   <tr><th>時程</th><th>說明</th></tr>
   <tr><td>3 月下旬</td><td>教育局公告招生簡章與名單</td></tr>
@@ -1290,30 +1290,30 @@ const ARTICLES = {
   <tr><td>8 月下旬</td><td>家長親師說明會</td></tr>
   <tr><td>9 月 1 日</td><td>開學</td></tr>
 </table>
-<div class="info-box">💡 公立幼兒園優先錄取條件：低收入戶、身心障礙兒童、原住民兒童、弱勢家庭優先，其餘以抽籤決定。</div>
+<div class="info-box">公立幼兒園優先錄取條件：低收入戶、身心障礙兒童、原住民兒童、弱勢家庭優先，其餘以抽籤決定。</div>
 
-<h3>🔍 如何查詢各校缺額</h3>
+<h3>如何查詢各校缺額</h3>
 <ol>
   <li>至各縣市教育局官網查詢幼兒園招生缺額</li>
   <li>台北市可至「台北市公私立幼兒園招生平台」</li>
   <li>依孩子出生年月日確認是否符合入學年齡（當學年度滿 2 歲、3 歲、4 歲、5 歲之兒童）</li>
 </ol>
 
-<h3>🏫 若未錄取怎麼辦？</h3>
+<h3>若未錄取怎麼辦？</h3>
 <ul>
   <li>列入候補等待缺額釋出（建議掌握通知管道）</li>
   <li>申請非營利幼兒園（費用略高，但品質有政府監督）</li>
   <li>選擇已簽約的「準公共幼兒園」，可享政府補助</li>
 </ul>
-<div class="article-source">📋 資料來源：<a href="https://www.doe.gov.taipei" target="_blank" rel="noopener">台北市教育局</a>、<a href="https://www.ece.moe.edu.tw" target="_blank" rel="noopener">教育部幼兒教育資訊網</a></div>`
+<div class="article-source">資料來源：<a href="https://www.doe.gov.taipei" target="_blank" rel="noopener">台北市教育局</a>、<a href="https://www.ece.moe.edu.tw" target="_blank" rel="noopener">教育部幼兒教育資訊網</a></div>`
   },
   'subsidy-compare': {
     title:'育兒津貼 vs 托育補助：哪一個更適合你的家庭？',
     tag:'補助資訊', tagClass:'subsidy', date:'2026-05-01',
     excerpt:'育兒津貼每月最高 7,000 元、托育補助最高 22,000 元，兩者不可同領。本文用表格幫你快速判斷選哪個更划算。',
     body:`
-<h3>🔢 核心差異一覽（113年新制）</h3>
-<div class="warn-box">⚠️ 育兒津貼與托育補助<strong>每月只能擇一領取</strong>，不可同時申請。</div>
+<h3>核心差異一覽（113年新制）</h3>
+<div class="warn-box">育兒津貼與托育補助<strong>每月只能擇一領取</strong>，不可同時申請。</div>
 <table>
   <tr><th>項目</th><th>育兒津貼（自行照顧）</th><th>準公共托育補助</th></tr>
   <tr><td>第1胎月金額</td><td><strong>5,000 元</strong></td><td><strong>13,000 元</strong></td></tr>
@@ -1324,7 +1324,7 @@ const ARTICLES = {
   <tr><td>申請難度</td><td>較簡單（線上或公所辦）</td><td>需找到合約機構</td></tr>
 </table>
 
-<h3>💡 決策指引</h3>
+<h3>決策指引</h3>
 <p><strong>選育兒津貼的情況：</strong></p>
 <ul>
   <li>家中有人（爸媽/祖父母）全職在家帶孩子</li>
@@ -1337,25 +1337,25 @@ const ARTICLES = {
   <li>當地有合格的準公共保母或托嬰中心</li>
   <li>月托育費用超過 7,000 元（幾乎一定如此）</li>
 </ul>
-<div class="warn-box">⚠️ 計算建議：先查詢您所在縣市的準公共托育費用，再扣除可獲得的補助金額，與育兒津貼 7,000 元比較，哪個實際自付額較低即選哪個。</div>
+<div class="warn-box">計算建議：先查詢您所在縣市的準公共托育費用，再扣除可獲得的補助金額，與育兒津貼 7,000 元比較，哪個實際自付額較低即選哪個。</div>
 
-<h3>📊 實際試算範例（台北市準公共托嬰中心）</h3>
+<h3>實際試算範例（台北市準公共托嬰中心）</h3>
 <p>假設：準公共托嬰中心月費 25,000 元，第 1 胎</p>
 <table>
   <tr><th>選擇</th><th>每月補助</th><th>每月自付</th><th>其他考量</th></tr>
   <tr><td>準公共托育補助</td><td>13,000 元</td><td><strong>12,000 元</strong></td><td>爸媽可繼續上班，雙薪收入</td></tr>
   <tr><td>育兒津貼（自行照顧）</td><td>5,000 元</td><td>—</td><td>需一方辭職或留職停薪，少一份薪資</td></tr>
 </table>
-<p>💡 <strong>結論</strong>：若需維持雙薪，送托並搭配準公共補助通常更划算；若家中已有人全職照顧，育兒津貼較無負擔。</p>
-<div class="info-box">💡 滿2歲後準公共補助可延長至未滿3歲，期間繼續領取，無縫銜接幼兒園。</div>
-<div class="article-source">📋 資料來源：<a href="https://www.mohw.gov.tw/cp-5130-58003-1.html" target="_blank" rel="noopener">衛生福利部 — 未滿2歲幼兒照顧政策</a>｜洽詢：1957 福利諮詢專線</div>`
+<p><strong>結論</strong>：若需維持雙薪，送托並搭配準公共補助通常更划算；若家中已有人全職照顧，育兒津貼較無負擔。</p>
+<div class="info-box">滿2歲後準公共補助可延長至未滿3歲，期間繼續領取，無縫銜接幼兒園。</div>
+<div class="article-source">資料來源：<a href="https://www.mohw.gov.tw/cp-5130-58003-1.html" target="_blank" rel="noopener">衛生福利部 — 未滿2歲幼兒照顧政策</a>｜洽詢：1957 福利諮詢專線</div>`
   },
   'preventive-health': {
     title:'0-6 歲兒童 7 次免費預防保健服務完整時程（含2024年新增發展篩檢）',
     tag:'醫療資訊', tagClass:'medical', date:'2026-05-01',
     excerpt:'國健署補助 7 次免費健兒門診，2024年7月起再加 6 次發展篩檢，早期發現遲緩！攜帶兒童健康手冊，免部分負擔。',
     body:`
-<h3>🏥 7 次健兒門診時程（出生至 84 個月）</h3>
+<h3>7 次健兒門診時程（出生至 84 個月）</h3>
 <table>
   <tr><th>次數</th><th>年齡區間</th><th>檢查重點</th></tr>
   <tr><td>第 1 次</td><td>出生至滿1個月</td><td>新生兒身體檢查、聽力篩檢、黃疸評估</td></tr>
@@ -1367,10 +1367,10 @@ const ARTICLES = {
   <tr><td>第 7 次</td><td>滿48個月至滿84個月</td><td>上學前整體評估、視力、聽力精細測驗</td></tr>
 </table>
 
-<h3>🆕 2024年7月新增：6 次兒童發展篩檢</h3>
+<h3>2024年7月新增：6 次兒童發展篩檢</h3>
 <p>與健兒門診整合，使用標準化篩檢量表，早期發現：粗細動作、語言溝通、社會性發展遲緩。<strong>完全免費</strong>，僅需掛號費。</p>
 
-<h3>📌 每次健檢涵蓋內容</h3>
+<h3>每次健檢涵蓋內容</h3>
 <ul>
   <li><strong>生長評估</strong>：身高、體重、頭圍（繪製生長曲線）</li>
   <li><strong>身體檢查</strong>：聽力、眼睛（斜弱視篩檢）、口腔、皮膚</li>
@@ -1378,36 +1378,36 @@ const ARTICLES = {
   <li><strong>衛教指導</strong>：母乳哺育、輔食添加、口腔保健、事故傷害預防</li>
 </ul>
 
-<h3>📌 如何使用</h3>
+<h3>如何使用</h3>
 <ol>
   <li>全國約 <strong>3,540 家</strong>健保特約醫療院所（設有兒科或家庭醫學科）可進行，免部分負擔</li>
   <li>攜帶：<strong>兒童健康手冊</strong> + 健保卡</li>
   <li>若發現發展遲緩，醫師當場轉介早療資源，完全免費</li>
 </ol>
-<div class="article-source">📋 資料來源：<a href="https://www.hpa.gov.tw/Pages/List.aspx?nodeid=202" target="_blank" rel="noopener">國民健康署 — 兒童免費健康檢查查詢</a>｜諮詢：0800-000-922</div>`
+<div class="article-source">資料來源：<a href="https://www.hpa.gov.tw/Pages/List.aspx?nodeid=202" target="_blank" rel="noopener">國民健康署 — 兒童免費健康檢查查詢</a>｜諮詢：0800-000-922</div>`
   },
   'birth-bonus': {
     title:'台北市生育獎勵金申請完整教學（114年9月新制）',
     tag:'補助資訊', tagClass:'subsidy', date:'2026-05-20',
     excerpt:'台北市生育獎勵金 114年9月起實施新制，第1胎 4 萬、第2胎 4.5 萬、第3胎 5 萬，出生後 60 天內辦登記同步申請。',
     body:`
-<h3>💰 台北市生育獎勵金金額（114年9月9日新制）</h3>
+<h3>台北市生育獎勵金金額（114年9月9日新制）</h3>
 <table>
   <tr><th>胎次</th><th>獎勵金額</th></tr>
   <tr><td>第 1 名（第一個孩子）</td><td><strong>4 萬元</strong></td></tr>
   <tr><td>第 2 名（第二個孩子）</td><td><strong>4.5 萬元</strong></td></tr>
   <tr><td>第 3 名（含）以後</td><td><strong>5 萬元</strong></td></tr>
 </table>
-<div class="warn-box">⚠️ 各縣市金額不同，本文以台北市為主。申請前請至戶籍地縣市政府官網確認最新金額。</div>
+<div class="warn-box">各縣市金額不同，本文以台北市為主。申請前請至戶籍地縣市政府官網確認最新金額。</div>
 
-<h3>📋 申請資格（兩個條件需同時符合）</h3>
+<h3>申請資格（兩個條件需同時符合）</h3>
 <ol>
   <li><strong>設籍條件</strong>：新生兒之父或母其中一方，自新生兒<strong>出生日起往前 10 個月</strong>至提出申請時，應連續設籍台北市（可併計新北市、基隆市設籍時間）</li>
   <li><strong>申請當下</strong>：符合設籍條件的父或母，申請時須設籍台北市</li>
 </ol>
-<div class="info-box">💡 曾遷往台北市、新北市、基隆市以外其他縣市或國外，均視為設籍中斷，不符資格。</div>
+<div class="info-box">曾遷往台北市、新北市、基隆市以外其他縣市或國外，均視為設籍中斷，不符資格。</div>
 
-<h3>📅 申請時間（務必把握！）</h3>
+<h3>申請時間（務必把握！）</h3>
 <table>
   <tr><th>情形</th><th>截止期限</th></tr>
   <tr><td>國內出生新生兒</td><td>出生日次日起 <strong>60 日內</strong></td></tr>
@@ -1415,25 +1415,25 @@ const ARTICLES = {
   <tr><td>核准後</td><td>10 日內匯入申請帳戶</td></tr>
 </table>
 
-<h3>📝 申請方式（一站辦理）</h3>
+<h3>申請方式（一站辦理）</h3>
 <p>辦理新生兒出生登記時，至<strong>台北市任一區戶政事務所</strong>同步提出申請，免跑兩趟。</p>
 <p><strong>應備文件：</strong>申請人身分證明、印章（或簽名）、<strong>新生兒母親金融帳戶存摺影本</strong>（獎勵金匯入此帳戶）</p>
 
-<h3>🎁 可同時申請的其他台北市補助</h3>
+<h3>可同時申請的其他台北市補助</h3>
 <table>
   <tr><th>補助項目</th><th>說明</th></tr>
   <tr><td>台北市兒童醫療補助</td><td>0～未滿6歲急診掛號費、住院補助</td></tr>
   <tr><td>輪狀病毒疫苗接種補助</td><td>台北市自費疫苗加碼</td></tr>
   <tr><td>腸病毒71型疫苗補助</td><td>台北市自費疫苗加碼</td></tr>
 </table>
-<div class="article-source">📋 資料來源：<a href="https://born.taipei/cp.aspx?n=4BB21D19B8E70CE0" target="_blank" rel="noopener">助您好孕 — 生育獎勵金（114年9月新制）</a>｜洽詢：1999 分機 6269</div>`
+<div class="article-source">資料來源：<a href="https://born.taipei/cp.aspx?n=4BB21D19B8E70CE0" target="_blank" rel="noopener">助您好孕 — 生育獎勵金（114年9月新制）</a>｜洽詢：1999 分機 6269</div>`
   },
   'daycare-guide': {
     title:'台北市托嬰中心申請指南：公托 vs 準公共費用比較（2026年）',
     tag:'教育資源', tagClass:'education', date:'2026-04-20',
     excerpt:'台北市托育補助第1胎最高13,000元、第3胎起18,000元，全面不排富！但公托名額少，出生後就要排！',
     body:`
-<h3>🏠 台北市三種托育類型</h3>
+<h3>台北市三種托育類型</h3>
 <table>
   <tr><th>類型</th><th>自付費用（扣補助後，第1胎）</th><th>特色</th></tr>
   <tr><td>公辦民營托嬰中心</td><td>約 <strong>3,000–8,000 元/月</strong></td><td>政府委託，收費有上限</td></tr>
@@ -1441,7 +1441,7 @@ const ARTICLES = {
   <tr><td>準公共托嬰中心 / 居家保母</td><td>約 <strong>8,000–15,000 元/月</strong></td><td>彈性大，補助最高</td></tr>
 </table>
 
-<h3>💰 托育補助金額（2026年，全面不排富）</h3>
+<h3>托育補助金額（2026年，全面不排富）</h3>
 <table>
   <tr><th>子女別</th><th>公辦民營托嬰中心</th><th>社區托育家園</th><th>準公共托嬰/保母</th></tr>
   <tr><td>第 1 胎</td><td>9,500 元/月</td><td>11,000 元/月</td><td><strong>13,000 元/月</strong></td></tr>
@@ -1449,16 +1449,16 @@ const ARTICLES = {
   <tr><td>第 3 胎以上</td><td>11,000 元/月</td><td>14,500 元/月</td><td><strong>18,000 元/月</strong></td></tr>
 </table>
 
-<h3>📋 公托申請流程</h3>
+<h3>公托申請流程</h3>
 <ol>
   <li>寶寶<strong>出生後即可上網登記候補</strong>（不需等到送托年齡）</li>
   <li>至<a href="https://born.taipei/cp.aspx?n=EC88D691979459F6" target="_blank" rel="noopener">台北市公托線上報名系統</a>登記，資格：父或母設籍台北市、寶寶滿2個月</li>
   <li>依順序排隊等候，自動保留候補資格，不需每年重新申請</li>
   <li>接到通知後確認入托 → 申請托育補助（補助直接撥付）</li>
 </ol>
-<div class="warn-box">⚠️ 公托名額少、等待時間長，<strong>強烈建議同步申請準公共保母</strong>，不要只等公托！</div>
+<div class="warn-box">公托名額少、等待時間長，<strong>強烈建議同步申請準公共保母</strong>，不要只等公托！</div>
 
-<h3>✅ 挑選托嬰中心5大指標</h3>
+<h3>挑選托嬰中心5大指標</h3>
 <ul>
   <li><strong>合法登記</strong>：至社家署<a href="https://ncwisweb.sfaa.gov.tw" target="_blank" rel="noopener">托育媒合平台</a>確認設立許可，師生比不超過 1:5</li>
   <li><strong>環境安全</strong>：防滑地墊、逃生標示、監視器覆蓋（家長可查閱）</li>
@@ -1466,14 +1466,14 @@ const ARTICLES = {
   <li><strong>溝通機制</strong>：每日 APP/聯絡簿回報、異常即時通知</li>
   <li><strong>到訪觀察</strong>：送托前至少到訪 2–3 次（含非預約時段）</li>
 </ul>
-<div class="article-source">📋 資料來源：<a href="https://born.taipei" target="_blank" rel="noopener">台北市 born.taipei 生育資源網</a>｜洽詢：台北市社會局 (02) 2721-9898</div>`
+<div class="article-source">資料來源：<a href="https://born.taipei" target="_blank" rel="noopener">台北市 born.taipei 生育資源網</a>｜洽詢：台北市社會局 (02) 2721-9898</div>`
   },
   'pregnancy-care': {
     title:'孕媽咪必看！0 到 42 週孕期完整指南：產檢、飲食、情緒、待產',
     tag:'醫療資訊', tagClass:'medical', date:'2026-06-01',
     excerpt:'三孕期身體變化、14次公費產檢時程、羊膜穿刺說明、妊娠糖尿篩檢、待產包清單、情緒調適，從看見兩條線到安心生產一篇全搞定。',
     body:`
-<h3>🔵 第一孕期（第 1～12 週）</h3>
+<h3>第一孕期（第 1～12 週）</h3>
 <table>
 <tr><th>週數</th><th>媽媽狀況</th><th>寶寶發育</th></tr>
 <tr><td>1-4 週</td><td>可能無感，月經遲到</td><td>受精卵著床</td></tr>
@@ -1488,7 +1488,7 @@ const ARTICLES = {
 <tr><td>第 11-13 週</td><td>頸部透明帶（NT）＋ 早期唐氏症篩檢</td><td>自費 2,500～5,000 元</td></tr>
 <tr><td>第 10 週後</td><td>NIPT 非侵入性染色體篩檢（高齡或有需求者）</td><td>自費 15,000～28,000 元</td></tr>
 </table>
-<div class="info-box">✅ <strong>第一孕期行動清單</strong><br>
+<div class="info-box"><strong>第一孕期行動清單</strong><br>
 1. 驗到兩條線 → 安排婦產科初診（約 6-8 週確認心跳）<br>
 2. 告知雇主懷孕 → 申請<strong>產檢假</strong>（整個孕期共 7 天全薪假）<br>
 3. 領取<strong>孕婦健康手冊</strong>（各衛生所、醫院皆可領）<br>
@@ -1496,7 +1496,7 @@ const ARTICLES = {
 5. 避免：X 光、貓砂（弓形蟲）、未煮熟食物、酒精、菸
 </div>
 
-<h3>🟡 第二孕期（第 13～27 週）</h3>
+<h3>第二孕期（第 13～27 週）</h3>
 <table>
 <tr><th>週數</th><th>媽媽狀況</th><th>寶寶發育</th></tr>
 <tr><td>13-16 週</td><td>孕吐消退，<strong>最舒適階段</strong></td><td>外生殖器發育，可知性別（16-20 週）</td></tr>
@@ -1511,8 +1511,8 @@ const ARTICLES = {
 <tr><td>第 20-24 週</td><td><strong>高層次超音波</strong>（胎兒全身器官結構篩檢）</td><td>公費 1 次，自費加做 3,500～6,000 元</td></tr>
 <tr><td>第 24-28 週</td><td><strong>妊娠糖尿病篩檢</strong>（75g 口服葡萄糖耐受試驗）</td><td>公費</td></tr>
 </table>
-<div class="info-box">💉 <strong>羊膜穿刺重點：</strong>準確度 &gt;99%｜最佳時機第 16-18 週｜流產率約 0.1%（1/1000）｜結果約 2-3 週</div>
-<div class="info-box">✅ <strong>第二孕期行動清單</strong><br>
+<div class="info-box"><strong>羊膜穿刺重點：</strong>準確度 &gt;99%｜最佳時機第 16-18 週｜流產率約 0.1%（1/1000）｜結果約 2-3 週</div>
+<div class="info-box"><strong>第二孕期行動清單</strong><br>
 1. 安排<strong>高層次超音波</strong>（建議至醫學中心）<br>
 2. 評估是否需要羊膜穿刺（與醫師討論）<br>
 3. 開始購置嬰兒用品（第二孕期最舒適，適合採購）<br>
@@ -1520,7 +1520,7 @@ const ARTICLES = {
 5. 儘早預約<strong>托嬰中心/保母</strong>（熱門機構需排隊）
 </div>
 
-<h3>🔴 第三孕期（第 28～40 週）</h3>
+<h3>第三孕期（第 28～40 週）</h3>
 <table>
 <tr><th>週數</th><th>媽媽狀況</th><th>寶寶發育</th></tr>
 <tr><td>28-32 週</td><td>呼吸不順、胃食道逆流、頻尿</td><td>皮下脂肪開始累積</td></tr>
@@ -1534,12 +1534,12 @@ const ARTICLES = {
 <tr><td>第 35-37 週</td><td><strong>乙型鏈球菌（GBS）篩檢</strong></td><td>公費</td></tr>
 <tr><td>第 36 週後</td><td>每週 1 次產檢 ＋ 胎兒監測（NST）</td><td>公費</td></tr>
 </table>
-<p><strong>📦 待產包清單：</strong></p>
+<p><strong>待產包清單：</strong></p>
 <ul>
 <li><strong>媽媽用品：</strong>孕婦健康手冊、健保卡、身分證、哺乳胸罩（2-3件）、月子服、個人衛生用品、產後護墊、拖鞋、充電器</li>
 <li><strong>寶寶用品：</strong>新生兒包巾（2-3條）、NB 連身衣（3-5件）、紙尿褲 NB 號（1-2包，勿囤貨）、棉柔巾、濕紙巾</li>
 </ul>
-<div class="info-box">✅ <strong>第三孕期行動清單</strong><br>
+<div class="info-box"><strong>第三孕期行動清單</strong><br>
 1. 決定<strong>生產醫院</strong>與生產方式<br>
 2. 安排<strong>坐月子方式</strong>（月子中心請提早 3-6 個月預約）<br>
 3. 確認<strong>育嬰假</strong>申請時程（與雇主溝通）<br>
@@ -1547,7 +1547,7 @@ const ARTICLES = {
 5. 選好<strong>兒科醫師</strong>（出生後首次健檢用）
 </div>
 
-<h3>🥗 孕期飲食重點</h3>
+<h3>孕期飲食重點</h3>
 <table>
 <tr><th>關鍵營養素</th><th>食物來源</th><th>注意事項</th></tr>
 <tr><td>葉酸</td><td>深綠蔬菜、補充品</td><td>早期最重要，400-800mcg/日</td></tr>
@@ -1555,9 +1555,9 @@ const ARTICLES = {
 <tr><td>鈣質</td><td>牛奶、小魚乾、豆類</td><td>整個孕期 1000mg/日</td></tr>
 <tr><td>DHA</td><td>鮭魚、鯖魚（低汞）</td><td>避免大型魚（鮪魚、旗魚、鯊魚）</td></tr>
 </table>
-<div class="warn-box">🚫 <strong>孕期禁忌：</strong>生魚片、未熟肉類、高汞魚、酒精（任何量都應避免）、咖啡因 &gt;200mg/日、貓砂（弓形蟲）</div>
+<div class="warn-box"><strong>孕期禁忌：</strong>生魚片、未熟肉類、高汞魚、酒精（任何量都應避免）、咖啡因 &gt;200mg/日、貓砂（弓形蟲）</div>
 
-<h3>💛 情緒調適與另一半的角色</h3>
+<h3>情緒調適與另一半的角色</h3>
 <table>
 <tr><th>孕期</th><th>常見情緒</th><th>建議做法</th></tr>
 <tr><td>初期</td><td>焦慮（怕流產）、孕吐難受</td><td>告知親近的人，獲得支持</td></tr>
@@ -1567,7 +1567,7 @@ const ARTICLES = {
 </table>
 <p>另一半：陪產假 <strong>7 天全薪</strong>（可分次使用）；夜間輪班、採購嬰兒用品、積極傾聽孕婦的擔憂。</p>
 
-<h3>⚠️ 立即就醫的警示症狀</h3>
+<h3>立即就醫的警示症狀</h3>
 <div class="warn-box">
 • 陰道出血或大量異常分泌物<br>
 • 劇烈腹痛或規則性宮縮<br>
@@ -1576,14 +1576,14 @@ const ARTICLES = {
 • 破水（透明或淡黃色液體持續流出）<br>
 • 超過第 42 週仍未生產 → 需與醫師討論引產
 </div>
-<div class="article-source">📋 資料來源：<a href="https://www.hpa.gov.tw/Pages/EBook.aspx?nodeid=1142" target="_blank" rel="noopener">國民健康署孕婦健康手冊</a>、<a href="https://mammy.hpa.gov.tw/" target="_blank" rel="noopener">衛福部孕產兒關懷網站</a>、<a href="https://faqs.tw/prenatal-checkup" target="_blank" rel="noopener">產檢時程完整指南</a>｜孕婦免費諮詢：<strong>0800-870-870</strong></div>`
+<div class="article-source">資料來源：<a href="https://www.hpa.gov.tw/Pages/EBook.aspx?nodeid=1142" target="_blank" rel="noopener">國民健康署孕婦健康手冊</a>、<a href="https://mammy.hpa.gov.tw/" target="_blank" rel="noopener">衛福部孕產兒關懷網站</a>、<a href="https://faqs.tw/prenatal-checkup" target="_blank" rel="noopener">產檢時程完整指南</a>｜孕婦免費諮詢：<strong>0800-870-870</strong></div>`
   },
 
   'baby-food': {
     title:'寶寶副食品完全攻略：4個月到2歲食譜 × 時程 × 禁忌',
     tag:'醫療資訊', tagClass:'medical', date:'2026-05-25',
     excerpt:'什麼時候開始吃副食品？怎麼做？哪些不能吃？從泥狀到固體食物完整進度說明，附食譜推薦。',
-    body:`<h3>🍼 何時開始副食品？</h3>
+    body:`<h3>何時開始副食品？</h3>
 <div class="info-box">
 <strong>建議時機：滿 4-6 個月</strong>（純母乳寶寶建議 6 個月）<br>
 <strong>準備好的跡象：</strong><br>
@@ -1592,7 +1592,7 @@ const ARTICLES = {
 • 舌頭反射消失（不再把食物推出來）<br>
 • 體重達出生時的兩倍以上
 </div>
-<h3>📅 副食品進程時間表</h3>
+<h3>副食品進程時間表</h3>
 <table>
 <tr><th>月齡</th><th>質地</th><th>每日次數</th><th>推薦食物</th></tr>
 <tr><td>4-6 個月</td><td>細滑泥狀</td><td>1 次</td><td>米糊、南瓜泥、地瓜泥、蘋果泥</td></tr>
@@ -1600,7 +1600,7 @@ const ARTICLES = {
 <tr><td>10-12 個月</td><td>小塊軟食</td><td>3 次</td><td>可嘗試軟飯、麵條、碎肉、全蛋</td></tr>
 <tr><td>1-2 歲</td><td>家庭食物（調整版）</td><td>3 餐 + 2 點心</td><td>大部分食物均可，少鹽少糖</td></tr>
 </table>
-<h3>🚫 副食品禁忌食物</h3>
+<h3>副食品禁忌食物</h3>
 <div class="warn-box">
 <strong>1歲前絕對禁止：</strong><br>
 • 蜂蜜（肉毒桿菌風險）<br>
@@ -1611,7 +1611,7 @@ const ARTICLES = {
 <strong>1歲前謹慎嘗試：</strong><br>
 • 易過敏食物（花生、蛋白、海鮮）→ 每次只加一種新食材，觀察 3 天
 </div>
-<h3>🥣 新手必學食譜推薦</h3>
+<h3>新手必學食譜推薦</h3>
 <p>以下食譜難度低、營養豐富，適合副食品初期：</p>
 <ul>
 <li><strong>南瓜米糊</strong>：南瓜蒸熟打泥 + 米湯攪拌，顏色漂亮寶寶愛吃</li>
@@ -1620,13 +1620,13 @@ const ARTICLES = {
 <li><strong>豆腐蛋黃泥</strong>：嫩豆腐壓泥 + 蒸熟蛋黃攪拌，高蛋白</li>
 <li><strong>鮭魚馬鈴薯泥</strong>：去刺鮭魚 + 蒸馬鈴薯壓泥，富含 DHA</li>
 </ul>
-<h3>🔗 更多食譜資源</h3>
+<h3>更多食譜資源</h3>
 <ul>
 <li><a href="https://icook.tw/search/%E5%AF%B6%E5%AF%B6%E5%89%AF%E9%A3%9F%E5%93%81/" target="_blank" rel="noopener">iCook 寶寶副食品食譜搜尋 →</a>（數百道社群實作食譜）</li>
 <li><a href="https://www.hpa.gov.tw/Pages/List.aspx?nodeid=119" target="_blank" rel="noopener">國民健康署：嬰幼兒飲食指南 →</a></li>
 <li><a href="https://www.mohw.gov.tw" target="_blank" rel="noopener">衛福部：兒童飲食營養資訊 →</a></li>
 </ul>
-<div class="article-source">📋 資料來源：<a href="https://www.hpa.gov.tw" target="_blank" rel="noopener">國民健康署嬰幼兒飲食指南</a>、<a href="https://icook.tw" target="_blank" rel="noopener">iCook 台灣</a>、台灣兒科醫學會</div>`
+<div class="article-source">資料來源：<a href="https://www.hpa.gov.tw" target="_blank" rel="noopener">國民健康署嬰幼兒飲食指南</a>、<a href="https://icook.tw" target="_blank" rel="noopener">iCook 台灣</a>、台灣兒科醫學會</div>`
   },
 
   'paternity-leave': {
@@ -1634,23 +1634,23 @@ const ARTICLES = {
     tag:'補助資訊', tagClass:'subsidy', date:'2026-04-15',
     excerpt:'台灣育嬰假男女平等，爸爸有權利申請。陪產假 7 天有薪、育嬰留停最長 6 個月領 8 成薪，一次搞懂如何申請。',
     body:`
-<h3>👨 爸爸的兩種假別</h3>
+<h3>爸爸的兩種假別</h3>
 <table>
   <tr><th>假別</th><th>天數</th><th>薪資</th><th>使用時機</th></tr>
   <tr><td>陪產假（含陪產檢假）</td><td>7 天</td><td>全薪（雇主支付）</td><td>配偶生產前後 15 天內</td></tr>
   <tr><td>育嬰留職停薪</td><td>最長 6 個月</td><td>投保薪資 80%（就保支付）</td><td>子女未滿 3 歲，任何時間</td></tr>
 </table>
 
-<h3>🗓 陪產假申請方式</h3>
+<h3>陪產假申請方式</h3>
 <ol>
   <li>告知雇主配偶預產期，申請陪產假</li>
   <li>雇主<strong>不得拒絕</strong>（違反可罰 2–30 萬元）</li>
   <li>7 天假期可連續或分開使用，在生產前後 15 天的彈性期間內</li>
   <li>薪資由雇主正常支付（無需向政府申請）</li>
 </ol>
-<div class="info-box">💡 2026 年起「陪產檢假」也擴大：配偶懷孕期間產前檢查，爸爸最多可請 5 天有薪假陪同。</div>
+<div class="info-box">2026 年起「陪產檢假」也擴大：配偶懷孕期間產前檢查，爸爸最多可請 5 天有薪假陪同。</div>
 
-<h3>🏠 育嬰留職停薪申請</h3>
+<h3>育嬰留職停薪申請</h3>
 <ol>
   <li>提前 10 天書面通知雇主（雇主不得拒絕）</li>
   <li>留停期間雇主保留職位，留停結束後返回同等職位</li>
@@ -1663,14 +1663,14 @@ const ARTICLES = {
   <li>核定後每月自動撥款至指定帳戶</li>
 </ol>
 
-<h3>🤝 爸爸請育嬰假的好處</h3>
+<h3>爸爸請育嬰假的好處</h3>
 <ul>
   <li>減輕媽媽產後壓力，有助預防產後憂鬱</li>
   <li>建立父嬰依附關係，對孩子長期發展有益</li>
   <li>家庭分工平等，提升夫妻關係品質</li>
   <li>台灣父親育嬰假使用率近年持續上升（2025年達 18%）</li>
 </ul>
-<div class="article-source">📋 資料來源：<a href="https://www.bli.gov.tw" target="_blank" rel="noopener">勞動部勞工保險局</a>、<a href="https://eewa.mol.gov.tw" target="_blank" rel="noopener">勞動部</a></div>`
+<div class="article-source">資料來源：<a href="https://www.bli.gov.tw" target="_blank" rel="noopener">勞動部勞工保險局</a>、<a href="https://eewa.mol.gov.tw" target="_blank" rel="noopener">勞動部</a></div>`
   }
 };
 
@@ -1804,7 +1804,7 @@ function toggleFloatChat() {
   btnC.style.display = floatOpen ? 'block' : 'none';
   document.getElementById('float-badge').style.display = 'none';
   if(floatOpen && document.getElementById('float-messages').children.length === 0) {
-    floatAddBotMsg('您好！我是育兒小幫手（網頁版），可以幫您查詢補助、疫苗、托育等育兒資訊 🍼', []);
+    floatAddBotMsg('您好！我是育兒小幫手（網頁版），可以幫您查詢補助、疫苗、托育等育兒資訊。', []);
     setTimeout(()=>floatAddBotMsg('請直接輸入問題，或點選下方快速選項。', []), 600);
   }
 }
@@ -1812,7 +1812,7 @@ function floatAddBotMsg(text, sources) {
   if(!text) return;
   const m = document.getElementById('float-messages');
   const d = document.createElement('div'); d.className='float-msg bot';
-  let srcHtml = sources?.length ? `<div class="float-sources">${sources.map(s=>`<span class="float-source-tag">📄 ${esc(s)}</span>`).join('')}</div>` : '';
+  let srcHtml = sources?.length ? `<div class="float-sources">${sources.map(s=>`<span class="float-source-tag">${esc(s)}</span>`).join('')}</div>` : '';
   d.innerHTML=`<div class="float-msg-avatar">${botSVG}</div><div><div class="float-bubble">${esc(text)}</div>${srcHtml}</div>`;
   m.appendChild(d); m.scrollTop=m.scrollHeight;
 }
@@ -2012,7 +2012,7 @@ async function doLogin() {
   try {
     const res = await fetch(`${API_BASE}/auth/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pw}),credentials:'include'});
     const d = await res.json();
-    if(res.ok){ currentUser=d; msg.className='auth-msg auth-success'; msg.textContent='登入成功！'; document.getElementById('login-btn').textContent=`👤 ${d.nickname||d.email}`; document.getElementById('login-btn').classList.add('logged-in'); setTimeout(()=>closeModal('modal-auth'),800); }
+    if(res.ok){ currentUser=d; msg.className='auth-msg auth-success'; msg.textContent='登入成功！'; document.getElementById('login-btn').textContent=d.nickname||d.email; document.getElementById('login-btn').classList.add('logged-in'); setTimeout(()=>closeModal('modal-auth'),800); }
     else { msg.className='auth-msg'; msg.textContent=d.error||'帳號或密碼錯誤'; }
   } catch(e){ document.getElementById('login-msg').textContent='連線失敗，請確認後端服務'; }
 }
@@ -2035,43 +2035,43 @@ async function doRegister() {
 const TOUR_STEPS = [
   {
     selector: '.search-box',
-    title: '🔍 智慧搜尋',
+    title: '智慧搜尋',
     desc: '在這裡輸入任何育兒問題，例如「育兒津貼怎麼申請」或「寶寶疫苗時程」，AI 會從政府知識庫中找到最相關的答案。',
     position: 'bottom'
   },
   {
     selector: '.category-grid',
-    title: '📂 八大主題分類',
+    title: '八大主題分類',
     desc: '點擊任一分類卡片可閱讀完整文章，涵蓋新生兒照護、育兒補助、幼兒教育等八大主題，所有資訊來源均附政府官網連結。',
     position: 'top'
   },
   {
     selector: 'nav ul',
-    title: '🗂 主題導航列',
+    title: '主題導航列',
     desc: '點擊上方「醫療資訊」、「補助資訊」、「教育資源」可進入各主題的完整文章列表，或切換到「社群論壇」與其他家長交流。',
     position: 'bottom'
   },
   {
     selector: '#float-chat-btn',
-    title: '🤖 AI 小幫手',
+    title: 'AI 小幫手',
     desc: '右下角懸浮按鈕可隨時開啟 AI 聊天視窗，即時回答育兒問題。也可以選擇縣市讓 AI 提供當地補助與資源資訊，回答內容來自政府文件，不會亂猜。',
     position: 'top'
   },
   {
     selector: '.quick-links-panel',
-    title: '🔗 常用政府連結',
+    title: '常用政府連結',
     desc: '這裡收錄六個最常用的政府育兒申辦平台，點擊可直接跳轉至衛福部、疾管署、勞保局等官方頁面，省去搜尋時間。',
     position: 'left'
   },
   {
     selector: '.news-panels',
-    title: '📰 每日資訊 & 熱門文章',
+    title: '每日資訊與熱門文章',
     desc: '左側顯示每日政府育兒資訊異動，右側為熱門知識文章。點擊任一條目可開啟完整文章內容閱讀。',
     position: 'top'
   },
   {
     selector: '#float-chat-btn',
-    title: '💬 懸浮 AI 聊天',
+    title: '懸浮 AI 聊天',
     desc: '右下角懸浮按鈕可隨時開啟 AI 聊天視窗，也可以選擇縣市讓 AI 提供當地的補助與資源資訊。',
     position: 'top'
   }
