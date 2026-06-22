@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>育兒導航全攻略 — 新手爸媽的完整育兒指南</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F3EE;
+  --bg-alt:#F0EBE3;
+  --brown:#7C4A1E;
+  --brown-dark:#5C3410;
+  --amber:#C47B2E;
+  --amber-btn:#C87D30;
+  --text:#1E1610;
+  --text-mid:#4A3C30;
+  --text-light:#8A7A6A;
+  --border:#DDD0C0;
+  --white:#FFFFFF;
+  --radius:8px;
+  --shadow:0 2px 18px rgba(80,40,10,.08);
+}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-serif;font-size:15px;line-height:1.7}
+h1,h2,h3,h4,h5{font-family:'Noto Serif TC',serif;line-height:1.3}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{font-family:'Noto Sans TC',sans-serif;cursor:pointer}
+
+/* ── NAV ── */
+nav{background:var(--bg);border-bottom:1px solid var(--border);padding:14px 0;position:sticky;top:0;z-index:100}
+.nav-inner{max-width:860px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Noto Serif TC',serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text)}
+.nav-logo span{color:var(--amber)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-size:12px;color:var(--text-light);letter-spacing:.5px;transition:color .2s;cursor:pointer}
+.nav-links a:hover{color:var(--amber)}
+.nav-cta{background:var(--amber-btn);color:#fff;border:none;padding:8px 22px;border-radius:5px;font-size:12px;font-weight:600;letter-spacing:.5px;transition:background .2s}
+.nav-cta:hover{background:var(--brown)}
+
+/* ── HERO ── */
+.hero{max-width:860px;margin:0 auto;padding:70px 32px 64px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.hero-mockup-wrap{background:var(--bg-alt);border-radius:12px;padding:32px 28px;display:flex;align-items:center;justify-content:center;min-height:300px;border:1px solid var(--border)}
+.hero-guide{background:var(--white);border-radius:10px;width:180px;padding:24px 20px;box-shadow:0 6px 30px rgba(80,40,10,.13);text-align:center}
+.guide-cover{background:linear-gradient(160deg,var(--brown-dark) 0%,var(--brown) 50%,var(--amber) 100%);border-radius:7px;padding:22px 16px 18px;margin-bottom:14px;color:#fff}
+.guide-cover h3{font-size:13px;line-height:1.5;margin-bottom:10px;font-weight:700}
+.guide-cover .guide-icon{font-size:32px;margin-bottom:8px}
+.guide-cover .author{font-size:10px;opacity:.7;margin-top:6px}
+.guide-label{font-size:11px;color:var(--text-light);letter-spacing:.5px}
+.hero-text{}
+.hero-label{font-size:11px;color:var(--text-light);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
+.hero-text h1{font-size:34px;font-weight:900;color:var(--text);margin-bottom:18px;line-height:1.2}
+.hero-text p{font-size:14px;color:var(--text-mid);line-height:1.85;margin-bottom:24px}
+.hero-free{font-size:13px;color:var(--text-light);margin-bottom:4px;letter-spacing:.5px}
+.hero-price{font-family:'Noto Serif TC',serif;font-size:42px;font-weight:900;color:var(--text);margin-bottom:20px}
+.hero-price small{font-size:16px;font-weight:400;color:var(--text-light);font-family:'Noto Sans TC',sans-serif}
+.btn-primary{display:inline-block;background:var(--amber-btn);color:#fff;border:none;padding:13px 32px;border-radius:6px;font-size:14px;font-weight:600;letter-spacing:.5px;transition:background .2s;text-align:center}
+.btn-primary:hover{background:var(--brown)}
+.btn-secondary{display:inline-block;background:transparent;color:var(--brown);border:2px solid var(--brown);padding:11px 28px;border-radius:6px;font-size:14px;font-weight:600;transition:all .2s;text-align:center}
+.btn-secondary:hover{background:var(--brown);color:#fff}
+
+/* ── DIVIDER ── */
+.divider-line{height:1px;background:var(--border);margin:0}
+
+/* ── ABOUT ── */
+.about-section{background:var(--white);padding:72px 32px}
+.about-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);text-align:center;margin-bottom:24px}
+.about-quote{max-width:700px;margin:0 auto 56px;text-align:center;font-family:'Noto Serif TC',serif;font-size:28px;font-weight:700;color:var(--text);line-height:1.45}
+.about-quote em{color:var(--amber);font-style:normal}
+.about-grid{max-width:860px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.about-body p{font-size:14px;color:var(--text-mid);line-height:1.9;margin-bottom:16px}
+.about-body p:last-of-type{margin-bottom:24px}
+.about-img{background:var(--bg-alt);border-radius:12px;overflow:hidden;aspect-ratio:4/5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border:1px solid var(--border);padding:32px}
+.about-img .big-num{font-family:'Noto Serif TC',serif;font-size:64px;font-weight:900;color:var(--amber);line-height:1}
+.about-img .big-label{font-size:14px;color:var(--text-mid);font-weight:600;text-align:center}
+.about-img .sub-stats{display:flex;flex-direction:column;gap:14px;width:100%;margin-top:8px}
+.about-img .stat-row{background:var(--white);border-radius:8px;padding:12px 16px;display:flex;align-items:center;gap:12px;border:1px solid var(--border)}
+.about-img .stat-num{font-family:'Noto Serif TC',serif;font-size:20px;font-weight:700;color:var(--brown);min-width:40px}
+.about-img .stat-desc{font-size:12px;color:var(--text-mid);line-height:1.4}
+
+/* ── FEATURES ── */
+.features-section{padding:72px 32px;background:var(--bg)}
+.features-section h2{text-align:center;font-size:26px;font-weight:700;margin-bottom:40px;color:var(--text)}
+.features-grid{max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.feature-item{}
+.feature-icon{font-size:34px;margin-bottom:14px}
+.feature-item h3{font-size:17px;margin-bottom:10px;font-weight:700;color:var(--text)}
+.feature-item p{font-size:13px;color:var(--text-mid);line-height:1.85}
+
+/* ── TOC (dark mockup) ── */
+.toc-section{padding:24px 32px 64px;background:var(--bg)}
+.toc-device{max-width:680px;margin:0 auto;background:linear-gradient(160deg,var(--brown-dark) 0%,#7C4520 50%,#A0602A 100%);border-radius:16px;padding:40px 48px;box-shadow:0 12px 50px rgba(80,40,10,.2);position:relative;overflow:hidden}
+.toc-device::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent)}
+.toc-device-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);text-align:center;margin-bottom:24px}
+.toc-title{font-family:'Noto Serif TC',serif;font-size:20px;font-weight:700;color:#fff;text-align:center;letter-spacing:2px;margin-bottom:28px;text-transform:uppercase}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.toc-item{display:flex;align-items:baseline;gap:14px;color:rgba(255,255,255,.88);font-size:14px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.toc-item:last-child{border-bottom:none}
+.toc-num{font-size:12px;color:rgba(255,255,255,.45);min-width:22px;font-family:'Noto Serif TC',serif}
+.toc-text{flex:1}
+.toc-badge{font-size:10px;background:rgba(255,255,255,.15);color:rgba(255,255,255,.7);padding:2px 10px;border-radius:20px;white-space:nowrap}
+
+/* ── PRICING ── */
+.pricing-section{padding:72px 32px;background:var(--white)}
+.pricing-section h2{text-align:center;font-size:26px;font-weight:700;margin-bottom:8px;color:var(--text)}
+.pricing-section > .sub{text-align:center;font-size:13px;color:var(--text-light);margin-bottom:44px}
+.pricing-grid{max-width:700px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.pricing-col{padding:36px 32px}
+.pricing-col:first-child{border-right:1px solid var(--border)}
+.pricing-col.featured{background:var(--bg-alt)}
+.pricing-type{font-size:11px;color:var(--text-light);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.pricing-price{font-family:'Noto Serif TC',serif;font-size:46px;font-weight:900;color:var(--text);margin-bottom:4px;line-height:1}
+.pricing-price small{font-size:14px;font-weight:400;color:var(--text-light);font-family:'Noto Sans TC',sans-serif;margin-left:4px}
+.pricing-desc{font-size:13px;color:var(--text-mid);margin:14px 0 20px;line-height:1.7}
+.pricing-features{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:28px}
+.pricing-features li{font-size:13px;color:var(--text-mid);display:flex;align-items:flex-start;gap:9px}
+.pricing-features li::before{content:'✓';color:var(--amber);font-weight:700;flex-shrink:0}
+.pricing-cta-link{font-size:13px;color:var(--text-light);text-decoration:underline;cursor:pointer;display:inline-block;margin-top:4px}
+.pricing-cta-link:hover{color:var(--amber)}
+
+/* ── TESTIMONIALS ── */
+.testimonials-section{padding:72px 32px;background:var(--bg)}
+.testimonials-section h2{text-align:center;font-size:26px;font-weight:700;margin-bottom:8px}
+.testimonials-section .sub{text-align:center;font-size:13px;color:var(--text-light);margin-bottom:44px}
+.testimonials-grid{max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.testimonial-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:24px 22px}
+.t-quote{font-size:32px;color:var(--border);line-height:1;margin-bottom:10px;font-family:Georgia,serif;font-weight:700}
+.t-text{font-size:13px;color:var(--text-mid);line-height:1.85;margin-bottom:18px;font-style:italic}
+.t-author{font-size:12px;font-weight:600;color:var(--text);letter-spacing:.3px}
+.t-role{font-size:11px;color:var(--text-light);margin-top:2px}
+
+/* ── FAQ ── */
+.faq-section{padding:72px 32px;background:var(--white)}
+.faq-section h2{text-align:center;font-size:26px;font-weight:700;margin-bottom:8px}
+.faq-section > .sub{text-align:center;font-size:13px;color:var(--text-light);margin-bottom:44px}
+.faq-list{max-width:640px;margin:0 auto;display:flex;flex-direction:column}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-item:first-child{border-top:1px solid var(--border)}
+.faq-btn{width:100%;text-align:left;padding:18px 0;display:flex;justify-content:space-between;align-items:center;background:none;border:none;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;font-family:'Noto Sans TC',sans-serif;gap:16px}
+.faq-btn svg{flex-shrink:0;transition:transform .25s;color:var(--text-light);width:16px;height:16px}
+.faq-item.open .faq-btn svg{transform:rotate(180deg)}
+.faq-body{display:none;padding:0 0 18px;font-size:13.5px;color:var(--text-mid);line-height:1.85}
+.faq-item.open .faq-body{display:block}
+
+/* ── NEWSLETTER ── */
+.newsletter-section{padding:72px 32px;background:var(--bg)}
+.newsletter-inner{max-width:560px;margin:0 auto;text-align:center}
+.newsletter-inner h2{font-size:26px;font-weight:700;margin-bottom:10px}
+.newsletter-inner p{font-size:14px;color:var(--text-light);margin-bottom:28px;line-height:1.7}
+.nl-form{display:flex;gap:8px;max-width:420px;margin:0 auto 12px}
+.nl-input{flex:1;padding:12px 16px;border:1.5px solid var(--border);border-radius:5px;font-size:13px;font-family:'Noto Sans TC',sans-serif;background:var(--white);color:var(--text);outline:none;transition:border-color .2s}
+.nl-input:focus{border-color:var(--amber)}
+.nl-btn{background:var(--amber-btn);color:#fff;border:none;padding:12px 22px;border-radius:5px;font-size:13px;font-weight:600;white-space:nowrap;transition:background .2s;font-family:'Noto Sans TC',sans-serif}
+.nl-btn:hover{background:var(--brown)}
+.nl-note{font-size:11px;color:var(--text-light)}
+
+/* ── SOCIAL LINKS ── */
+.social-row{display:flex;justify-content:center;gap:14px;margin-top:20px}
+.social-icon{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-light);transition:all .2s}
+.social-icon:hover{border-color:var(--amber);color:var(--amber)}
+.social-icon svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* ── FOOTER ── */
+footer{padding:32px 32px 24px;background:var(--bg);border-top:1px solid var(--border);text-align:center}
+footer .footer-logo{font-family:'Noto Serif TC',serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text);margin-bottom:8px}
+footer .footer-logo span{color:var(--amber)}
+footer p{font-size:11px;color:var(--text-light)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:720px){
+  .hero{grid-template-columns:1fr;gap:32px;padding:48px 20px}
+  .hero-mockup-wrap{order:-1}
+  .about-grid,.features-grid,.testimonials-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .pricing-col:first-child{border-right:none;border-bottom:1px solid var(--border)}
+  .about-section,.pricing-section,.faq-section,.newsletter-section,.testimonials-section,.features-section{padding:48px 20px}
+  .toc-section{padding:0 20px 48px}
+  .toc-device{padding:32px 28px}
+  nav .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">育兒導航<span>·</span>全攻略</div>
+    <ul class="nav-links">
+      <li><a href="#features">平台功能</a></li>
+      <li><a href="#knowledge">知識庫</a></li>
+      <li><a href="#pricing">使用方案</a></li>
+      <li><a href="#testimonials">評價</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <button class="nav-cta" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">免費加入</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section>
+  <div class="hero">
+    <div class="hero-mockup-wrap">
+      <div class="hero-guide">
+        <div class="guide-cover">
+          <div class="guide-icon">👶</div>
+          <h3>新手爸媽<br>完整育兒<br>指南</h3>
+          <div class="author">育兒導航全攻略</div>
+        </div>
+        <div class="guide-label" style="margin-top:10px">PARENTING NAVIGATOR</div>
+      </div>
+    </div>
+    <div class="hero-text">
+      <p class="hero-label">台灣育兒資訊整合平台</p>
+      <h1>新手爸媽的完整育兒導航</h1>
+      <p>整合衛福部、教育部、勞動部等 10+ 個政府機構的育兒補助、疫苗時程、托育資源，搭配 AI 智慧問答，讓你一句話找到所有答案，不再跑遍各官網。</p>
+      <p class="hero-free">完全免費</p>
+      <div class="hero-price">0 元 <small>永久免費</small></div>
+      <a href="#pricing" class="btn-primary" onclick="event.preventDefault();document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">立即加入</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <p class="about-label">關於這個平台</p>
+  <div class="about-quote">
+    我們相信每一個<em>新手爸媽</em>都應該獲得最完整的資訊支持，<em>讓育兒不再是一個人的戰鬥</em>
+  </div>
+  <div class="about-grid">
+    <div class="about-body">
+      <p>台灣每年有超過 20 萬名新生兒，新手爸媽面對的育兒補助、疫苗接種、托育申請資訊，散落在衛福部、教育部、勞動部、各縣市政府等數十個官方網站。光是要搞清楚「我的寶寶該打什麼疫苗、能領哪些補助、在哪裡申請」就已經令人頭痛。</p>
+      <p>育兒導航全攻略整合所有資訊，透過 RAG 向量語意搜尋技術，讓每一句回答都有政府文件依據。系統不會憑空捏造，沒有答案時誠實告知。知識庫每週自動更新，確保你拿到的資訊永遠是最新版。</p>
+      <p>輸入寶寶生日，系統自動計算疫苗時程與補助申辦截止日，每天早上 9 點主動推播 LINE 通知，讓你提前準備，不再錯過任何期限。</p>
+      <a href="https://line.me" target="_blank" class="btn-primary">免費加入 LINE Bot</a>
+    </div>
+    <div class="about-img">
+      <div class="big-num">20萬+</div>
+      <div class="big-label">台灣每年新生兒</div>
+      <div class="sub-stats">
+        <div class="stat-row"><div class="stat-num">26+</div><div class="stat-desc">整合政府官方知識文件</div></div>
+        <div class="stat-row"><div class="stat-num">10+</div><div class="stat-desc">整合政府機構資料來源</div></div>
+        <div class="stat-row"><div class="stat-num">24/7</div><div class="stat-desc">AI 智慧問答，全天候即時回覆</div></div>
+        <div class="stat-row"><div class="stat-num">0元</div><div class="stat-desc">完全免費，永久開放使用</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <h2>使用這個平台，你能獲得什麼</h2>
+  <div class="features-grid">
+    <div class="feature-item">
+      <div class="feature-icon">🔍</div>
+      <h3>一句話找到答案</h3>
+      <p>RAG 向量語意搜尋，整合 26+ 份政府文件。每個回答都附來源標籤，不憑空捏造。縣市個人化過濾，確保你看到的是自己縣市的正確資訊。</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">⏰</div>
+      <h3>補助與疫苗主動提醒</h3>
+      <p>輸入寶寶生日，系統自動計算疫苗時程與補助截止日。每天早上 09:00 透過 LINE 主動推播，提前提醒，讓你不再手忙腳亂。</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">💬</div>
+      <h3>爸媽社群交流論壇</h3>
+      <p>Dcard 風格的社群論壇，5 大板塊（補助討論、寶寶健康、托育分享、新手問答、生活日常）。支援匿名發文、巢狀留言與按讚。</p>
+    </div>
+  </div>
+</section>
+
+<!-- TOC -->
+<section class="toc-section" id="knowledge">
+  <div class="toc-device">
+    <div class="toc-device-label">知識庫目錄 · KNOWLEDGE BASE</div>
+    <div class="toc-title">知識庫目錄</div>
+    <ul class="toc-list">
+      <li class="toc-item"><span class="toc-num">1</span><span class="toc-text">公費疫苗接種時程（出生至 6 歲完整時程）</span><span class="toc-badge">全國</span></li>
+      <li class="toc-item"><span class="toc-num">2</span><span class="toc-text">育兒津貼申辦指南（最高每月 5,000 元）</span><span class="toc-badge">全國</span></li>
+      <li class="toc-item"><span class="toc-num">3</span><span class="toc-text">生育獎勵金申請（各縣市版，最高 10 萬元起）</span><span class="toc-badge">各縣市</span></li>
+      <li class="toc-item"><span class="toc-num">4</span><span class="toc-text">兒童預防保健服務（7 次免費健兒門診）</span><span class="toc-badge">全國</span></li>
+      <li class="toc-item"><span class="toc-num">5</span><span class="toc-text">育嬰留職停薪（最長 2 年，可領 8 成薪）</span><span class="toc-badge">全國</span></li>
+      <li class="toc-item"><span class="toc-num">6</span><span class="toc-text">托育補助與托嬰中心申請（準公共化方案）</span><span class="toc-badge">全國</span></li>
+      <li class="toc-item"><span class="toc-num">7</span><span class="toc-text">新生兒出生登記戶政流程（出生 60 天內必辦）</span><span class="toc-badge">全國</span></li>
+      <li class="toc-item"><span class="toc-num">8</span><span class="toc-text">孕婦 0–42 週完整指南（產檢・待產・產後）</span><span class="toc-badge">全國</span></li>
+      <li class="toc-item" style="opacity:.55;font-style:italic"><span class="toc-num">+</span><span class="toc-text">更多 18+ 份文件，涵蓋口腔健康、心理健康、特殊教育等…</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <h2>選擇你的使用方式</h2>
+  <p class="sub">LINE Bot 與網頁版均完全免費，可同時使用。</p>
+  <div class="pricing-grid">
+    <div class="pricing-col">
+      <div class="pricing-type">LINE Bot</div>
+      <div class="pricing-price">免費 <small>永久</small></div>
+      <p class="pricing-desc">透過 LINE 使用所有核心功能，手機即可操作，最適合日常使用。</p>
+      <ul class="pricing-features">
+        <li>AI 智慧育兒問答（無限次）</li>
+        <li>疫苗時程主動推播</li>
+        <li>補助申辦截止日提醒</li>
+        <li>寶寶資料建檔（可多位）</li>
+        <li>縣市個人化補助篩選</li>
+      </ul>
+      <a href="https://line.me" target="_blank" class="pricing-cta-link">加入 LINE Bot →</a>
+    </div>
+    <div class="pricing-col featured">
+      <div class="pricing-type">網頁版</div>
+      <div class="pricing-price">免費 <small>永久</small></div>
+      <p class="pricing-desc">完整網頁介面，含社群論壇、知識庫文章、詳細問答功能。</p>
+      <ul class="pricing-features">
+        <li>LINE Bot 所有功能</li>
+        <li>社群論壇（5 大板塊）</li>
+        <li>完整知識庫文章閱讀</li>
+        <li>帳號系統（匿名 + 實名）</li>
+        <li>貼文按讚與巢狀留言</li>
+      </ul>
+      <a href="parenting-navigator-web.html" class="btn-primary" style="display:block;text-align:center;margin-top:8px">進入網頁版</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" id="testimonials">
+  <h2>爸媽怎麼說</h2>
+  <p class="sub">來自各縣市新手爸媽的真實使用心得。</p>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="t-quote">"</div>
+      <p class="t-text">之前研究台北市生育獎勵金要去哪裡辦、要帶什麼，就花了我一個下午。用了這個 LINE Bot，直接問就有答案，連申請流程和文件清單都一起給我，超省事。</p>
+      <div class="t-author">陳小姐</div>
+      <div class="t-role">台北市 · 第一胎媽媽</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="t-quote">"</div>
+      <p class="t-text">推播功能真的救了我！寶寶三個月的疫苗差點忘記，LINE 提前三天提醒我，連要去哪間診所、需要帶什麼都說清楚了。</p>
+      <div class="t-author">王爸爸</div>
+      <div class="t-role">新北市 · 雙胞胎爸爸</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="t-quote">"</div>
+      <p class="t-text">每個答案都附來源，還說是哪份政府文件。這點讓我很放心，知道資訊是有根據的，不是 AI 自己編出來的。</p>
+      <div class="t-author">林媽媽</div>
+      <div class="t-role">台中市 · 高齡初產婦</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <h2>需要幫助？</h2>
+  <p class="sub">有任何問題，直接在 LINE Bot 問我們就好。</p>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-btn" onclick="toggleFaq(this)">
+        這個平台是免費的嗎？
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-body">完全免費，永久免費。本平台是學術非商業專案，不收取任何費用，也不需要訂閱或付費升級。LINE Bot 和網頁版都是免費使用。</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn" onclick="toggleFaq(this)">
+        AI 的回答準確嗎？如何確保資訊是正確的？
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-body">我們使用 RAG（檢索增強生成）技術——每個回答都直接從政府官方文件中檢索，附有來源標籤。若知識庫中沒有答案，AI 會誠實告知，不會自行捏造。請以各主管機關最新公告為準。</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn" onclick="toggleFaq(this)">
+        支援哪些縣市的資料？
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-body">目前台北市資料最完整（生育獎勵金、兒童醫療補助、特殊境遇扶助等），全國性政策（育兒津貼、公費疫苗、育嬰留停等）適用所有縣市。其他縣市資料持續擴充中。</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn" onclick="toggleFaq(this)">
+        可以同時新增多位寶寶嗎？
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-body">可以！輸入「新增寶寶」可以為每位孩子建立獨立資料，系統會分別計算每位寶寶的疫苗時程與補助時程，並分別推播提醒。</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn" onclick="toggleFaq(this)">
+        知識庫的資料多久更新一次？
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-body">系統內建自動爬蟲，每週一凌晨 02:00 自動抓取衛福部、國健署、born.taipei 等 5 個政府網站。透過 MD5 Hash 比對，只有內容真正改變時才更新，確保知識庫保持最新。</div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section" id="newsletter">
+  <div class="newsletter-inner">
+    <h2>訂閱育兒資訊電子報</h2>
+    <p>獲取最新育兒補助政策更新、疫苗資訊與親子活動通知。我們不發垃圾信，每月不超過 2 封。</p>
+    <div class="nl-form">
+      <input type="email" class="nl-input" placeholder="輸入您的 Email">
+      <button class="nl-btn" onclick="alert('感謝訂閱！您將收到最新育兒資訊。')">訂閱</button>
+    </div>
+    <p class="nl-note">隨時可以取消訂閱 · 不分享個人資料給第三方</p>
+    <div class="social-row">
+      <a href="https://line.me" target="_blank" class="social-icon" title="LINE">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629"/></svg>
+      </a>
+      <a href="https://www.mohw.gov.tw" target="_blank" class="social-icon" title="衛福部">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </a>
+      <a href="mailto:info@parenting-navigator.tw" class="social-icon" title="Email">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">育兒導航<span>·</span>全攻略</div>
+  <p>© 2026 育兒導航全攻略 · 工研院課程期末專題<br>資料來源：衛福部、教育部、勞動部等政府機關 · 本平台資訊僅供參考，實際申辦請以各主管機關公告為準</p>
+</footer>
+
+<script>
+function toggleFaq(btn){
+  const item = btn.closest('.faq-item');
+  const open = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!open) item.classList.add('open');
+}
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id=a.getAttribute('href').slice(1);
+    const el=document.getElementById(id);
+    if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
+// Fade-in on scroll
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});
+},{threshold:0.08});
+document.querySelectorAll('.feature-item,.testimonial-card,.toc-item,.pricing-col').forEach(el=>{
+  el.style.opacity='0';el.style.transform='translateY(18px)';el.style.transition='opacity .4s,transform .4s';obs.observe(el);
+});
+</script>
+</body>
+</html>

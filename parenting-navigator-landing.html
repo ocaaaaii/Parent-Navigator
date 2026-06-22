@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>育兒導航全攻略 — 新手爸媽的智慧應援夥伴</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F2F5EE;
+  --cream-dark:#E2EDD6;
+  --brown:#5C8A72;
+  --brown-dark:#3E6B58;
+  --brown-light:#8BB89E;
+  --amber:#C9A55A;
+  --amber-light:#E0C878;
+  --charcoal:#1E2C1E;
+  --gray:#4A5E4A;
+  --gray-light:#7A9480;
+  --white:#FFFFFF;
+  --border:#C4D4B4;
+  --shadow:0 2px 20px rgba(40,70,40,.09);
+  --radius:10px;
+}
+body{background:var(--cream);color:var(--charcoal);font-family:'Noto Sans TC',sans-serif;font-size:15px;line-height:1.7}
+h1,h2,h3,h4{font-family:'Noto Serif TC',serif;font-weight:700;line-height:1.35}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.container{max-width:900px;margin:0 auto;padding:0 24px}
+.container-wide{max-width:1100px;margin:0 auto;padding:0 24px}
+
+/* ── TOP BAR ── */
+.topbar{background:var(--charcoal);color:var(--cream);text-align:center;padding:9px 20px;font-size:13px;letter-spacing:.5px}
+.topbar span{color:var(--amber-light)}
+
+/* ── NAV ── */
+nav{background:var(--cream);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;padding:14px 0}
+.nav-inner{max-width:900px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;letter-spacing:1px;color:var(--charcoal);text-transform:uppercase}
+.nav-logo span{color:var(--brown)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-size:13px;color:var(--gray);transition:color .2s;letter-spacing:.5px}
+.nav-links a:hover{color:var(--brown)}
+.nav-cta{background:var(--amber);color:#fff;padding:8px 20px;border-radius:6px;font-size:13px;font-weight:600;letter-spacing:.5px;transition:background .2s}
+.nav-cta:hover{background:var(--brown)}
+
+/* ── HERO ── */
+.hero{padding:70px 0 60px}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-badge{display:inline-block;background:var(--amber);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;letter-spacing:1px;margin-bottom:18px;text-transform:uppercase}
+.hero h1{font-size:38px;margin-bottom:18px;line-height:1.25}
+.hero h1 em{color:var(--brown);font-style:normal}
+.hero-sub{font-size:15px;color:var(--gray);margin-bottom:28px;line-height:1.8}
+.hero-price{font-size:13px;color:var(--gray-light);margin-bottom:8px;letter-spacing:.5px}
+.hero-price strong{font-size:32px;color:var(--charcoal);font-family:'Noto Serif TC',serif;margin-left:4px}
+.btn{display:inline-block;padding:13px 32px;border-radius:7px;font-weight:600;font-size:15px;letter-spacing:.5px;cursor:pointer;transition:all .2s;text-align:center;border:none}
+.btn-primary{background:var(--amber);color:#fff}
+.btn-primary:hover{background:var(--brown)}
+.btn-secondary{background:transparent;color:var(--brown);border:2px solid var(--brown)}
+.btn-secondary:hover{background:var(--brown);color:#fff}
+.btn-line{background:#06C755;color:#fff}
+.btn-line:hover{background:#05a847}
+.hero-img{position:relative}
+.hero-mockup{background:var(--charcoal);border-radius:16px;padding:28px 22px;box-shadow:0 12px 50px rgba(0,0,0,.2);position:relative}
+.mockup-screen{background:#1E2E22;border-radius:10px;padding:16px;font-size:12px;color:#c8dbc0;font-family:monospace}
+.mockup-header{display:flex;gap:6px;margin-bottom:12px}
+.mockup-dot{width:10px;height:10px;border-radius:50%}
+.m-red{background:#ff5f57}.m-yellow{background:#ffbd2e}.m-green{background:#28ca41}
+.mockup-chat{display:flex;flex-direction:column;gap:8px}
+.chat-bubble{padding:8px 12px;border-radius:8px;max-width:80%;font-size:11.5px;line-height:1.5}
+.chat-bot{background:#C8C8C8;color:#222;align-self:flex-start}
+.chat-user{background:var(--amber);color:#fff;align-self:flex-end}
+.mockup-label{text-align:center;color:var(--gray-light);font-size:11px;margin-top:14px;letter-spacing:1px}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.85);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--gray);margin-top:16px}
+.tag-dot{width:7px;height:7px;border-radius:50%;background:#06C755}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:0}
+
+/* ── SECTION BASE ── */
+.section{padding:64px 0}
+.section-label{font-size:12px;letter-spacing:2px;color:var(--amber);text-transform:uppercase;font-weight:600;margin-bottom:14px;text-align:center}
+.section-title{font-size:30px;text-align:center;margin-bottom:12px}
+.section-sub{font-size:14px;color:var(--gray);text-align:center;max-width:520px;margin:0 auto 40px;line-height:1.8}
+.alt-bg{background:var(--cream-dark)}
+.white-bg{background:var(--white)}
+
+/* ── STATS BAR ── */
+.stats-bar{background:var(--charcoal);color:var(--cream);padding:28px 0}
+.stats-inner{display:flex;justify-content:space-around;align-items:center;flex-wrap:wrap;gap:20px;max-width:800px;margin:0 auto;padding:0 24px}
+.stat-item{text-align:center}
+.stat-num{font-size:36px;font-family:'Noto Serif TC',serif;color:var(--amber-light);font-weight:700}
+.stat-label{font-size:12px;color:var(--gray-light);letter-spacing:.5px;margin-top:2px}
+
+/* ── ABOUT ── */
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.about-quote{font-size:24px;font-family:'Noto Serif TC',serif;line-height:1.5;color:var(--charcoal);margin-bottom:20px}
+.about-quote em{color:var(--brown);font-style:normal;border-bottom:2px solid var(--amber-light)}
+.about-text{font-size:14px;color:var(--gray);line-height:1.9;margin-bottom:20px}
+.about-img-wrap{position:relative}
+.about-img{background:var(--cream-dark);border-radius:16px;overflow:hidden;aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;border:2px solid var(--border)}
+.about-img-placeholder{text-align:center;padding:30px}
+.about-img-placeholder .big-icon{font-size:80px;margin-bottom:12px}
+.about-img-placeholder p{font-size:13px;color:var(--gray);font-family:'Noto Serif TC',serif}
+.about-badge{position:absolute;bottom:-16px;right:-16px;background:var(--amber);color:#fff;border-radius:12px;padding:12px 18px;text-align:center;box-shadow:var(--shadow)}
+.about-badge strong{display:block;font-size:22px;font-family:'Noto Serif TC',serif}
+.about-badge span{font-size:11px;letter-spacing:.5px}
+
+/* ── FEATURES 3-COL ── */
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.feature-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;transition:box-shadow .2s}
+.feature-card:hover{box-shadow:var(--shadow)}
+.feature-icon{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:22px}
+.icon-green{background:#E8F5E9}.icon-amber{background:#FFF3E0}.icon-blue{background:#E3F2FD}.icon-rose{background:#FCE4EC}.icon-purple{background:#F3E5F5}
+.feature-card h3{font-size:17px;margin-bottom:10px;font-family:'Noto Serif TC',serif}
+.feature-card p{font-size:13px;color:var(--gray);line-height:1.8}
+.feature-tag{display:inline-block;background:var(--cream-dark);color:var(--brown);font-size:11px;padding:3px 10px;border-radius:20px;margin-bottom:10px;font-weight:600}
+
+/* ── TABLE OF CONTENTS ── */
+.toc-wrap{background:var(--charcoal);border-radius:16px;padding:40px;max-width:680px;margin:0 auto;box-shadow:0 8px 40px rgba(0,0,0,.15)}
+.toc-header{text-align:center;margin-bottom:28px}
+.toc-header h3{color:var(--cream);font-size:20px;letter-spacing:2px;text-transform:uppercase}
+.toc-header p{color:var(--gray-light);font-size:12px;margin-top:6px;letter-spacing:1px}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.toc-item{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.06);border-radius:8px;padding:12px 16px}
+.toc-num{font-size:11px;color:var(--amber-light);font-weight:700;min-width:20px;font-family:'Noto Serif TC',serif}
+.toc-text{color:var(--cream);font-size:14px}
+.toc-text span{color:var(--gray-light);font-size:12px;margin-left:8px}
+.toc-badge{background:var(--amber);color:#fff;font-size:10px;padding:2px 8px;border-radius:20px;margin-left:auto;font-weight:600;white-space:nowrap}
+
+/* ── PRICING ── */
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:720px;margin:0 auto}
+.pricing-card{background:var(--white);border:2px solid var(--border);border-radius:var(--radius);padding:32px 28px}
+.pricing-card.featured{border-color:var(--amber);position:relative}
+.pricing-card.featured::before{content:'推薦方案';position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--amber);color:#fff;font-size:11px;font-weight:700;padding:4px 16px;border-radius:20px;white-space:nowrap;letter-spacing:1px}
+.pricing-plan{font-size:12px;color:var(--gray-light);letter-spacing:1px;margin-bottom:6px;text-transform:uppercase}
+.pricing-price{font-size:42px;font-family:'Noto Serif TC',serif;font-weight:700;color:var(--charcoal);line-height:1}
+.pricing-price small{font-size:14px;color:var(--gray-light);font-family:'Noto Sans TC',sans-serif;font-weight:400;margin-left:4px}
+.pricing-desc{font-size:13px;color:var(--gray);margin:14px 0 20px;line-height:1.7}
+.pricing-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.pricing-features li{font-size:13px;color:var(--charcoal);display:flex;align-items:flex-start;gap:10px;line-height:1.6}
+.pricing-features li::before{content:'✓';color:var(--amber);font-weight:700;flex-shrink:0;margin-top:1px}
+
+/* ── TESTIMONIALS ── */
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.testimonial-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:24px;position:relative}
+.quote-mark{font-size:36px;color:var(--amber-light);line-height:1;margin-bottom:8px;font-family:Georgia,serif}
+.testimonial-text{font-size:13.5px;color:var(--gray);line-height:1.85;margin-bottom:16px;font-style:italic}
+.testimonial-author{font-size:12px;color:var(--charcoal);font-weight:600;letter-spacing:.5px}
+.testimonial-role{font-size:11px;color:var(--gray-light)}
+
+/* ── HOW IT WORKS ── */
+.steps-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative}
+.steps-wrap::before{content:'';position:absolute;top:36px;left:calc(12.5% + 20px);right:calc(12.5% + 20px);height:2px;background:var(--border);z-index:0}
+.step-card{text-align:center;position:relative;z-index:1}
+.step-num{width:72px;height:72px;border-radius:50%;background:var(--white);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:22px;font-family:'Noto Serif TC',serif;font-weight:700;color:var(--brown);box-shadow:var(--shadow)}
+.step-card h4{font-size:14px;margin-bottom:6px;font-family:'Noto Serif TC',serif}
+.step-card p{font-size:12px;color:var(--gray);line-height:1.7}
+
+/* ── FAQ ── */
+.faq-list{max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.faq-item{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.faq-q{width:100%;text-align:left;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:none;border:none;font-size:14px;font-weight:600;color:var(--charcoal);font-family:'Noto Sans TC',sans-serif;gap:12px}
+.faq-q svg{flex-shrink:0;transition:transform .25s;color:var(--amber)}
+.faq-item.open .faq-q svg{transform:rotate(180deg)}
+.faq-a{display:none;padding:0 24px 18px;font-size:13.5px;color:var(--gray);line-height:1.8}
+.faq-item.open .faq-a{display:block}
+
+/* ── NEWSLETTER ── */
+.newsletter-wrap{background:var(--charcoal);border-radius:16px;padding:52px 40px;text-align:center;max-width:680px;margin:0 auto}
+.newsletter-wrap h2{color:var(--cream);font-size:28px;margin-bottom:10px}
+.newsletter-wrap p{color:var(--gray-light);font-size:14px;margin-bottom:28px}
+.newsletter-form{display:flex;gap:10px;max-width:440px;margin:0 auto}
+.newsletter-input{flex:1;padding:13px 18px;border-radius:7px;border:none;font-size:14px;background:rgba(255,255,255,.12);color:var(--cream);font-family:'Noto Sans TC',sans-serif}
+.newsletter-input::placeholder{color:var(--gray-light)}
+.newsletter-input:focus{outline:2px solid var(--amber-light);background:rgba(255,255,255,.18)}
+.newsletter-note{font-size:11px;color:var(--gray-light);margin-top:14px}
+
+/* ── PARTNERS / SOURCES ── */
+.sources-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 28px;padding:32px 0}
+.source-chip{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:6px 18px;font-size:12px;color:var(--gray)}
+
+/* ── FOOTER ── */
+footer{background:var(--charcoal);color:var(--gray-light);padding:48px 0 24px}
+.footer-inner{max-width:900px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:32px}
+.footer-brand .logo-text{font-family:'Noto Serif TC',serif;font-size:16px;color:var(--cream);letter-spacing:1px;margin-bottom:10px}
+.footer-brand p{font-size:12px;line-height:1.8;max-width:200px}
+.footer-col h5{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber-light);margin-bottom:14px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.footer-col li a{font-size:12px;color:var(--gray-light);transition:color .2s}
+.footer-col li a:hover{color:var(--amber-light)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);max-width:900px;margin:0 auto;padding:20px 24px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.footer-bottom p{font-size:11px}
+
+/* ── MISC ── */
+.highlight-box{background:linear-gradient(135deg,var(--amber) 0%,var(--brown) 100%);border-radius:var(--radius);padding:32px 36px;color:#fff;text-align:center}
+.highlight-box h3{font-size:22px;margin-bottom:10px}
+.highlight-box p{font-size:13px;opacity:.9;margin-bottom:22px;line-height:1.8}
+.social-links{display:flex;justify-content:center;gap:16px;margin-top:16px}
+.social-link{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;transition:background .2s}
+.social-link:hover{background:rgba(255,255,255,.3)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .hero-inner,.about-inner{grid-template-columns:1fr}
+  .hero-img{order:-1}
+  .features-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .testimonials-grid{grid-template-columns:1fr}
+  .steps-wrap{grid-template-columns:repeat(2,1fr)}
+  .steps-wrap::before{display:none}
+  .footer-inner{grid-template-columns:1fr 1fr}
+  .newsletter-form{flex-direction:column}
+  nav .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <span>免費</span> 加入 LINE Bot，自動追蹤寶寶疫苗與補助時程 — <a href="#pricing" style="color:var(--amber-light);text-decoration:underline">立即加入</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">育兒導航<span>·</span>全攻略</div>
+    <ul class="nav-links">
+      <li><a href="#features">平台功能</a></li>
+      <li><a href="#knowledge">知識庫</a></li>
+      <li><a href="#pricing">使用方案</a></li>
+      <li><a href="#testimonials">爸媽評價</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#pricing" class="nav-cta">免費加入</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge">台灣育兒資訊整合平台</div>
+        <h1>新手爸媽的<em>完整育兒</em>應援手冊</h1>
+        <p class="hero-sub">整合衛福部、教育部、勞動部等 10+ 個政府機構的育兒補助、疫苗時程、托育資源，搭配 AI 智慧問答，讓你一句話找到所有答案，不再跑遍各官網。</p>
+        <p class="hero-price">完全免費 ·</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px">
+          <a href="https://line.me" target="_blank" class="btn btn-line">加入 LINE Bot</a>
+          <a href="#pricing" class="btn btn-secondary">了解更多</a>
+        </div>
+        <div class="hero-tag" style="margin-top:20px">
+          <div class="tag-dot"></div>
+          已整合 26+ 份政府官方文件 · 台北市、全國適用
+        </div>
+      </div>
+      <div class="hero-img">
+        <div class="hero-mockup">
+          <div class="mockup-screen">
+            <div class="mockup-header">
+              <div class="mockup-dot m-red"></div>
+              <div class="mockup-dot m-yellow"></div>
+              <div class="mockup-dot m-green"></div>
+            </div>
+            <div class="mockup-chat">
+              <div class="chat-bubble chat-bot">您好！我是育兒導航小幫手 👋<br>請問寶寶幾個月大？住哪個縣市？</div>
+              <div class="chat-bubble chat-user">3個月，台北市內湖區</div>
+              <div class="chat-bubble chat-bot">找到了！以下是您寶寶本月重要事項：<br>・<strong>疫苗</strong>：B型肝炎第2劑（公費）<br>・<strong>補助</strong>：育兒津貼每月 5,000 元<br>・<strong>健檢</strong>：3個月健兒門診（免費）</div>
+              <div class="chat-bubble chat-user">台北市生育補助怎麼領？</div>
+              <div class="chat-bubble chat-bot">台北市生育獎勵金：<br>第1胎 2萬元、第2胎 3萬元、第3胎起 5萬元<br>出生後6個月內至戶政事務所申請 ✓</div>
+            </div>
+          </div>
+          <div class="mockup-label">LINE Bot 智慧問答示範</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-num">26+</div>
+      <div class="stat-label">政府官方知識文件</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">10+</div>
+      <div class="stat-label">整合政府機構</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">0元</div>
+      <div class="stat-label">完全免費使用</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">全天候 AI 即時回覆</div>
+    </div>
+  </div>
+</div>
+
+<!-- DIVIDER -->
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section class="section white-bg" id="about">
+  <div class="container">
+    <p class="section-label">關於這個平台</p>
+    <div class="about-inner">
+      <div>
+        <div class="about-quote">我們相信每一個<em>新手爸媽</em>都應該獲得最完整的資訊支持</div>
+        <p class="about-text">台灣每年有超過 20 萬名新生兒，新手爸媽面對的育兒補助、疫苗接種、托育申請資訊，散落在衛福部、教育部、勞動部、各縣市政府等數十個官方網站。光是要搞清楚「我的寶寶該打什麼疫苗、能領哪些補助、在哪裡申請」就已經令人頭痛。</p>
+        <p class="about-text">育兒導航全攻略整合所有資訊，透過 AI 語意檢索與主動時序推播，讓你不必再自己跑官網—— <strong>一句話問出跨部會的育兒資訊</strong>，補助到期前主動提醒你。</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="https://line.me" target="_blank" class="btn btn-primary">免費加入 LINE Bot</a>
+          <a href="#features" class="btn btn-secondary">探索功能</a>
+        </div>
+      </div>
+      <div class="about-img-wrap">
+        <div class="about-img">
+          <div class="about-img-placeholder">
+            <div class="big-icon">👨‍👩‍👧‍👦</div>
+            <p style="font-size:16px;color:var(--brown);font-weight:600;margin-bottom:8px">台灣新手爸媽</p>
+            <p>每個家庭都值得獲得完整的育兒支援</p>
+          </div>
+        </div>
+        <div class="about-badge">
+          <strong>20萬+</strong>
+          <span>每年新生兒</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section alt-bg" id="features">
+  <div class="container">
+    <p class="section-label">平台三大核心功能</p>
+    <h2 class="section-title">你將獲得什麼</h2>
+    <p class="section-sub">從智慧問答到主動推播，育兒導航全攻略解決新手爸媽三個最核心的痛點。</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon icon-green">🔍</div>
+        <div class="feature-tag">RAG 智慧問答</div>
+        <h3>一句話找到答案</h3>
+        <p>整合 26+ 份政府文件，透過向量語意搜尋，你的每個問題都有政府文件依據。系統不會憑空捏造，沒有答案就誠實告知。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-amber">⏰</div>
+        <div class="feature-tag">主動時序推播</div>
+        <h3>不會再錯過任何期限</h3>
+        <p>輸入寶寶生日，系統自動計算疫苗時程與補助申辦截止日。每天早上 9 點，提前推播 LINE 通知，讓你提前準備。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-blue">💬</div>
+        <div class="feature-tag">社群論壇</div>
+        <h3>與其他爸媽交流</h3>
+        <p>Dcard 風格的社群論壇，5 大板塊（補助討論、寶寶健康、托育分享、新手問答、生活日常），支援匿名發文與巢狀留言。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-rose">📋</div>
+        <div class="feature-tag">知識庫整合</div>
+        <h3>政府資訊一站查詢</h3>
+        <p>衛福部育兒津貼、各縣市生育獎勵金、公費疫苗時程、兒童健檢、托嬰中心申請——全部在同一個地方查到，不用跑官網。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-purple">🗺️</div>
+        <div class="feature-tag">縣市個人化</div>
+        <h3>依你的縣市篩選</h3>
+        <p>台北市和桃園市的補助金額不同。系統根據你的戶籍縣市自動過濾，確保你看到的是自己縣市的正確金額，不會混淆。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-green">🤖</div>
+        <div class="feature-tag">自動更新</div>
+        <h3>知識庫自動維護</h3>
+        <p>內建自動爬蟲每週抓取衛福部、國健署等 5 個政府網站，政策一有更新就自動同步，確保你拿到的資訊永遠是最新版。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section white-bg" id="how">
+  <div class="container">
+    <p class="section-label">使用流程</p>
+    <h2 class="section-title">4 步驟開始使用</h2>
+    <p class="section-sub">從加入到第一次收到推播通知，全程不超過 3 分鐘。</p>
+    <div class="steps-wrap">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h4>加入 LINE Bot</h4>
+        <p>掃描 QR Code 或搜尋帳號加入好友，系統自動發送歡迎訊息。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h4>設定寶寶資料</h4>
+        <p>輸入「設定寶寶」，6 步驟填入縣市、暱稱、生日、性別。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h4>系統自動計算</h4>
+        <p>系統自動計算疫苗時程與所有補助申辦截止日，寫入推播排程。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h4>享受主動提醒</h4>
+        <p>每天 9:00 準時推播，有事提醒、沒事不打擾，直接詢問任何育兒問題。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KNOWLEDGE BASE / TABLE OF CONTENTS -->
+<section class="section alt-bg" id="knowledge">
+  <div class="container">
+    <p class="section-label">知識庫內容</p>
+    <h2 class="section-title">涵蓋的育兒主題</h2>
+    <p class="section-sub">26+ 份政府官方文件，涵蓋從懷孕到 6 歲的所有育兒資訊。</p>
+    <div class="toc-wrap">
+      <div class="toc-header">
+        <h3>知識庫目錄</h3>
+        <p>所有內容來自政府官方網站，經人工整理去除公文冗語</p>
+      </div>
+      <ul class="toc-list">
+        <li class="toc-item">
+          <span class="toc-num">01</span>
+          <span class="toc-text">公費疫苗接種時程<span>出生至 6 歲完整時程</span></span>
+          <span class="toc-badge">全國</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-num">02</span>
+          <span class="toc-text">育兒津貼申辦指南<span>最高每月 5,000 元</span></span>
+          <span class="toc-badge">全國</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-num">03</span>
+          <span class="toc-text">生育獎勵金（各縣市）<span>最高 10 萬元起</span></span>
+          <span class="toc-badge">各縣市</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-num">04</span>
+          <span class="toc-text">兒童預防保健服務<span>7 次免費健兒門診</span></span>
+          <span class="toc-badge">全國</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-num">05</span>
+          <span class="toc-text">育嬰留職停薪<span>最長 2 年，可領 8 成薪</span></span>
+          <span class="toc-badge">全國</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-num">06</span>
+          <span class="toc-text">托育補助與托嬰中心申請<span>準公共化托育方案</span></span>
+          <span class="toc-badge">全國</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-num">07</span>
+          <span class="toc-text">新生兒出生登記戶政流程<span>出生 60 天內必辦</span></span>
+          <span class="toc-badge">全國</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-num">08</span>
+          <span class="toc-text">孕婦 0–42 週完整指南<span>產檢、待產、產後照護</span></span>
+          <span class="toc-badge">全國</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-num">09</span>
+          <span class="toc-text">兒童口腔健康預防保健<span>乳牙塗氟、兒童牙醫</span></span>
+          <span class="toc-badge">全國</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-num">10</span>
+          <span class="toc-text">孕產婦心理健康與產後憂鬱<span>免費諮商資源</span></span>
+          <span class="toc-badge">全國</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-num">11</span>
+          <span class="toc-text">台北市特殊境遇家庭扶助<span>多元補助方案整合</span></span>
+          <span class="toc-badge">台北市</span>
+        </li>
+        <li class="toc-item">
+          <span class="toc-num">12</span>
+          <span class="toc-text">台北市好孕 2U 專車補助<span>孕婦交通補助</span></span>
+          <span class="toc-badge">台北市</span>
+        </li>
+        <li class="toc-item" style="opacity:.6;font-style:italic">
+          <span class="toc-num">+</span>
+          <span class="toc-text">更多 14+ 份文件<span>持續更新中</span></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section white-bg" id="pricing">
+  <div class="container">
+    <p class="section-label">使用方案</p>
+    <h2 class="section-title">選擇你的使用方式</h2>
+    <p class="section-sub">LINE Bot 與網頁版均完全免費，兩種方式可同時使用。</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-plan">LINE Bot</div>
+        <div class="pricing-price">免費<small>永久</small></div>
+        <p class="pricing-desc">透過 LINE 使用完整功能，手機即可操作，最適合日常使用。</p>
+        <ul class="pricing-features">
+          <li>AI 智慧育兒問答（無限次）</li>
+          <li>疫苗時程主動推播</li>
+          <li>補助申辦截止日提醒</li>
+          <li>寶寶資料建檔（可多位）</li>
+          <li>縣市個人化補助篩選</li>
+          <li>每日 09:00 里程碑提醒</li>
+        </ul>
+        <a href="https://line.me" target="_blank" class="btn btn-line" style="width:100%;display:block">加入 LINE Bot</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-plan">網頁版</div>
+        <div class="pricing-price">免費<small>永久</small></div>
+        <p class="pricing-desc">完整網頁介面，含社群論壇、知識庫文章、詳細問答。</p>
+        <ul class="pricing-features">
+          <li>LINE Bot 所有功能</li>
+          <li>社群論壇（5 大板塊）</li>
+          <li>完整知識庫文章閱讀</li>
+          <li>帳號系統（匿名 + 實名）</li>
+          <li>貼文按讚與巢狀留言</li>
+          <li>熱門貼文排行榜</li>
+        </ul>
+        <a href="#" onclick="alert('網頁版開發中，敬請期待！')" class="btn btn-primary" style="width:100%;display:block">進入網頁版（即將上線）</a>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:12px;color:var(--gray-light);margin-top:24px">本平台為非商業學術專案，所有資訊免費開放使用 · 實際申辦請以各主管機關公告為準</p>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section alt-bg" id="testimonials">
+  <div class="container">
+    <p class="section-label">爸媽怎麼說</p>
+    <h2 class="section-title">真實使用心得</h2>
+    <p class="section-sub">來自各縣市新手爸媽的使用回饋。</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-text">之前光是研究台北市生育獎勵金要去哪裡辦、要帶什麼，就花了我一個下午。用了這個 LINE Bot，直接問就有答案，連申請流程和文件清單都一起給我，超省事。</p>
+        <div class="testimonial-author">陳小姐</div>
+        <div class="testimonial-role">台北市 · 第一胎媽媽</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-text">推播功能真的救了我！寶寶三個月的疫苗差點忘記，LINE 提前三天提醒我，而且連要去哪間診所、需要帶什麼都說清楚了。太實用了。</p>
+        <div class="testimonial-author">王爸爸</div>
+        <div class="testimonial-role">新北市 · 雙胞胎爸爸</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-text">原本以為 AI 會亂說，但每個答案都有附來源，還說是哪份政府文件。這點讓我很放心，知道資訊是有根據的，不是 AI 自己編出來的。</p>
+        <div class="testimonial-author">林媽媽</div>
+        <div class="testimonial-role">台中市 · 高齡初產婦</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA SOURCES -->
+<section class="section white-bg">
+  <div class="container">
+    <p class="section-label">資料來源</p>
+    <h2 class="section-title">整合 10+ 個官方資料來源</h2>
+    <div class="sources-bar">
+      <div class="source-chip">衛生福利部</div>
+      <div class="source-chip">教育部</div>
+      <div class="source-chip">勞動部</div>
+      <div class="source-chip">國民健康署</div>
+      <div class="source-chip">疾病管制署</div>
+      <div class="source-chip">台北市政府社會局</div>
+      <div class="source-chip">台北市政府教育局</div>
+      <div class="source-chip">全國社會福利資訊網</div>
+      <div class="source-chip">born.taipei</div>
+      <div class="source-chip">健保署</div>
+      <div class="source-chip">1957 福利諮詢專線</div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section alt-bg" id="faq">
+  <div class="container">
+    <p class="section-label">常見問題</p>
+    <h2 class="section-title">你可能想知道的事</h2>
+    <p class="section-sub" style="margin-bottom:32px">找不到答案？直接在 LINE Bot 問我們。</p>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          這個平台是免費的嗎？
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a">完全免費，永久免費。本平台是學術非商業專案，不收取任何費用，也不需要訂閱或付費升級。LINE Bot 和網頁版都是免費使用。</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          AI 的回答準確嗎？如何確保資訊是正確的？
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a">我們使用 RAG（檢索增強生成）技術——每個回答都直接從政府官方文件中檢索，附有來源標籤。若知識庫中沒有答案，AI 會誠實告知，不會自行捏造。請以各主管機關最新公告為準。</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          我的個人資料安全嗎？
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a">系統只儲存您的 LINE user_id、縣市、寶寶暱稱與生日，不儲存任何對話內容。資料存放於 Supabase 雲端資料庫（位於亞洲），僅用於計算推播時程，不會對外分享或販售。</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          支援哪些縣市的資料？
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a">目前詳細資料以台北市最完整（含生育獎勵金、兒童醫療補助、特殊境遇扶助等），全國性政策（育兒津貼、公費疫苗、育嬰留停等）適用所有縣市。其他縣市資料持續擴充中。</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          可以同時新增多位寶寶嗎？
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a">可以！輸入「新增寶寶」可以為每位孩子建立獨立的資料，系統會分別計算每位寶寶的疫苗時程與補助時程，並分別推播提醒。</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          知識庫的資料多久更新一次？
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a">系統內建自動爬蟲，每週一凌晨 02:00 自動抓取衛福部、國健署、台北市 born.taipei 等 5 個政府網站。透過 MD5 Hash 比對，只有內容真正改變時才更新，確保知識庫保持最新。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER / CTA -->
+<section class="section white-bg" id="newsletter">
+  <div class="container">
+    <div class="newsletter-wrap">
+      <h2>加入育兒導航社群</h2>
+      <p>訂閱電子報，獲取最新育兒補助政策更新、疫苗資訊與親子活動通知</p>
+      <div class="newsletter-form">
+        <input type="email" class="newsletter-input" placeholder="輸入您的 Email">
+        <button class="btn btn-primary" onclick="alert('感謝訂閱！您將收到最新育兒資訊通知。')">訂閱</button>
+      </div>
+      <p class="newsletter-note">我們不發垃圾信，每月不超過 2 封，隨時可取消訂閱</p>
+      <div class="social-links">
+        <a href="https://line.me" target="_blank" class="social-link" title="LINE Bot">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+        </a>
+        <a href="https://www.mohw.gov.tw" target="_blank" class="social-link" title="衛福部">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </a>
+        <a href="mailto:info@parenting-navigator.tw" class="social-link" title="Email">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="section alt-bg">
+  <div class="container" style="max-width:680px">
+    <div class="highlight-box">
+      <h3>現在就開始使用</h3>
+      <p>加入 LINE Bot，輸入「設定寶寶」，3 分鐘完成建檔，系統立刻開始為你追蹤疫苗時程與補助期限。完全免費，隨時可退出。</p>
+      <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
+        <a href="https://line.me" target="_blank" class="btn" style="background:#fff;color:var(--brown)">加入 LINE Bot</a>
+        <a href="#" onclick="alert('網頁版即將上線！')" class="btn" style="background:rgba(255,255,255,.2);color:#fff;border:2px solid rgba(255,255,255,.5)">進入網頁版</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo-text">育兒導航全攻略</div>
+      <p>整合台灣政府各部門育兒資訊，讓每一個家庭都能獲得最完整的支援。</p>
+    </div>
+    <div class="footer-col">
+      <h5>服務項目</h5>
+      <ul>
+        <li><a href="#features">LINE Bot 問答</a></li>
+        <li><a href="#features">主動推播提醒</a></li>
+        <li><a href="#features">社群論壇</a></li>
+        <li><a href="#knowledge">知識庫</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>政府資源</h5>
+      <ul>
+        <li><a href="https://www.mohw.gov.tw" target="_blank">衛生福利部</a></li>
+        <li><a href="https://www.mol.gov.tw" target="_blank">勞動部</a></li>
+        <li><a href="https://www.moe.gov.tw" target="_blank">教育部</a></li>
+        <li><a href="https://born.taipei" target="_blank">born.taipei</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>緊急諮詢</h5>
+      <ul>
+        <li><a href="tel:1925">1925 安心專線</a></li>
+        <li><a href="tel:1957">1957 福利諮詢</a></li>
+        <li><a href="tel:1999">1999 市民熱線</a></li>
+        <li><a href="tel:113">113 保護專線</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 育兒導航全攻略 · 工研院課程期末專題</p>
+    <p>資料來源：衛福部、教育部、勞動部等政府機關 · 僅供參考，實際申辦請以各主管機關公告為準</p>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(btn){
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+}
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id=a.getAttribute('href').slice(1);
+    const el=document.getElementById(id);
+    if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
+// Simple scroll animation
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.style.opacity='1';
+      entry.target.style.transform='translateY(0)';
+    }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.feature-card,.testimonial-card,.step-card,.toc-item').forEach(el=>{
+  el.style.opacity='0';
+  el.style.transform='translateY(20px)';
+  el.style.transition='opacity .4s ease, transform .4s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
