@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>育兒導航 — 後台管理中心</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+/* ── Reset & Tokens ────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:       #0f1117;
+  --surface:  #1a1d27;
+  --surface2: #22263a;
+  --border:   #2d3154;
+  --text:     #e8eaf6;
+  --muted:    #8892b0;
+  --accent:   #7c83ff;
+  --accent2:  #56cfbe;
+  --red:      #ff6b7a;
+  --orange:   #ffb347;
+  --green:    #4cde9a;
+  --medical:  #7c83ff;
+  --subsidy:  #4cde9a;
+  --daycare:  #ffb347;
+  --activity: #ff6b7a;
+  --sidebar-w: 220px;
+}
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* ── Login Screen ──────────────────────────────────────── */
+#login-screen {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 30% 20%, #1a1d3a 0%, #0f1117 70%);
+}
+.login-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 48px 40px; width: 360px;
+  box-shadow: 0 24px 64px rgba(0,0,0,.5);
+}
+.login-box .logo { font-size: 32px; margin-bottom: 8px; }
+.login-box h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.login-box p  { color: var(--muted); font-size: 13px; margin-bottom: 32px; }
+.login-box label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; letter-spacing: .05em; }
+.login-box input[type=password] {
+  width: 100%; padding: 10px 14px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text); font-size: 14px; outline: none;
+  transition: border-color .2s;
+}
+.login-box input[type=password]:focus { border-color: var(--accent); }
+.login-btn {
+  width: 100%; margin-top: 20px; padding: 12px;
+  background: var(--accent); border: none; border-radius: 8px;
+  color: #fff; font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: opacity .2s;
+}
+.login-btn:hover { opacity: .85; }
+.login-btn:disabled { opacity: .5; cursor: default; }
+.login-error { color: var(--red); font-size: 12px; margin-top: 10px; display: none; }
+
+/* ── App Shell ─────────────────────────────────────────── */
+#app { display: none; }
+
+/* ── Sidebar ───────────────────────────────────────────── */
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: var(--sidebar-w); background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; z-index: 100;
+}
+.sidebar-logo {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 700; font-size: 15px;
+}
+.sidebar-logo span { opacity: .5; font-size: 11px; font-weight: 400; display: block; margin-top: 2px; }
+.nav-section { padding: 12px 0; flex: 1; overflow-y: auto; }
+.nav-label { font-size: 10px; color: var(--muted); letter-spacing: .1em; padding: 8px 20px 4px; text-transform: uppercase; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 20px; cursor: pointer; font-size: 13px;
+  color: var(--muted); border-left: 2px solid transparent;
+  transition: all .15s; user-select: none;
+}
+.nav-item:hover { color: var(--text); background: rgba(255,255,255,.04); }
+.nav-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(124,131,255,.08); }
+.nav-item .icon { font-size: 15px; width: 18px; text-align: center; }
+.sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--muted);
+}
+.logout-btn { color: var(--red); cursor: pointer; font-size: 12px; }
+.logout-btn:hover { text-decoration: underline; }
+
+/* ── Main Content ──────────────────────────────────────── */
+.main {
+  margin-left: var(--sidebar-w);
+  padding: 28px 32px;
+  min-height: 100vh;
+}
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 28px;
+}
+.topbar h2 { font-size: 20px; font-weight: 700; }
+.topbar-meta { font-size: 12px; color: var(--muted); }
+.refresh-btn {
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--text); padding: 7px 14px; border-radius: 8px;
+  font-size: 12px; cursor: pointer; transition: border-color .2s;
+}
+.refresh-btn:hover { border-color: var(--accent); }
+
+/* ── Pages ─────────────────────────────────────────────── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── KPI Cards ─────────────────────────────────────────── */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+.kpi-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 22px;
+}
+.kpi-label { font-size: 11px; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 8px; }
+.kpi-value { font-size: 32px; font-weight: 800; line-height: 1; }
+.kpi-sub   { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.kpi-card.accent-blue .kpi-value { color: var(--accent); }
+.kpi-card.accent-green .kpi-value { color: var(--green); }
+.kpi-card.accent-orange .kpi-value { color: var(--orange); }
+.kpi-card.accent-red .kpi-value { color: var(--red); }
+
+/* ── Grid Layouts ──────────────────────────────────────── */
+.two-col  { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+.full-col { margin-bottom: 20px; }
+.chart-60-40 { display: grid; grid-template-columns: 3fr 2fr; gap: 20px; margin-bottom: 20px; }
+
+/* ── Chart Cards ───────────────────────────────────────── */
+.chart-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 22px 24px;
+}
+.chart-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.chart-sub   { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+.chart-wrap  { position: relative; }
+.chart-wrap canvas { max-width: 100%; }
+
+/* ── Topic Ranking Bars ────────────────────────────────── */
+.rank-list { display: flex; flex-direction: column; gap: 10px; }
+.rank-item { }
+.rank-row  { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.rank-num  { width: 20px; font-size: 11px; color: var(--muted); text-align: right; flex-shrink: 0; }
+.rank-label { font-size: 12px; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rank-count { font-size: 12px; color: var(--muted); flex-shrink: 0; }
+.rank-bar-bg { background: var(--surface2); border-radius: 3px; height: 6px; overflow: hidden; }
+.rank-bar-fill { height: 100%; border-radius: 3px; background: var(--accent); transition: width .4s; }
+.cat-badge {
+  font-size: 10px; padding: 1px 6px; border-radius: 4px; flex-shrink: 0;
+  font-weight: 600; letter-spacing: .03em;
+}
+.cat-medical  { background: rgba(124,131,255,.2); color: var(--medical); }
+.cat-subsidy  { background: rgba(76,222,154,.2);  color: var(--subsidy); }
+.cat-daycare  { background: rgba(255,179,71,.2);  color: var(--daycare); }
+.cat-activity { background: rgba(255,107,122,.2); color: var(--activity); }
+
+/* ── Data Table ─────────────────────────────────────────── */
+.table-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden;
+}
+.table-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 22px; border-bottom: 1px solid var(--border);
+}
+.table-title { font-size: 14px; font-weight: 600; }
+.search-input {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); padding: 7px 12px; font-size: 12px;
+  outline: none; width: 200px; transition: border-color .2s;
+}
+.search-input:focus { border-color: var(--accent); }
+table { width: 100%; border-collapse: collapse; }
+th { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .05em;
+     text-transform: uppercase; padding: 10px 22px; text-align: left;
+     border-bottom: 1px solid var(--border); background: var(--surface2); }
+td { padding: 12px 22px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,.04); }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,.03); }
+.td-mono { font-family: monospace; font-size: 11px; color: var(--muted); }
+.click-link { color: var(--accent); cursor: pointer; text-decoration: none; }
+.click-link:hover { text-decoration: underline; }
+
+/* ── User Detail Drawer ─────────────────────────────────── */
+.drawer-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.6);
+  z-index: 200; display: none; align-items: flex-start; justify-content: flex-end;
+}
+.drawer-overlay.open { display: flex; }
+.drawer {
+  width: 480px; height: 100vh; background: var(--surface);
+  border-left: 1px solid var(--border);
+  overflow-y: auto; padding: 28px 28px;
+}
+.drawer-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.drawer-head h3 { font-size: 15px; font-weight: 700; }
+.drawer-close { background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; }
+.drawer-section { margin-bottom: 24px; }
+.drawer-section h4 { font-size: 12px; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+.drawer-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,.04); }
+.drawer-row:last-child { border-bottom: none; }
+.drawer-key { color: var(--muted); font-size: 12px; }
+.drawer-val { font-weight: 500; max-width: 260px; text-align: right; font-size: 12px; word-break: break-all; }
+.click-row { font-size: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.04); display: flex; gap: 8px; align-items: flex-start; }
+.click-row:last-child { border-bottom: none; }
+.click-time { color: var(--muted); font-size: 11px; flex-shrink: 0; }
+.click-policy { font-weight: 600; word-break: break-all; }
+.click-pri { font-size: 10px; padding: 1px 6px; border-radius: 4px; flex-shrink: 0; }
+.pri-high   { background: rgba(255,107,122,.2); color: var(--red); }
+.pri-medium { background: rgba(255,179,71,.2); color: var(--orange); }
+.pri-low    { background: rgba(76,222,154,.2); color: var(--green); }
+
+/* ── Loading spinner ────────────────────────────────────── */
+.spinner { text-align: center; color: var(--muted); padding: 40px; font-size: 13px; }
+.spinner::before { content: '⏳ '; }
+
+/* ── Empty state ────────────────────────────────────────── */
+.empty { text-align: center; color: var(--muted); padding: 40px; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════
+     LOGIN SCREEN
+══════════════════════════════════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="logo">🧭</div>
+    <h1>後台管理中心</h1>
+    <p>育兒導航 · Admin Dashboard</p>
+    <label>管理員密碼</label>
+    <input type="password" id="pwd-input" placeholder="請輸入密碼" autocomplete="current-password">
+    <button class="login-btn" id="login-btn" onclick="doLogin()">登入</button>
+    <div class="login-error" id="login-error">密碼錯誤，請重試</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     APP SHELL
+══════════════════════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      🧭 育兒導航
+      <span>Admin Dashboard</span>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">分析總覽</div>
+      <div class="nav-item active" onclick="goPage('overview')">
+        <span class="icon">📊</span> 整體概覽
+      </div>
+      <div class="nav-item" onclick="goPage('topics')">
+        <span class="icon">🏆</span> 熱門主題排名
+      </div>
+      <div class="nav-item" onclick="goPage('trend')">
+        <span class="icon">📈</span> 點擊趨勢
+      </div>
+      <div class="nav-label">用戶管理</div>
+      <div class="nav-item" onclick="goPage('users')">
+        <span class="icon">👥</span> 用戶列表
+      </div>
+      <div class="nav-label">社群</div>
+      <div class="nav-item" onclick="goPage('forum')">
+        <span class="icon">💬</span> 論壇貼文
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      <div style="margin-bottom:6px">已登入 · Admin</div>
+      <span class="logout-btn" onclick="doLogout()">登出</span>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="topbar">
+      <h2 id="page-title">整體概覽</h2>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="topbar-meta" id="last-updated"></span>
+        <button class="refresh-btn" onclick="refreshPage()">↻ 重新整理</button>
+      </div>
+    </div>
+
+    <!-- ── Page: Overview ───────────────────────────────── -->
+    <div class="page active" id="page-overview">
+      <div class="kpi-grid" id="kpi-grid">
+        <div class="spinner" style="grid-column:1/-1">載入中…</div>
+      </div>
+      <div class="chart-60-40">
+        <div class="chart-card">
+          <div class="chart-title">過去 14 天點擊趨勢</div>
+          <div class="chart-sub">每日各類別點擊量</div>
+          <div class="chart-wrap"><canvas id="chart-trend-mini" height="200"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">四大主題分布</div>
+          <div class="chart-sub">全時段點擊比例</div>
+          <div class="chart-wrap"><canvas id="chart-dist-mini" height="200"></canvas></div>
+        </div>
+      </div>
+      <!-- Mini topic rank -->
+      <div class="chart-card full-col">
+        <div class="chart-title">熱門主題 Top 10</div>
+        <div class="chart-sub">點擊次數最高的政策 / 文章</div>
+        <div class="chart-wrap"><canvas id="chart-rank-bar-mini" height="200"></canvas></div>
+      </div>
+    </div>
+
+    <!-- ── Page: Topics ─────────────────────────────────── -->
+    <div class="page" id="page-topics">
+      <div class="two-col">
+        <div class="chart-card">
+          <div class="chart-title">主題點擊排行（橫向柱狀）</div>
+          <div class="chart-sub">依點擊數排名 Top 15 政策</div>
+          <div class="chart-wrap"><canvas id="chart-rank-bar" height="380"></canvas></div>
+        </div>
+        <div class="chart-card" style="display:flex;flex-direction:column;">
+          <div class="chart-title">類別點擊分布</div>
+          <div class="chart-sub">四大主題佔比圓餅</div>
+          <div class="chart-wrap" style="flex:1;display:flex;align-items:center;justify-content:center;">
+            <canvas id="chart-donut" style="max-height:320px"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="chart-card full-col">
+        <div class="chart-title">熱門主題詳細清單</div>
+        <div class="chart-sub">含政策 ID、類別標籤、點擊數</div>
+        <div id="rank-list-detail" style="margin-top:4px"></div>
+      </div>
+    </div>
+
+    <!-- ── Page: Trend ──────────────────────────────────── -->
+    <div class="page" id="page-trend">
+      <div class="chart-card full-col">
+        <div class="chart-title">14 天點擊折線趨勢</div>
+        <div class="chart-sub">每日各類別點擊量（醫療 · 補助 · 托育 · 活動）</div>
+        <div class="chart-wrap"><canvas id="chart-trend" height="260"></canvas></div>
+      </div>
+      <div class="chart-card full-col" style="margin-top:0">
+        <div class="chart-title">每日點擊量（堆疊柱狀）</div>
+        <div class="chart-sub">各類別堆疊顯示</div>
+        <div class="chart-wrap"><canvas id="chart-stacked" height="220"></canvas></div>
+      </div>
+    </div>
+
+    <!-- ── Page: Users ──────────────────────────────────── -->
+    <div class="page" id="page-users">
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">用戶列表 <span id="user-count" style="color:var(--muted);font-weight:400;font-size:13px"></span></div>
+          <input class="search-input" id="user-search" placeholder="🔍 搜尋暱稱 / 地區…" oninput="filterUsers()">
+        </div>
+        <div id="users-table-wrap"><div class="spinner">載入中…</div></div>
+      </div>
+    </div>
+
+    <!-- ── Page: Forum ──────────────────────────────────── -->
+    <div class="page" id="page-forum">
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">論壇最新貼文</div>
+        </div>
+        <div id="forum-table-wrap"><div class="spinner">載入中…</div></div>
+      </div>
+    </div>
+
+  </div><!-- .main -->
+</div><!-- #app -->
+
+<!-- ── User Detail Drawer ─────────────────────────────── -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer(event)">
+  <div class="drawer" id="drawer">
+    <div class="drawer-head">
+      <h3 id="drawer-title">用戶詳情</h3>
+      <button class="drawer-close" onclick="closeDrawer()">✕</button>
+    </div>
+    <div id="drawer-body"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════════ -->
+<script>
+/* ── State ───────────────────────────────────────────── */
+let adminToken   = sessionStorage.getItem('admin_token') || '';
+let currentPage  = 'overview';
+let allUsers     = [];
+let charts       = {};   // Chart.js instances keyed by canvas id
+
+const CAT_LABEL = { medical:'醫療保健', subsidy:'補助福利', daycare:'托育服務', activity:'親子活動' };
+const CAT_COLOR = { medical:'#7c83ff', subsidy:'#4cde9a', daycare:'#ffb347', activity:'#ff6b7a' };
+
+/* ── Login ───────────────────────────────────────────── */
+document.getElementById('pwd-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+async function doLogin() {
+  const pwd = document.getElementById('pwd-input').value;
+  const btn = document.getElementById('login-btn');
+  const err = document.getElementById('login-error');
+  btn.disabled = true; btn.textContent = '驗證中…';
+  err.style.display = 'none';
+  try {
+    const r = await fetch('/api/admin-auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pwd })
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error);
+    adminToken = data.token;
+    sessionStorage.setItem('admin_token', adminToken);
+    showApp();
+  } catch {
+    err.style.display = 'block';
+    btn.disabled = false; btn.textContent = '登入';
+  }
+}
+
+function doLogout() {
+  adminToken = '';
+  sessionStorage.removeItem('admin_token');
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('pwd-input').value = '';
+}
+
+/* ── Init ────────────────────────────────────────────── */
+if (adminToken) {
+  showApp();
+} else {
+  // keep login visible
+}
+
+function showApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  loadPage('overview');
+}
+
+/* ── Routing ─────────────────────────────────────────── */
+const PAGE_TITLES = {
+  overview: '整體概覽',
+  topics:   '熱門主題排名',
+  trend:    '點擊趨勢分析',
+  users:    '用戶列表',
+  forum:    '論壇貼文',
+};
+
+function goPage(name) {
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  document.querySelector(`.nav-item[onclick="goPage('${name}')"]`).classList.add('active');
+  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.getElementById('page-title').textContent = PAGE_TITLES[name];
+  currentPage = name;
+  loadPage(name);
+}
+
+function refreshPage() { loadPage(currentPage); }
+
+function loadPage(name) {
+  setUpdatedNow();
+  if (name === 'overview') loadOverview();
+  if (name === 'topics')   loadTopics();
+  if (name === 'trend')    loadTrend();
+  if (name === 'users')    loadUsers();
+  if (name === 'forum')    loadForum();
+}
+
+function setUpdatedNow() {
+  const now = new Date();
+  document.getElementById('last-updated').textContent =
+    '更新：' + now.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' });
+}
+
+/* ── API Helper ──────────────────────────────────────── */
+async function api(type, extra = '') {
+  const r = await fetch(`/api/admin-stats?type=${type}${extra}`, {
+    headers: { Authorization: `Bearer ${adminToken}` }
+  });
+  if (r.status === 401) { doLogout(); throw new Error('Unauthorized'); }
+  return r.json();
+}
+
+/* ── Chart Helper ────────────────────────────────────── */
+function destroyChart(id) {
+  if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+}
+
+/* ════════════════════════════════════════════════════════
+   PAGE: OVERVIEW
+════════════════════════════════════════════════════════ */
+async function loadOverview() {
+  // KPI
+  const kpi = await api('overview').catch(() => null);
+  const kpiGrid = document.getElementById('kpi-grid');
+  if (kpi) {
+    kpiGrid.innerHTML = `
+      <div class="kpi-card accent-blue">
+        <div class="kpi-label">總用戶數</div>
+        <div class="kpi-value">${kpi.total_users.toLocaleString()}</div>
+        <div class="kpi-sub">累計註冊</div>
+      </div>
+      <div class="kpi-card accent-green">
+        <div class="kpi-label">總點擊次數</div>
+        <div class="kpi-value">${kpi.total_clicks.toLocaleString()}</div>
+        <div class="kpi-sub">政策文章點擊</div>
+      </div>
+      <div class="kpi-card accent-orange">
+        <div class="kpi-label">本週新用戶</div>
+        <div class="kpi-value">${kpi.new_users_week.toLocaleString()}</div>
+        <div class="kpi-sub">過去 7 天</div>
+      </div>
+      <div class="kpi-card accent-red">
+        <div class="kpi-label">本月點擊</div>
+        <div class="kpi-value">${kpi.clicks_month.toLocaleString()}</div>
+        <div class="kpi-sub">過去 30 天</div>
+      </div>
+    `;
+  }
+
+  // Mini trend
+  const trendData = await api('click_trend').catch(() => null);
+  if (trendData) renderTrendChart('chart-trend-mini', trendData.trend, false);
+
+  // Mini dist
+  const distData = await api('category_dist').catch(() => null);
+  if (distData) renderDistChart('chart-dist-mini', distData.distribution);
+
+  // Mini rank bar
+  const rankData = await api('topic_rank').catch(() => null);
+  if (rankData) renderRankBarChart('chart-rank-bar-mini', rankData.items.slice(0, 10));
+}
+
+/* ════════════════════════════════════════════════════════
+   PAGE: TOPICS
+════════════════════════════════════════════════════════ */
+async function loadTopics() {
+  const [rankData, distData] = await Promise.all([
+    api('topic_rank').catch(() => null),
+    api('category_dist').catch(() => null),
+  ]);
+
+  if (rankData) {
+    renderRankBarChart('chart-rank-bar', rankData.items.slice(0, 15));
+    renderRankList(rankData.items.slice(0, 15));
+  }
+  if (distData) renderDistChart('chart-donut', distData.distribution);
+}
+
+function renderRankList(items) {
+  const max = Math.max(...items.map(i => i.count), 1);
+  const el = document.getElementById('rank-list-detail');
+  if (!items.length) { el.innerHTML = '<div class="empty">暫無資料</div>'; return; }
+  el.innerHTML = `<div class="rank-list">
+    ${items.map((item, idx) => `
+      <div class="rank-item">
+        <div class="rank-row">
+          <span class="rank-num">${idx + 1}</span>
+          <span class="rank-label" title="${item.policy_id}">${item.policy_id}</span>
+          <span class="cat-badge cat-${item.category || 'medical'}">${CAT_LABEL[item.category] || item.category || '—'}</span>
+          <span class="rank-count">${item.count} 次</span>
+        </div>
+        <div style="padding:0 0 0 30px">
+          <div class="rank-bar-bg">
+            <div class="rank-bar-fill" style="width:${Math.round(item.count / max * 100)}%;background:${CAT_COLOR[item.category] || '#7c83ff'}"></div>
+          </div>
+        </div>
+      </div>
+    `).join('')}
+  </div>`;
+}
+
+/* ════════════════════════════════════════════════════════
+   PAGE: TREND
+════════════════════════════════════════════════════════ */
+async function loadTrend() {
+  const data = await api('click_trend').catch(() => null);
+  if (!data) return;
+  renderTrendChart('chart-trend', data.trend, true);
+  renderStackedChart('chart-stacked', data.trend);
+}
+
+/* ════════════════════════════════════════════════════════
+   PAGE: USERS
+════════════════════════════════════════════════════════ */
+async function loadUsers() {
+  const wrap = document.getElementById('users-table-wrap');
+  wrap.innerHTML = '<div class="spinner">載入中…</div>';
+  const data = await api('users').catch(() => null);
+  if (!data) { wrap.innerHTML = '<div class="empty">載入失敗</div>'; return; }
+  allUsers = data.users || [];
+  document.getElementById('user-count').textContent = `(${allUsers.length} 筆)`;
+  renderUserTable(allUsers);
+}
+
+function filterUsers() {
+  const q = document.getElementById('user-search').value.toLowerCase();
+  const filtered = allUsers.filter(u =>
+    (u.user_nickname || '').toLowerCase().includes(q) ||
+    (u.region || '').toLowerCase().includes(q)
+  );
+  renderUserTable(filtered);
+}
+
+function renderUserTable(users) {
+  const wrap = document.getElementById('users-table-wrap');
+  if (!users.length) { wrap.innerHTML = '<div class="empty">沒有符合條件的用戶</div>'; return; }
+  wrap.innerHTML = `
+    <table>
+      <thead><tr>
+        <th>暱稱</th><th>地區</th><th>就業狀況</th><th>偏好主題</th><th>點擊次數</th><th>建立時間</th><th>操作</th>
+      </tr></thead>
+      <tbody>
+        ${users.map(u => `
+          <tr>
+            <td>${u.user_nickname || '—'}</td>
+            <td>${u.region || '—'}</td>
+            <td>${fmtEmployment(u.parental_employment)}</td>
+            <td>${fmtCategories(u.preferred_categories)}</td>
+            <td><strong>${u.click_count}</strong></td>
+            <td class="td-mono">${u.created_at ? u.created_at.slice(0,10) : '—'}</td>
+            <td><a class="click-link" onclick="openUserDrawer('${u.id}', ${JSON.stringify(u).replace(/"/g,'&quot;')})">查看詳情</a></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>`;
+}
+
+function fmtEmployment(v) {
+  return { both_working:'雙薪家庭', single_working:'單薪家庭', not_working:'全職照顧' }[v] || v || '—';
+}
+function fmtCategories(arr) {
+  if (!arr || !arr.length) return '—';
+  const a = Array.isArray(arr) ? arr : (typeof arr === 'string' ? JSON.parse(arr) : []);
+  return a.map(c => `<span class="cat-badge cat-${c}">${CAT_LABEL[c] || c}</span>`).join(' ');
+}
+
+/* ── User Drawer ─────────────────────────────────────── */
+async function openUserDrawer(userId, user) {
+  const overlay = document.getElementById('drawer-overlay');
+  const body    = document.getElementById('drawer-body');
+  document.getElementById('drawer-title').textContent = user.user_nickname || '用戶詳情';
+  overlay.classList.add('open');
+
+  body.innerHTML = `
+    <div class="drawer-section">
+      <h4>基本資料</h4>
+      ${drow('用戶 ID', `<span style="font-family:monospace;font-size:11px">${userId.slice(0,8)}…</span>`)}
+      ${drow('暱稱',     user.user_nickname || '—')}
+      ${drow('地區',     user.region || '—')}
+      ${drow('就業狀況', fmtEmployment(user.parental_employment))}
+      ${drow('特殊身分', user.special_status || '無')}
+      ${drow('偏好主題', fmtCategories(user.preferred_categories))}
+      ${drow('點擊次數', `<strong>${user.click_count}</strong> 次`)}
+      ${drow('建立時間', user.created_at ? user.created_at.slice(0,10) : '—')}
+    </div>
+    <div class="drawer-section">
+      <h4>點擊記錄 <span id="click-loading" style="color:var(--muted);font-weight:400">載入中…</span></h4>
+      <div id="click-list"></div>
+    </div>`;
+
+  // async load clicks
+  const data = await api('user_clicks', `&user_id=${userId}`).catch(() => null);
+  document.getElementById('click-loading').textContent = '';
+  const list = document.getElementById('click-list');
+  if (!data || !data.clicks.length) {
+    list.innerHTML = '<div class="empty" style="padding:16px 0">尚無點擊記錄</div>';
+    return;
+  }
+  list.innerHTML = data.clicks.map(c => `
+    <div class="click-row">
+      <div style="flex:1">
+        <div class="click-policy">${c.policy_id}</div>
+        <div class="click-time">${c.clicked_at ? c.clicked_at.replace('T',' ').slice(0,16) : ''}</div>
+      </div>
+      <span class="cat-badge cat-${c.category || ''}">${CAT_LABEL[c.category] || '—'}</span>
+      <span class="click-pri pri-${c.priority || 'low'}">${c.priority || '—'}</span>
+    </div>`).join('');
+}
+
+function drow(key, val) {
+  return `<div class="drawer-row"><span class="drawer-key">${key}</span><span class="drawer-val">${val}</span></div>`;
+}
+
+function closeDrawer(e) {
+  if (e && e.target !== document.getElementById('drawer-overlay')) return;
+  document.getElementById('drawer-overlay').classList.remove('open');
+}
+
+/* ════════════════════════════════════════════════════════
+   PAGE: FORUM
+════════════════════════════════════════════════════════ */
+async function loadForum() {
+  const wrap = document.getElementById('forum-table-wrap');
+  wrap.innerHTML = '<div class="spinner">載入中…</div>';
+  const data = await api('forum_posts').catch(() => null);
+  if (!data) { wrap.innerHTML = '<div class="empty">載入失敗</div>'; return; }
+  const posts = data.posts || [];
+  if (!posts.length) { wrap.innerHTML = '<div class="empty">暫無貼文</div>'; return; }
+  wrap.innerHTML = `
+    <table>
+      <thead><tr>
+        <th>標題</th><th>類別</th><th>瀏覽</th><th>按讚</th><th>發布時間</th>
+      </tr></thead>
+      <tbody>
+        ${posts.map(p => `<tr>
+          <td>${p.title || '（無標題）'}</td>
+          <td><span class="cat-badge cat-${p.category || ''}">${CAT_LABEL[p.category] || p.category || '—'}</span></td>
+          <td>${p.view_count ?? '—'}</td>
+          <td>${p.like_count ?? '—'}</td>
+          <td class="td-mono">${p.created_at ? p.created_at.slice(0,10) : '—'}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+/* ════════════════════════════════════════════════════════
+   CHART RENDERERS
+════════════════════════════════════════════════════════ */
+
+// 折線圖（趨勢）
+function renderTrendChart(canvasId, trend, showLegend) {
+  destroyChart(canvasId);
+  const labels = trend.map(d => d.date.slice(5)); // MM-DD
+  const cats   = ['medical','subsidy','daycare','activity'];
+  const datasets = cats.map(cat => ({
+    label: CAT_LABEL[cat],
+    data: trend.map(d => d[cat] || 0),
+    borderColor: CAT_COLOR[cat],
+    backgroundColor: CAT_COLOR[cat] + '20',
+    tension: 0.35,
+    fill: false,
+    pointRadius: 3,
+  }));
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  charts[canvasId] = new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: showLegend, position: 'top', labels: { color: '#8892b0', font: { size: 11 } } },
+      },
+      scales: {
+        x: { ticks: { color: '#8892b0', font: { size: 10 } }, grid: { color: '#2d3154' } },
+        y: { ticks: { color: '#8892b0', font: { size: 10 } }, grid: { color: '#2d3154' }, beginAtZero: true },
+      },
+    }
+  });
+}
+
+// 堆疊柱狀
+function renderStackedChart(canvasId, trend) {
+  destroyChart(canvasId);
+  const labels = trend.map(d => d.date.slice(5));
+  const cats   = ['medical','subsidy','daycare','activity'];
+  const datasets = cats.map(cat => ({
+    label: CAT_LABEL[cat],
+    data: trend.map(d => d[cat] || 0),
+    backgroundColor: CAT_COLOR[cat] + 'cc',
+  }));
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  charts[canvasId] = new Chart(ctx, {
+    type: 'bar',
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: true, position: 'top', labels: { color: '#8892b0', font: { size: 11 } } } },
+      scales: {
+        x: { stacked: true, ticks: { color: '#8892b0', font: { size: 10 } }, grid: { color: '#2d3154' } },
+        y: { stacked: true, ticks: { color: '#8892b0', font: { size: 10 } }, grid: { color: '#2d3154' }, beginAtZero: true },
+      },
+    }
+  });
+}
+
+// 圓餅 / 甜甜圈
+function renderDistChart(canvasId, dist) {
+  destroyChart(canvasId);
+  const cats   = ['medical','subsidy','daycare','activity'];
+  const labels = cats.map(c => CAT_LABEL[c]);
+  const values = cats.map(c => dist[c] || 0);
+  const colors = cats.map(c => CAT_COLOR[c]);
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  charts[canvasId] = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{ data: values, backgroundColor: colors, borderColor: '#1a1d27', borderWidth: 2 }],
+    },
+    options: {
+      responsive: true,
+      cutout: '62%',
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#8892b0', font: { size: 11 }, padding: 12 } },
+      },
+    }
+  });
+}
+
+// 橫向柱狀（排行）
+function renderRankBarChart(canvasId, items) {
+  destroyChart(canvasId);
+  if (!items.length) return;
+  // 顯示從少到多（Chart.js 由下往上，翻轉排序後最上方是第 1）
+  const sorted   = [...items].reverse();
+  const labels   = sorted.map(i => i.policy_id.length > 20 ? i.policy_id.slice(0,20)+'…' : i.policy_id);
+  const values   = sorted.map(i => i.count);
+  const bgColors = sorted.map(i => (CAT_COLOR[i.category] || '#7c83ff') + 'cc');
+
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  charts[canvasId] = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{ label: '點擊次數', data: values, backgroundColor: bgColors, borderRadius: 4 }],
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+      },
+      scales: {
+        x: { ticks: { color: '#8892b0', font: { size: 10 } }, grid: { color: '#2d3154' }, beginAtZero: true },
+        y: { ticks: { color: '#e8eaf6', font: { size: 11 } }, grid: { display: false } },
+      },
+    }
+  });
+}
+</script>
+</body>
+</html>
