@@ -22,8 +22,8 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--cream);color:var(--b
 /* ── TOPBAR ── */
 .topbar{background:var(--brown);padding:14px 32px;display:flex;align-items:center;gap:12px}
 .topbar-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.topbar-logo-icon{width:36px;height:36px;border-radius:10px;background:var(--apricot);display:flex;align-items:center;justify-content:center}
-.topbar-logo-icon svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2}
+.topbar-logo-icon{width:36px;height:36px;border-radius:8px;overflow:hidden;flex-shrink:0}
+.topbar-logo-icon img{width:100%;height:100%;object-fit:contain}
 .topbar-logo-text{font-family:'Noto Serif TC',serif;font-size:15px;font-weight:700;color:#fff}
 .topbar-sub{font-size:11px;color:rgba(255,255,255,.5);margin-left:auto}
 .topbar-login{font-size:13px;color:rgba(255,255,255,.7);text-decoration:none;border:1px solid rgba(255,255,255,.25);padding:5px 14px;border-radius:20px;transition:all .2s}
@@ -195,7 +195,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--cream);color:var(--b
 <div class="topbar">
   <a href="parenting-navigator-demo.html" class="topbar-logo">
     <div class="topbar-logo-icon">
-      <svg viewBox="0 0 24 24"><path d="M12 2C8.5 2 6 4.5 6 7.5c0 4 6 10 6 10s6-6 6-10C18 4.5 15.5 2 12 2z"/><circle cx="12" cy="7.5" r="2"/></svg>
+      <img src="img/2.png" alt="育兒導航">
     </div>
     <span class="topbar-logo-text">育兒導航全攻略</span>
   </a>
