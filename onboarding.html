@@ -248,7 +248,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--cream);color:var(--b
     <!-- STEP 1: 帳號資料 -->
     <div class="step active" id="step-1">
       <div class="step-title">建立帳號</div>
-      <div class="step-sub">請填寫您的基本聯絡資料，手機號碼將用於簡訊驗證與登入。</div>
+      <div class="step-sub">請填寫您的基本聯絡資料，手機號碼將用於登入。</div>
 
       <div class="field">
         <label>家長姓名 <span class="req">*</span></label>
@@ -261,7 +261,6 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--cream);color:var(--b
         <div class="phone-wrap">
           <div class="phone-prefix">🇹🇼 +886</div>
           <input type="tel" id="f-phone" placeholder="09XX-XXX-XXX" maxlength="10" autocomplete="tel" style="flex:1">
-          <button class="send-code-btn" id="send-code-btn" onclick="sendCode()">發送驗證碼</button>
         </div>
         <div class="error-msg" id="err-phone">請填寫有效的手機號碼</div>
       </div>
@@ -294,35 +293,9 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--cream);color:var(--b
       </div>
 
       <div class="btn-row">
-        <button class="btn-next" onclick="goStep(2)">繼續 →</button>
+        <button class="btn-next" onclick="goStep(3)">繼續 →</button>
       </div>
       <div class="login-hint">已有帳號？<a href="login.html">直接登入</a></div>
-    </div>
-
-    <!-- STEP 2: 手機驗證 -->
-    <div class="step" id="step-2">
-      <div class="step-title">驗證手機號碼</div>
-      <div class="step-sub">驗證碼已發送至 <strong id="show-phone"></strong>，請在 10 分鐘內輸入。</div>
-
-      <div class="otp-wrap">
-        <input class="otp-input" type="text" maxlength="1" id="otp0" oninput="otpNext(this,0)">
-        <input class="otp-input" type="text" maxlength="1" id="otp1" oninput="otpNext(this,1)">
-        <input class="otp-input" type="text" maxlength="1" id="otp2" oninput="otpNext(this,2)">
-        <input class="otp-input" type="text" maxlength="1" id="otp3" oninput="otpNext(this,3)">
-        <input class="otp-input" type="text" maxlength="1" id="otp4" oninput="otpNext(this,4)">
-        <input class="otp-input" type="text" maxlength="1" id="otp5" oninput="otpNext(this,5)">
-      </div>
-
-      <div class="resend-row">
-        <span class="countdown" id="countdown-text">60 秒後可重新發送</span>
-        <button class="resend-btn" id="resend-btn" onclick="resendCode()" style="display:none">重新發送</button>
-      </div>
-      <div class="error-msg" style="text-align:center;margin-top:10px" id="err-otp">驗證碼錯誤，請重新輸入</div>
-
-      <div class="btn-row" style="margin-top:24px">
-        <button class="btn-next" onclick="verifyOtp()">驗證並繼續 →</button>
-        <button class="btn-back" onclick="goStep(1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>返回修改</button>
-      </div>
     </div>
 
     <!-- STEP 3: 寶寶資訊 -->
@@ -382,7 +355,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--cream);color:var(--b
 
       <div class="btn-row">
         <button class="btn-next" onclick="goStep(4)">繼續 →</button>
-        <button class="btn-back" onclick="goStep(2)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>上一步</button>
+        <button class="btn-back" onclick="goStep(1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>上一步</button>
       </div>
     </div>
 
@@ -488,18 +461,16 @@ const TOPICS = [
 ];
 const REGIONS = ['台北市','新北市','基隆市','桃園市','新竹市','新竹縣','苗栗縣','台中市','彰化縣','南投縣','雲林縣','嘉義市','嘉義縣','台南市','高雄市','屏東縣','宜蘭縣','花蓮縣','台東縣','澎湖縣','金門縣','連江縣'];
 
-const STEPS = ['帳號資料','手機驗證','寶寶資訊','居住地區','主題偏好'];
+const STEPS = ['帳號資料','寶寶資訊','居住地區','主題偏好'];
 let currentStep = 1;
 let selectedGender = '';
 let dateType = 'birthday';
 let selectedRegion = '';
 let rankedTopics = []; // [{id, name, icon}]
-let countdown = 60, countdownTimer = null;
 let selectedBirthOrder   = 1;       // 1~4（4代表4胎以上）
 let selectedChildStatus  = [];      // e.g. ['premature','disability']
 let selectedEmployment   = '';      // both_working / single_working / not_working
 let selectedFamilyStatus = [];      // e.g. ['low_income','single_parent']
-let phoneVerifiedToken   = '';      // 由 /api/verify-otp 取得，提交 register 時使用
 
 /* ══ PROGRESS ══ */
 function renderProgress() {
@@ -544,18 +515,7 @@ function validateStep(n) {
     if (!/^09\d{8}$/.test(phone)) { showErr('err-phone', true); ok = false; } else showErr('err-phone', false);
     if (!/(?=.*[a-zA-Z])(?=.*\d).{8,}/.test(pwd)) { showErr('err-pwd', true); ok = false; } else showErr('err-pwd', false);
     if (pwd !== pwd2) { showErr('err-pwd2', true); ok = false; } else showErr('err-pwd2', false);
-    if (ok) {
-      document.getElementById('show-phone').textContent = phone.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3');
-      startCountdown();
-    }
     return ok;
-  }
-  if (n === 2) {
-    const otp = [0,1,2,3,4,5].map(i=>document.getElementById(`otp${i}`).value).join('');
-    if (otp.length < 6) { showErr('err-otp', true); return false; }
-    showErr('err-otp', false);
-    // Demo: accept any 6-digit code
-    return true;
   }
   if (n === 3) {
     const baby = document.getElementById('f-baby-name').value.trim();
@@ -596,87 +556,6 @@ function checkPwd() {
 function togglePwd(id, btn) {
   const inp = document.getElementById(id);
   inp.type = inp.type === 'password' ? 'text' : 'password';
-}
-
-/* ══ SMS ══ */
-async function sendCode() {
-  const phone = document.getElementById('f-phone').value.trim();
-  if (!/^09\d{8}$/.test(phone)) { showErr('err-phone', true); return; }
-  const btn = document.getElementById('send-code-btn');
-  btn.disabled = true;
-  btn.textContent = '發送中…';
-  try {
-    const r = await fetch('/api/send-otp', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone }),
-    });
-    const d = await r.json();
-    if (!r.ok) {
-      alert('⚠️ ' + (d.error || '發送失敗，請稍後再試'));
-      btn.disabled = false;
-    } else {
-      // Demo 模式會在 message 裡告知驗證碼
-      if (d.message && d.message.includes('123456')) {
-        alert(`✅ ${d.message}`);
-      }
-    }
-  } catch {
-    alert('⚠️ 網路錯誤，請確認連線後再試');
-    btn.disabled = false;
-  }
-  btn.textContent = '發送驗證碼';
-}
-function startCountdown() {
-  countdown = 60;
-  if (countdownTimer) clearInterval(countdownTimer);
-  document.getElementById('resend-btn').style.display = 'none';
-  countdownTimer = setInterval(() => {
-    countdown--;
-    const el = document.getElementById('countdown-text');
-    if (el) el.textContent = `${countdown} 秒後可重新發送`;
-    if (countdown <= 0) {
-      clearInterval(countdownTimer);
-      if (el) el.style.display = 'none';
-      const rb = document.getElementById('resend-btn');
-      if (rb) rb.style.display = 'inline';
-    }
-  }, 1000);
-}
-function resendCode() {
-  document.getElementById('resend-btn').style.display = 'none';
-  document.getElementById('countdown-text').style.display = 'inline';
-  sendCode();
-  startCountdown();
-}
-async function verifyOtp() {
-  const otp = [0,1,2,3,4,5].map(i=>document.getElementById(`otp${i}`).value).join('');
-  if (otp.length < 6) { showErr('err-otp', true); return; }
-  showErr('err-otp', false);
-  const phone = document.getElementById('f-phone').value.trim();
-  try {
-    const r = await fetch('/api/verify-otp', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone, code: otp }),
-    });
-    const d = await r.json();
-    if (!r.ok) {
-      showErr('err-otp', true);
-      document.getElementById('err-otp').textContent = d.error || '驗證碼錯誤，請重新輸入';
-      return;
-    }
-    phoneVerifiedToken = d.token; // 儲存 phone_verified JWT，submit 時使用
-    goStep(3);
-  } catch {
-    showErr('err-otp', true);
-    document.getElementById('err-otp').textContent = '網路錯誤，請稍後再試';
-  }
-}
-function otpNext(inp, idx) {
-  inp.value = inp.value.replace(/[^0-9]/g,'');
-  if (inp.value && idx < 5) document.getElementById(`otp${idx+1}`).focus();
-  if (idx === 5) inp.blur();
 }
 
 /* ══ DATE TYPE ══ */
@@ -821,17 +700,15 @@ async function submitRegister() {
     name:                 document.getElementById('f-name').value.trim(),
     phone:                document.getElementById('f-phone').value.trim(),
     password:             document.getElementById('f-pwd').value,
-    phone_verified_token: phoneVerifiedToken,
     baby_name:            (document.getElementById('f-baby-name')?.value || '').trim(),
-    baby_date:            document.getElementById('f-baby-date')?.value || '',
-    date_type:            dateType,
-    gender:               selectedGender,
+    birth_date:           document.getElementById('f-birthday')?.value || '',
+    gender:               selectedGender || 'unknown',
     birth_order:          selectedBirthOrder,
-    child_status:         selectedChildStatus,
+    child_special_status: selectedChildStatus.join(',') || null,
     region:               selectedRegion,
-    employment:           selectedEmployment,
-    family_status:        selectedFamilyStatus,
-    topics:               rankedTopics.map(t => t.id),
+    parental_employment:  selectedEmployment || null,
+    special_status:       selectedFamilyStatus.join(',') || null,
+    preferred_categories: rankedTopics.map(t => t.id),
   };
 
   try {

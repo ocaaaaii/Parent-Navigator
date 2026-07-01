@@ -1,6 +1,5 @@
 /**
  * POST /api/register
- * Header: Authorization: Bearer <phone_verified_token>
  * Body: {
  *   // users 表
  *   name, phone, password, region,
@@ -31,21 +30,6 @@ module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  // ── 驗證 phone_verified token ─────────────────────────────────────────────
-  const authHeader = req.headers.authorization || '';
-  const phoneToken = authHeader.replace('Bearer ', '').trim();
-  if (!phoneToken) {
-    return res.status(401).json({ error: '缺少手機驗證憑證，請先完成簡訊驗證' });
-  }
-
-  let verified;
-  try {
-    verified = jwt.verify(phoneToken, process.env.JWT_SECRET);
-    if (verified.purpose !== 'phone_verified') throw new Error('invalid purpose');
-  } catch {
-    return res.status(401).json({ error: '手機驗證憑證無效或已逾時，請重新驗證' });
-  }
-
   // ── 解構請求 body ─────────────────────────────────────────────────────────
   const {
     // users
@@ -64,9 +48,6 @@ module.exports = async (req, res) => {
   // ── 基本驗證 ─────────────────────────────────────────────────────────────
   if (!name || !phone || !password) {
     return res.status(400).json({ error: '缺少必填欄位：姓名、手機、密碼' });
-  }
-  if (phone !== verified.phone) {
-    return res.status(400).json({ error: '手機號碼與驗證不符' });
   }
   if (!/(?=.*[a-zA-Z])(?=.*\d).{8,}/.test(password)) {
     return res.status(400).json({ error: '密碼至少 8 位，需包含英文與數字' });
