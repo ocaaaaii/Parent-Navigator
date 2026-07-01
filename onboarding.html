@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>加入育兒導航 — 建立你的育兒檔案</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FFFBF2; --mint:#D4E5E1; --mint-dark:#B8D4CE;
+  --amber:#F0B030; --amber-light:#FFF3D0;
+  --apricot:#EE7C44; --apricot-light:#FEF0E4;
+  --brown:#5C3820; --brown-mid:#7A5035; --brown-light:#A8825A;
+  --border:#F0D8B8; --border-mint:#C4D8D4;
+  --white:#FFFFFF;
+  --shadow:0 4px 24px rgba(92,56,32,.10);
+  --radius:16px; --radius-sm:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--cream);color:var(--brown);min-height:100vh;overflow-x:hidden}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--brown);padding:14px 32px;display:flex;align-items:center;gap:12px}
+.topbar-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.topbar-logo-icon{width:36px;height:36px;border-radius:10px;background:var(--apricot);display:flex;align-items:center;justify-content:center}
+.topbar-logo-icon svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2}
+.topbar-logo-text{font-family:'Noto Serif TC',serif;font-size:15px;font-weight:700;color:#fff}
+.topbar-sub{font-size:11px;color:rgba(255,255,255,.5);margin-left:auto}
+.topbar-login{font-size:13px;color:rgba(255,255,255,.7);text-decoration:none;border:1px solid rgba(255,255,255,.25);padding:5px 14px;border-radius:20px;transition:all .2s}
+.topbar-login:hover{background:rgba(255,255,255,.1);color:#fff}
+
+/* ── LAYOUT ── */
+.page-wrap{min-height:calc(100vh - 64px);display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:860px){.page-wrap{grid-template-columns:1fr}}
+
+/* ── LEFT PANEL ── */
+.left-panel{background:var(--mint);padding:60px 48px;display:flex;flex-direction:column;justify-content:center;position:sticky;top:0;height:calc(100vh - 64px)}
+@media(max-width:860px){.left-panel{display:none}}
+.left-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.6);border:1px solid var(--border-mint);padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;color:var(--brown-mid);margin-bottom:28px;width:fit-content}
+.left-tag svg{width:12px;height:12px;stroke:var(--apricot);fill:none;stroke-width:2.5}
+.left-title{font-family:'Noto Serif TC',serif;font-size:32px;font-weight:700;color:var(--brown);line-height:1.4;margin-bottom:16px}
+.left-title span{color:var(--apricot)}
+.left-desc{font-size:14px;color:var(--brown-mid);line-height:1.8;margin-bottom:40px}
+.feature-list{display:flex;flex-direction:column;gap:16px}
+.feature-item{display:flex;align-items:flex-start;gap:14px}
+.feature-icon{width:40px;height:40px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(92,56,32,.08)}
+.feature-icon svg{width:20px;height:20px;stroke:var(--apricot);fill:none;stroke-width:2}
+.feature-text h4{font-size:13px;font-weight:600;color:var(--brown);margin-bottom:3px}
+.feature-text p{font-size:12px;color:var(--brown-light);line-height:1.5}
+.deco-dots{display:flex;gap:8px;margin-top:40px}
+.deco-dot{width:8px;height:8px;border-radius:50%}
+
+/* ── RIGHT PANEL (FORM) ── */
+.right-panel{padding:48px 56px;overflow-y:auto}
+@media(max-width:860px){.right-panel{padding:32px 24px}}
+
+/* ── PROGRESS ── */
+.progress-wrap{margin-bottom:36px}
+.progress-steps{display:flex;align-items:center;gap:0;margin-bottom:10px}
+.progress-step{display:flex;align-items:center;gap:0;flex:1}
+.progress-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;transition:all .3s}
+.progress-dot.done{background:var(--apricot);color:#fff}
+.progress-dot.active{background:var(--brown);color:#fff;box-shadow:0 0 0 4px rgba(238,124,68,.2)}
+.progress-dot.pending{background:var(--border);color:var(--brown-light)}
+.progress-dot.done svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2.5}
+.progress-line{flex:1;height:2px;background:var(--border);transition:background .3s}
+.progress-line.done{background:var(--apricot)}
+.progress-label{font-size:11px;color:var(--brown-light);margin-top:6px}
+
+/* ── STEP TITLE ── */
+.step-title{font-family:'Noto Serif TC',serif;font-size:24px;font-weight:700;color:var(--brown);margin-bottom:6px}
+.step-sub{font-size:13px;color:var(--brown-light);margin-bottom:28px;line-height:1.6}
+
+/* ── FORM ELEMENTS ── */
+.field{margin-bottom:20px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--brown);margin-bottom:7px}
+.field label .req{color:var(--apricot);margin-left:2px}
+.field label .opt{font-size:11px;font-weight:400;color:var(--brown-light);margin-left:6px}
+.field input,.field select{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:'Noto Sans TC',sans-serif;background:#fff;color:var(--brown);outline:none;transition:border-color .2s,box-shadow .2s}
+.field input:focus,.field select:focus{border-color:var(--apricot);box-shadow:0 0 0 3px rgba(238,124,68,.12)}
+.field input::placeholder{color:#C8B4A0}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:480px){.field-row{grid-template-columns:1fr}}
+.phone-wrap{display:flex;gap:10px}
+.phone-prefix{width:90px;flex-shrink:0;padding:12px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;background:#f9f5f0;color:var(--brown-mid);text-align:center}
+.send-code-btn{white-space:nowrap;padding:12px 18px;background:var(--amber);border:none;border-radius:var(--radius-sm);color:var(--brown);font-size:13px;font-weight:600;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .2s;flex-shrink:0}
+.send-code-btn:hover{background:#d99e20}
+.send-code-btn:disabled{background:var(--border);color:var(--brown-light);cursor:not-allowed}
+.pwd-wrap{position:relative}
+.pwd-wrap input{padding-right:44px}
+.pwd-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--brown-light);display:flex}
+.pwd-toggle svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2}
+.pwd-strength{display:flex;gap:4px;margin-top:7px}
+.pwd-bar{flex:1;height:3px;border-radius:2px;background:var(--border);transition:background .3s}
+.hint{font-size:11px;color:var(--brown-light);margin-top:6px}
+.error-msg{font-size:12px;color:#D04020;margin-top:5px;display:none}
+
+/* ── OTP ── */
+.otp-wrap{display:flex;gap:10px;justify-content:center;margin:8px 0 16px}
+.otp-input{width:48px;height:56px;border:1.5px solid var(--border);border-radius:10px;font-size:22px;font-weight:700;text-align:center;color:var(--brown);background:#fff;outline:none;transition:border-color .2s}
+.otp-input:focus{border-color:var(--apricot);box-shadow:0 0 0 3px rgba(238,124,68,.12)}
+.resend-row{text-align:center;font-size:12px;color:var(--brown-light)}
+.resend-btn{color:var(--apricot);background:none;border:none;cursor:pointer;font-size:12px;font-family:'Noto Sans TC',sans-serif;text-decoration:underline}
+.countdown{color:var(--brown-light)}
+
+/* ── GENDER TOGGLE ── */
+.gender-group{display:flex;gap:10px}
+.gender-btn{flex:1;padding:10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:#fff;font-size:13px;color:var(--brown-mid);cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .2s;text-align:center}
+.gender-btn:hover{border-color:var(--amber)}
+.gender-btn.selected{border-color:var(--apricot);background:var(--apricot-light);color:var(--apricot);font-weight:600}
+
+/* ── DATE TOGGLE ── */
+.date-type-toggle{display:flex;background:var(--border);border-radius:8px;padding:3px;gap:3px;margin-bottom:14px;width:fit-content}
+.date-type-btn{padding:6px 18px;border-radius:6px;border:none;background:transparent;font-size:13px;color:var(--brown-mid);cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .2s}
+.date-type-btn.active{background:#fff;color:var(--brown);font-weight:600;box-shadow:0 1px 4px rgba(92,56,32,.10)}
+
+/* ── REGION ── */
+.region-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(max-width:480px){.region-grid{grid-template-columns:repeat(3,1fr)}}
+.region-btn{padding:9px 6px;border:1.5px solid var(--border);border-radius:8px;background:#fff;font-size:13px;color:var(--brown-mid);cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .2s;text-align:center}
+.region-btn:hover{border-color:var(--amber)}
+.region-btn.selected{border-color:var(--apricot);background:var(--apricot-light);color:var(--apricot);font-weight:600}
+
+/* ── TOPIC CARDS ── */
+.topic-instruction{background:var(--amber-light);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--brown-mid);margin-bottom:20px;line-height:1.6}
+.topic-instruction strong{color:var(--brown)}
+.topics-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(max-width:480px){.topics-grid{grid-template-columns:1fr}}
+.topic-card{position:relative;padding:14px;border:1.5px solid var(--border);border-radius:12px;background:#fff;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px;user-select:none}
+.topic-card:hover{border-color:var(--amber);background:var(--amber-light)}
+.topic-card.selected{border-color:var(--apricot);background:var(--apricot-light)}
+.topic-icon-wrap{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;transition:background .2s}
+.topic-card.selected .topic-icon-wrap{background:rgba(238,124,68,.15)}
+.topic-info{flex:1;min-width:0}
+.topic-name{font-size:13px;font-weight:600;color:var(--brown);margin-bottom:3px}
+.topic-tags{font-size:11px;color:var(--brown-light)}
+.topic-rank{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:var(--apricot);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+.topic-card.selected .topic-rank{opacity:1}
+
+/* ── RANKED LIST ── */
+.ranked-section{margin-top:24px}
+.ranked-title{font-size:13px;font-weight:600;color:var(--brown);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.ranked-title svg{width:14px;height:14px;stroke:var(--apricot);fill:none;stroke-width:2}
+.ranked-list{display:flex;flex-direction:column;gap:6px;min-height:40px}
+.ranked-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border-mint);border-radius:8px;background:var(--mint);cursor:grab;font-size:13px;color:var(--brown)}
+.ranked-item:active{cursor:grabbing}
+.ranked-num{width:22px;height:22px;border-radius:50%;background:var(--apricot);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ranked-item-icon{font-size:16px}
+.ranked-item-name{flex:1}
+.ranked-remove{background:none;border:none;cursor:pointer;color:var(--brown-light);font-size:15px;line-height:1;padding:2px}
+.ranked-empty{font-size:12px;color:var(--brown-light);text-align:center;padding:16px;border:1.5px dashed var(--border);border-radius:8px}
+
+/* ── BUTTONS ── */
+.btn-next{width:100%;padding:14px;background:var(--apricot);border:none;border-radius:var(--radius-sm);color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .2s;letter-spacing:.03em;margin-top:8px}
+.btn-next:hover{background:#d6682e;transform:translateY(-1px);box-shadow:0 4px 16px rgba(238,124,68,.3)}
+.btn-next:disabled{background:var(--border);color:var(--brown-light);cursor:not-allowed;transform:none;box-shadow:none}
+.btn-back{background:none;border:none;cursor:pointer;font-size:13px;color:var(--brown-light);font-family:'Noto Sans TC',sans-serif;display:flex;align-items:center;gap:4px;padding:8px 0;margin-top:4px;transition:color .2s}
+.btn-back:hover{color:var(--brown)}
+.btn-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.btn-row{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+
+/* ── SUCCESS ── */
+.success-wrap{text-align:center;padding:40px 0}
+.success-icon{width:80px;height:80px;border-radius:50%;background:var(--mint);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:36px}
+.success-title{font-family:'Noto Serif TC',serif;font-size:26px;font-weight:700;color:var(--brown);margin-bottom:10px}
+.success-sub{font-size:14px;color:var(--brown-light);line-height:1.7;margin-bottom:32px}
+.success-card{background:var(--amber-light);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:24px;text-align:left}
+.success-card-title{font-size:12px;font-weight:600;color:var(--brown-mid);margin-bottom:10px;letter-spacing:.04em}
+.success-info-row{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid var(--border)}
+.success-info-row:last-child{border:none}
+.success-info-label{color:var(--brown-light)}
+.success-info-val{font-weight:600;color:var(--brown)}
+.btn-go{display:inline-block;padding:13px 32px;background:var(--apricot);border-radius:var(--radius-sm);color:#fff;font-size:14px;font-weight:700;text-decoration:none;font-family:'Noto Sans TC',sans-serif;transition:all .2s}
+.btn-go:hover{background:#d6682e}
+
+/* ── STEPS ── */
+.step{display:none}
+.step.active{display:block}
+
+/* ── LOGIN HINT ── */
+.login-hint{text-align:center;font-size:13px;color:var(--brown-light);margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
+.login-hint a{color:var(--apricot);font-weight:600;text-decoration:none}
+.login-hint a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a href="parenting-navigator-demo.html" class="topbar-logo">
+    <div class="topbar-logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.5 2 6 4.5 6 7.5c0 4 6 10 6 10s6-6 6-10C18 4.5 15.5 2 12 2z"/><circle cx="12" cy="7.5" r="2"/></svg>
+    </div>
+    <span class="topbar-logo-text">育兒導航全攻略</span>
+  </a>
+  <span class="topbar-sub">建立你的育兒檔案</span>
+  <a href="login.html" class="topbar-login">已有帳號？登入</a>
+</div>
+
+<div class="page-wrap">
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="left-tag">
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      為新手爸媽打造
+    </div>
+    <div class="left-title">打造你專屬的<br><span>育兒導航地圖</span></div>
+    <div class="left-desc">只需要 3 分鐘，告訴我們你的寶寶資訊與關注主題，<br>我們就能為你量身推薦最需要的政府補助、醫療資源與育兒知識。</div>
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+        <div class="feature-text"><h4>寶寶專屬時程提醒</h4><p>依月齡自動推送疫苗、健檢、補助申請提醒</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <div class="feature-text"><h4>AI 小幫手即時解答</h4><p>輸入問題，30 秒內獲得來自政府文件的精準回覆</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="feature-text"><h4>社群論壇交流</h4><p>和同月齡寶寶的爸媽互相分享、提問與解答</p></div>
+      </div>
+    </div>
+    <div class="deco-dots">
+      <div class="deco-dot" style="background:var(--apricot)"></div>
+      <div class="deco-dot" style="background:var(--amber)"></div>
+      <div class="deco-dot" style="background:var(--mint-dark)"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-wrap">
+      <div class="progress-steps" id="progress-steps">
+        <!-- rendered by JS -->
+      </div>
+      <div class="progress-label" id="progress-label"></div>
+    </div>
+
+    <!-- STEP 1: 帳號資料 -->
+    <div class="step active" id="step-1">
+      <div class="step-title">建立帳號</div>
+      <div class="step-sub">請填寫您的基本聯絡資料，手機號碼將用於簡訊驗證與登入。</div>
+
+      <div class="field">
+        <label>家長姓名 <span class="req">*</span></label>
+        <input type="text" id="f-name" placeholder="請輸入您的姓名" autocomplete="name">
+        <div class="error-msg" id="err-name">請填寫姓名</div>
+      </div>
+
+      <div class="field">
+        <label>手機號碼 <span class="req">*</span></label>
+        <div class="phone-wrap">
+          <div class="phone-prefix">🇹🇼 +886</div>
+          <input type="tel" id="f-phone" placeholder="09XX-XXX-XXX" maxlength="10" autocomplete="tel" style="flex:1">
+          <button class="send-code-btn" id="send-code-btn" onclick="sendCode()">發送驗證碼</button>
+        </div>
+        <div class="error-msg" id="err-phone">請填寫有效的手機號碼</div>
+      </div>
+
+      <div class="field">
+        <label>設定密碼 <span class="req">*</span></label>
+        <div class="pwd-wrap">
+          <input type="password" id="f-pwd" placeholder="8 位以上，含英文與數字" autocomplete="new-password" oninput="checkPwd()">
+          <button class="pwd-toggle" onclick="togglePwd('f-pwd',this)" type="button">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="pwd-strength" id="pwd-strength">
+          <div class="pwd-bar" id="pb1"></div><div class="pwd-bar" id="pb2"></div>
+          <div class="pwd-bar" id="pb3"></div><div class="pwd-bar" id="pb4"></div>
+        </div>
+        <div class="hint">強度：<span id="pwd-label">—</span></div>
+        <div class="error-msg" id="err-pwd">密碼至少 8 位，需包含英文與數字</div>
+      </div>
+
+      <div class="field">
+        <label>確認密碼 <span class="req">*</span></label>
+        <div class="pwd-wrap">
+          <input type="password" id="f-pwd2" placeholder="再次輸入密碼" autocomplete="new-password">
+          <button class="pwd-toggle" onclick="togglePwd('f-pwd2',this)" type="button">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="error-msg" id="err-pwd2">兩次密碼不一致</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-next" onclick="goStep(2)">繼續 →</button>
+      </div>
+      <div class="login-hint">已有帳號？<a href="login.html">直接登入</a></div>
+    </div>
+
+    <!-- STEP 2: 手機驗證 -->
+    <div class="step" id="step-2">
+      <div class="step-title">驗證手機號碼</div>
+      <div class="step-sub">驗證碼已發送至 <strong id="show-phone"></strong>，請在 10 分鐘內輸入。</div>
+
+      <div class="otp-wrap">
+        <input class="otp-input" type="text" maxlength="1" id="otp0" oninput="otpNext(this,0)">
+        <input class="otp-input" type="text" maxlength="1" id="otp1" oninput="otpNext(this,1)">
+        <input class="otp-input" type="text" maxlength="1" id="otp2" oninput="otpNext(this,2)">
+        <input class="otp-input" type="text" maxlength="1" id="otp3" oninput="otpNext(this,3)">
+        <input class="otp-input" type="text" maxlength="1" id="otp4" oninput="otpNext(this,4)">
+        <input class="otp-input" type="text" maxlength="1" id="otp5" oninput="otpNext(this,5)">
+      </div>
+
+      <div class="resend-row">
+        <span class="countdown" id="countdown-text">60 秒後可重新發送</span>
+        <button class="resend-btn" id="resend-btn" onclick="resendCode()" style="display:none">重新發送</button>
+      </div>
+      <div class="error-msg" style="text-align:center;margin-top:10px" id="err-otp">驗證碼錯誤，請重新輸入</div>
+
+      <div class="btn-row" style="margin-top:24px">
+        <button class="btn-next" onclick="verifyOtp()">驗證並繼續 →</button>
+        <button class="btn-back" onclick="goStep(1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>返回修改</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: 寶寶資訊 -->
+    <div class="step" id="step-3">
+      <div class="step-title">告訴我們關於寶寶 🍼</div>
+      <div class="step-sub">這些資訊幫助我們推算月齡，發送時間準確的疫苗與健檢提醒。</div>
+
+      <div class="field">
+        <label>寶寶暱稱 <span class="req">*</span><span class="opt">不用真實姓名</span></label>
+        <input type="text" id="f-baby-name" placeholder="例如：小橘、奶油饅頭">
+        <div class="error-msg" id="err-baby-name">請填寫寶寶暱稱</div>
+      </div>
+
+      <div class="field">
+        <label>生日 / 預產期 <span class="req">*</span></label>
+        <div class="date-type-toggle">
+          <button class="date-type-btn active" id="btn-birthday" onclick="setDateType('birthday')">已出生（生日）</button>
+          <button class="date-type-btn" id="btn-duedate" onclick="setDateType('duedate')">尚未出生（預產期）</button>
+        </div>
+        <input type="date" id="f-birthday" max="">
+        <div class="hint" id="date-hint">選擇寶寶的出生日期</div>
+        <div class="error-msg" id="err-birthday">請填寫日期</div>
+      </div>
+
+      <div class="field">
+        <label>寶寶性別 <span class="opt">可不填</span></label>
+        <div class="gender-group">
+          <button class="gender-btn" onclick="selectGender(this,'male')">👦 男寶寶</button>
+          <button class="gender-btn" onclick="selectGender(this,'female')">👧 女寶寶</button>
+          <button class="gender-btn" onclick="selectGender(this,'unknown')">🤍 尚未確定</button>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-next" onclick="goStep(4)">繼續 →</button>
+        <button class="btn-back" onclick="goStep(2)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>上一步</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: 居住地區 -->
+    <div class="step" id="step-4">
+      <div class="step-title">你在哪個縣市？ 📍</div>
+      <div class="step-sub">我們依此提供在地補助、公托資訊與親子場館推薦。</div>
+
+      <div class="region-grid" id="region-grid">
+        <!-- rendered by JS -->
+      </div>
+      <div class="error-msg" style="margin-top:12px" id="err-region">請選擇居住縣市</div>
+
+      <div class="btn-row" style="margin-top:24px">
+        <button class="btn-next" onclick="goStep(5)">繼續 →</button>
+        <button class="btn-back" onclick="goStep(3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>上一步</button>
+      </div>
+    </div>
+
+    <!-- STEP 5: 主題偏好 -->
+    <div class="step" id="step-5">
+      <div class="step-title">你最關心哪些主題？ ✨</div>
+      <div class="step-sub">點選主題加入你的偏好清單，可在清單中拖曳調整優先順序。</div>
+
+      <div class="topic-instruction">
+        <strong>使用方式：</strong>點擊卡片選取主題，數字代表你的偏好排序。在下方清單中可拖曳調整順序。至少選擇 <strong>1</strong> 個主題。
+      </div>
+
+      <div class="topics-grid" id="topics-grid">
+        <!-- rendered by JS -->
+      </div>
+
+      <div class="ranked-section">
+        <div class="ranked-title">
+          <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          我的偏好清單（可拖曳排序）
+        </div>
+        <div class="ranked-list" id="ranked-list">
+          <div class="ranked-empty" id="ranked-empty">點擊上方主題卡片來建立你的偏好清單</div>
+        </div>
+      </div>
+      <div class="error-msg" id="err-topic">請至少選擇 1 個主題</div>
+
+      <div class="btn-row" style="margin-top:24px">
+        <button class="btn-next" onclick="goStep(6)">完成設定 →</button>
+        <button class="btn-back" onclick="goStep(4)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>上一步</button>
+      </div>
+    </div>
+
+    <!-- STEP 6: 完成 -->
+    <div class="step" id="step-6">
+      <div class="success-wrap">
+        <div class="success-icon">🎉</div>
+        <div class="success-title">歡迎加入！</div>
+        <div class="success-sub">你的育兒檔案已建立完成。<br>我們已依照你的設定客製化你的導航頁面。</div>
+        <div class="success-card">
+          <div class="success-card-title">你的檔案摘要</div>
+          <div class="success-info-row"><span class="success-info-label">家長姓名</span><span class="success-info-val" id="sum-name">—</span></div>
+          <div class="success-info-row"><span class="success-info-label">手機號碼</span><span class="success-info-val" id="sum-phone">—</span></div>
+          <div class="success-info-row"><span class="success-info-label">寶寶暱稱</span><span class="success-info-val" id="sum-baby">—</span></div>
+          <div class="success-info-row"><span class="success-info-label">居住縣市</span><span class="success-info-val" id="sum-region">—</span></div>
+          <div class="success-info-row"><span class="success-info-label">關注主題數</span><span class="success-info-val" id="sum-topics">—</span></div>
+        </div>
+        <a href="parenting-navigator-demo.html" class="btn-go">前往我的育兒導航 →</a>
+      </div>
+    </div>
+
+  </div><!-- end right-panel -->
+</div><!-- end page-wrap -->
+
+<script>
+/* ══ DATA ══ */
+const TOPICS = [
+  {id:'newborn',    name:'新生兒照護',    icon:'🍼', tags:'疫苗・健檢・照護',    bg:'#E8F5E9'},
+  {id:'medical',    name:'兒童醫療資源',  icon:'🏥', tags:'兒童醫療補助',        bg:'#FCE4EC'},
+  {id:'subsidy',    name:'育兒補助申請',  icon:'💰', tags:'生育・育兒・托育',    bg:'#FFF8E1'},
+  {id:'daycare',    name:'托嬰中心查詢',  icon:'🏠', tags:'公托＋準公共',        bg:'#E3F2FD'},
+  {id:'education',  name:'幼兒教育資源',  icon:'📚', tags:'幼兒園・特教',        bg:'#EDE7F6'},
+  {id:'parental',   name:'育嬰假與留職',  icon:'🌿', tags:'育嬰假・留停',        bg:'#E8F5E9'},
+  {id:'disability', name:'身心障礙兒童',  icon:'💙', tags:'早療・身障補助',       bg:'#E3F2FD'},
+  {id:'activity',   name:'親子活動場館',  icon:'🏡', tags:'台北 27 家親子館',    bg:'#FFF3E0'},
+  {id:'pregnancy',  name:'孕期注意事項',  icon:'🤰', tags:'孕期・產檢・準備',    bg:'#FCE4EC'},
+  {id:'food',       name:'寶寶副食品菜單',icon:'🥕', tags:'4M～2歲・食譜推薦',  bg:'#FFF8E1'},
+];
+const REGIONS = ['台北市','新北市','基隆市','桃園市','新竹市','新竹縣','苗栗縣','台中市','彰化縣','南投縣','雲林縣','嘉義市','嘉義縣','台南市','高雄市','屏東縣','宜蘭縣','花蓮縣','台東縣','澎湖縣','金門縣','連江縣'];
+
+const STEPS = ['帳號資料','手機驗證','寶寶資訊','居住地區','主題偏好'];
+let currentStep = 1;
+let selectedGender = '';
+let dateType = 'birthday';
+let selectedRegion = '';
+let rankedTopics = []; // [{id, name, icon}]
+let countdown = 60, countdownTimer = null;
+
+/* ══ PROGRESS ══ */
+function renderProgress() {
+  const wrap = document.getElementById('progress-steps');
+  wrap.innerHTML = '';
+  STEPS.forEach((label, i) => {
+    const n = i + 1;
+    const dot = document.createElement('div');
+    dot.className = 'progress-step';
+    let dotClass = n < currentStep ? 'done' : n === currentStep ? 'active' : 'pending';
+    const checkSvg = n < currentStep ? '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>' : n;
+    dot.innerHTML = `<div class="progress-dot ${dotClass}">${checkSvg}</div>${n < STEPS.length ? `<div class="progress-line${n < currentStep ? ' done' : ''}"></div>` : ''}`;
+    wrap.appendChild(dot);
+  });
+  document.getElementById('progress-label').textContent = `步驟 ${Math.min(currentStep, STEPS.length)} / ${STEPS.length}：${STEPS[Math.min(currentStep,STEPS.length)-1]}`;
+}
+
+/* ══ NAVIGATION ══ */
+function goStep(n) {
+  if (n > currentStep && !validateStep(currentStep)) return;
+  document.getElementById(`step-${currentStep}`).classList.remove('active');
+  currentStep = n;
+  document.getElementById(`step-${n}`).classList.add('active');
+  renderProgress();
+  if (n === 6) fillSummary();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ══ VALIDATION ══ */
+function showErr(id, show) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = show ? 'block' : 'none';
+}
+function validateStep(n) {
+  if (n === 1) {
+    const name  = document.getElementById('f-name').value.trim();
+    const phone = document.getElementById('f-phone').value.trim();
+    const pwd   = document.getElementById('f-pwd').value;
+    const pwd2  = document.getElementById('f-pwd2').value;
+    let ok = true;
+    if (!name) { showErr('err-name', true); ok = false; } else showErr('err-name', false);
+    if (!/^09\d{8}$/.test(phone)) { showErr('err-phone', true); ok = false; } else showErr('err-phone', false);
+    if (!/(?=.*[a-zA-Z])(?=.*\d).{8,}/.test(pwd)) { showErr('err-pwd', true); ok = false; } else showErr('err-pwd', false);
+    if (pwd !== pwd2) { showErr('err-pwd2', true); ok = false; } else showErr('err-pwd2', false);
+    if (ok) {
+      document.getElementById('show-phone').textContent = phone.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3');
+      startCountdown();
+    }
+    return ok;
+  }
+  if (n === 2) {
+    const otp = [0,1,2,3,4,5].map(i=>document.getElementById(`otp${i}`).value).join('');
+    if (otp.length < 6) { showErr('err-otp', true); return false; }
+    showErr('err-otp', false);
+    // Demo: accept any 6-digit code
+    return true;
+  }
+  if (n === 3) {
+    const baby = document.getElementById('f-baby-name').value.trim();
+    const date = document.getElementById('f-birthday').value;
+    let ok = true;
+    if (!baby) { showErr('err-baby-name', true); ok = false; } else showErr('err-baby-name', false);
+    if (!date) { showErr('err-birthday', true); ok = false; } else showErr('err-birthday', false);
+    return ok;
+  }
+  if (n === 4) {
+    if (!selectedRegion) { showErr('err-region', true); return false; }
+    showErr('err-region', false);
+    return true;
+  }
+  if (n === 5) {
+    if (rankedTopics.length === 0) { showErr('err-topic', true); return false; }
+    showErr('err-topic', false);
+    return true;
+  }
+  return true;
+}
+
+/* ══ PASSWORD ══ */
+function checkPwd() {
+  const pwd = document.getElementById('f-pwd').value;
+  let score = 0;
+  if (pwd.length >= 8) score++;
+  if (/[A-Z]/.test(pwd)) score++;
+  if (/[0-9]/.test(pwd)) score++;
+  if (/[^A-Za-z0-9]/.test(pwd)) score++;
+  const colors = ['','#E57373','#FFB74D','#81C784','#4CAF50'];
+  const labels = ['','弱','普通','強','非常強'];
+  for (let i=1;i<=4;i++) {
+    document.getElementById(`pb${i}`).style.background = i<=score ? colors[score] : 'var(--border)';
+  }
+  document.getElementById('pwd-label').textContent = labels[score] || '—';
+}
+function togglePwd(id, btn) {
+  const inp = document.getElementById(id);
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+/* ══ SMS ══ */
+function sendCode() {
+  const phone = document.getElementById('f-phone').value.trim();
+  if (!/^09\d{8}$/.test(phone)) { showErr('err-phone', true); return; }
+  document.getElementById('send-code-btn').disabled = true;
+  // TODO: 串接簡訊 API (e.g. Twilio, 每日簡訊)
+  alert(`✅ 模擬：驗證碼已發送至 ${phone}\n（Demo 模式：輸入任意 6 位數即可通過）`);
+}
+function startCountdown() {
+  countdown = 60;
+  if (countdownTimer) clearInterval(countdownTimer);
+  document.getElementById('resend-btn').style.display = 'none';
+  countdownTimer = setInterval(() => {
+    countdown--;
+    const el = document.getElementById('countdown-text');
+    if (el) el.textContent = `${countdown} 秒後可重新發送`;
+    if (countdown <= 0) {
+      clearInterval(countdownTimer);
+      if (el) el.style.display = 'none';
+      const rb = document.getElementById('resend-btn');
+      if (rb) rb.style.display = 'inline';
+    }
+  }, 1000);
+}
+function resendCode() {
+  document.getElementById('resend-btn').style.display = 'none';
+  document.getElementById('countdown-text').style.display = 'inline';
+  sendCode();
+  startCountdown();
+}
+function verifyOtp() {
+  const otp = [0,1,2,3,4,5].map(i=>document.getElementById(`otp${i}`).value).join('');
+  if (otp.length < 6) { showErr('err-otp', true); return; }
+  showErr('err-otp', false);
+  goStep(3);
+}
+function otpNext(inp, idx) {
+  inp.value = inp.value.replace(/[^0-9]/g,'');
+  if (inp.value && idx < 5) document.getElementById(`otp${idx+1}`).focus();
+  if (idx === 5) inp.blur();
+}
+
+/* ══ DATE TYPE ══ */
+function setDateType(type) {
+  dateType = type;
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('btn-birthday').classList.toggle('active', type==='birthday');
+  document.getElementById('btn-duedate').classList.toggle('active', type==='duedate');
+  const inp = document.getElementById('f-birthday');
+  if (type === 'birthday') {
+    inp.max = today;
+    inp.min = '';
+    document.getElementById('date-hint').textContent = '選擇寶寶的出生日期';
+  } else {
+    inp.max = '';
+    inp.min = today;
+    document.getElementById('date-hint').textContent = '選擇預計出生日期（預產期）';
+  }
+  inp.value = '';
+}
+
+/* ══ GENDER ══ */
+function selectGender(btn, val) {
+  selectedGender = val;
+  document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+/* ══ REGIONS ══ */
+function renderRegions() {
+  const grid = document.getElementById('region-grid');
+  grid.innerHTML = REGIONS.map(r =>
+    `<button class="region-btn" onclick="selectRegion(this,'${r}')">${r}</button>`
+  ).join('');
+}
+function selectRegion(btn, region) {
+  selectedRegion = region;
+  document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  showErr('err-region', false);
+}
+
+/* ══ TOPICS ══ */
+function renderTopics() {
+  const grid = document.getElementById('topics-grid');
+  grid.innerHTML = TOPICS.map((t, i) => `
+    <div class="topic-card" id="tc-${t.id}" onclick="toggleTopic('${t.id}')">
+      <div class="topic-icon-wrap" style="background:${t.bg}">${t.icon}</div>
+      <div class="topic-info">
+        <div class="topic-name">${t.name}</div>
+        <div class="topic-tags">${t.tags}</div>
+      </div>
+      <div class="topic-rank" id="tr-${t.id}"></div>
+    </div>
+  `).join('');
+}
+function toggleTopic(id) {
+  const idx = rankedTopics.findIndex(t => t.id === id);
+  if (idx >= 0) {
+    rankedTopics.splice(idx, 1);
+    document.getElementById(`tc-${id}`).classList.remove('selected');
+  } else {
+    const topic = TOPICS.find(t => t.id === id);
+    rankedTopics.push(topic);
+    document.getElementById(`tc-${id}`).classList.add('selected');
+  }
+  updateRanks();
+  renderRankedList();
+  showErr('err-topic', false);
+}
+function updateRanks() {
+  TOPICS.forEach(t => {
+    const idx = rankedTopics.findIndex(r => r.id === t.id);
+    const el = document.getElementById(`tr-${t.id}`);
+    if (el) el.textContent = idx >= 0 ? idx + 1 : '';
+  });
+}
+function renderRankedList() {
+  const list = document.getElementById('ranked-list');
+  const empty = document.getElementById('ranked-empty');
+  if (rankedTopics.length === 0) {
+    list.innerHTML = '';
+    list.appendChild(empty);
+    return;
+  }
+  list.innerHTML = rankedTopics.map((t, i) => `
+    <div class="ranked-item" draggable="true" data-id="${t.id}"
+      ondragstart="dragStart(event)" ondragover="dragOver(event)" ondrop="drop(event,${i})">
+      <div class="ranked-num">${i+1}</div>
+      <div class="ranked-item-icon">${t.icon}</div>
+      <div class="ranked-item-name">${t.name}</div>
+      <button class="ranked-remove" onclick="toggleTopic('${t.id}')" title="移除">✕</button>
+    </div>
+  `).join('');
+}
+let dragIdx = null;
+function dragStart(e) { dragIdx = parseInt(e.currentTarget.getAttribute('data-id') ? rankedTopics.findIndex(t=>t.id===e.currentTarget.dataset.id) : 0); }
+function dragOver(e) { e.preventDefault(); }
+function drop(e, toIdx) {
+  e.preventDefault();
+  const fromId = e.dataTransfer ? e.dataTransfer.getData('text') : null;
+  // simple reorder via data-id
+  const fromEl = document.querySelector('.ranked-item[data-id]:is(:active)');
+  const items = [...document.querySelectorAll('.ranked-item')];
+  const fromI = items.findIndex(el => el === document.querySelector('.ranked-item[draggable=true]:focus') || dragIdx !== null);
+  if (dragIdx === null || dragIdx === toIdx) return;
+  const moved = rankedTopics.splice(dragIdx, 1)[0];
+  rankedTopics.splice(toIdx, 0, moved);
+  dragIdx = null;
+  updateRanks();
+  renderRankedList();
+}
+
+/* ══ SUMMARY ══ */
+function fillSummary() {
+  document.getElementById('sum-name').textContent   = document.getElementById('f-name').value || '—';
+  const ph = document.getElementById('f-phone').value;
+  document.getElementById('sum-phone').textContent  = ph ? ph.replace(/(\d{4})(\d{3})(\d{3})/, '+886 $1-$2-$3') : '—';
+  const baby = document.getElementById('f-baby-name').value;
+  const date = document.getElementById('f-birthday').value;
+  document.getElementById('sum-baby').textContent   = baby ? `${baby}（${date}）` : '—';
+  document.getElementById('sum-region').textContent = selectedRegion || '—';
+  document.getElementById('sum-topics').textContent = rankedTopics.length ? `${rankedTopics.length} 個（${rankedTopics.map(t=>t.name).join('、')}）` : '—';
+}
+
+/* ══ INIT ══ */
+renderProgress();
+renderRegions();
+renderTopics();
+setDateType('birthday');
+document.getElementById('f-birthday').max = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>

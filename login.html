@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>登入 — 育兒導航全攻略</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FFFBF2; --mint:#D4E5E1; --mint-dark:#B8D4CE;
+  --amber:#F0B030; --amber-light:#FFF3D0;
+  --apricot:#EE7C44; --apricot-light:#FEF0E4;
+  --brown:#5C3820; --brown-mid:#7A5035; --brown-light:#A8825A;
+  --border:#F0D8B8; --border-mint:#C4D8D4;
+  --white:#FFFFFF;
+  --shadow:0 4px 24px rgba(92,56,32,.10);
+  --radius:16px; --radius-sm:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--cream);color:var(--brown);min-height:100vh;display:flex;flex-direction:column}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--brown);padding:14px 32px;display:flex;align-items:center;gap:12px}
+.topbar-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.topbar-logo-icon{width:36px;height:36px;border-radius:10px;background:var(--apricot);display:flex;align-items:center;justify-content:center}
+.topbar-logo-icon svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2}
+.topbar-logo-text{font-family:'Noto Serif TC',serif;font-size:15px;font-weight:700;color:#fff}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 24px}
+.card{background:var(--white);border-radius:24px;box-shadow:var(--shadow);padding:44px 48px;width:100%;max-width:440px}
+@media(max-width:480px){.card{padding:32px 24px;border-radius:16px}}
+
+/* ── HEADER ── */
+.card-icon{width:60px;height:60px;border-radius:18px;background:var(--mint);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px}
+.card-title{font-family:'Noto Serif TC',serif;font-size:24px;font-weight:700;color:var(--brown);text-align:center;margin-bottom:6px}
+.card-sub{font-size:13px;color:var(--brown-light);text-align:center;margin-bottom:32px;line-height:1.6}
+
+/* ── TAB ── */
+.tab-bar{display:flex;background:#f5ede0;border-radius:10px;padding:4px;gap:4px;margin-bottom:28px}
+.tab-btn{flex:1;padding:9px;border:none;border-radius:8px;background:transparent;font-size:13px;font-weight:500;color:var(--brown-light);cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .2s}
+.tab-btn.active{background:var(--white);color:var(--brown);font-weight:600;box-shadow:0 1px 4px rgba(92,56,32,.10)}
+
+/* ── FORM ── */
+.field{margin-bottom:18px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--brown);margin-bottom:7px}
+.field input{width:100%;padding:13px 16px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:'Noto Sans TC',sans-serif;background:#fff;color:var(--brown);outline:none;transition:all .2s}
+.field input:focus{border-color:var(--apricot);box-shadow:0 0 0 3px rgba(238,124,68,.12)}
+.field input::placeholder{color:#C8B4A0}
+.pwd-wrap{position:relative}
+.pwd-wrap input{padding-right:44px}
+.pwd-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--brown-light)}
+.pwd-toggle svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;display:block}
+.phone-row{display:flex;gap:10px}
+.phone-prefix{flex-shrink:0;padding:13px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;background:#f9f5f0;color:var(--brown-mid);text-align:center;white-space:nowrap}
+
+/* ── OTP ── */
+.otp-wrap{display:flex;gap:8px;justify-content:center;margin:8px 0 12px}
+.otp-input{width:46px;height:54px;border:1.5px solid var(--border);border-radius:10px;font-size:20px;font-weight:700;text-align:center;color:var(--brown);outline:none;transition:all .2s;font-family:'Noto Sans TC',sans-serif}
+.otp-input:focus{border-color:var(--apricot);box-shadow:0 0 0 3px rgba(238,124,68,.12)}
+.resend-row{text-align:center;font-size:12px;color:var(--brown-light);margin-bottom:4px}
+.resend-link{color:var(--apricot);background:none;border:none;cursor:pointer;font-size:12px;font-family:'Noto Sans TC',sans-serif;text-decoration:underline}
+
+/* ── SEND CODE BTN ── */
+.send-btn{white-space:nowrap;flex-shrink:0;padding:13px 14px;background:var(--amber);border:none;border-radius:var(--radius-sm);font-size:12px;font-weight:600;color:var(--brown);cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .2s}
+.send-btn:hover{background:#d99e20}
+.send-btn:disabled{background:var(--border);color:var(--brown-light);cursor:not-allowed}
+
+/* ── BUTTONS ── */
+.btn-submit{width:100%;padding:14px;background:var(--apricot);border:none;border-radius:var(--radius-sm);color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .2s;margin-top:4px;letter-spacing:.03em}
+.btn-submit:hover{background:#d6682e;transform:translateY(-1px);box-shadow:0 4px 16px rgba(238,124,68,.30)}
+.btn-submit:disabled{background:var(--border);color:var(--brown-light);cursor:not-allowed;transform:none;box-shadow:none}
+.forgot-row{text-align:right;margin-top:-8px;margin-bottom:16px}
+.forgot-btn{background:none;border:none;color:var(--brown-light);font-size:12px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;text-decoration:underline}
+.forgot-btn:hover{color:var(--apricot)}
+
+/* ── DIVIDER ── */
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--brown-light);font-size:12px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── REGISTER LINK ── */
+.register-hint{text-align:center;font-size:13px;color:var(--brown-light);margin-top:20px}
+.register-hint a{color:var(--apricot);font-weight:600;text-decoration:none}
+.register-hint a:hover{text-decoration:underline}
+
+/* ── ALERT ── */
+.alert{padding:12px 16px;border-radius:10px;font-size:13px;margin-bottom:16px;display:none;line-height:1.5}
+.alert.error{background:#FEE2E2;border:1px solid #FECACA;color:#B91C1C}
+.alert.success{background:#D1FAE5;border:1px solid #A7F3D0;color:#065F46}
+
+/* ── FORGOT FLOW ── */
+.step{display:none}
+.step.active{display:block}
+
+/* ── FOOTER ── */
+.footer{text-align:center;padding:20px;font-size:12px;color:var(--brown-light)}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a href="parenting-navigator-demo.html" class="topbar-logo">
+    <div class="topbar-logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.5 2 6 4.5 6 7.5c0 4 6 10 6 10s6-6 6-10C18 4.5 15.5 2 12 2z"/><circle cx="12" cy="7.5" r="2"/></svg>
+    </div>
+    <span class="topbar-logo-text">育兒導航全攻略</span>
+  </a>
+</div>
+
+<div class="main">
+  <div class="card">
+
+    <div class="card-icon">🍼</div>
+    <div class="card-title">歡迎回來</div>
+    <div class="card-sub">登入後查看你的寶寶時程提醒、補助資訊與社群動態。</div>
+
+    <!-- TAB -->
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('login')">密碼登入</button>
+      <button class="tab-btn" onclick="switchTab('forgot')">忘記密碼</button>
+    </div>
+
+    <!-- ── 密碼登入 ─────────────────────────────────────────────────── -->
+    <div id="tab-login">
+      <div class="alert" id="login-alert"></div>
+
+      <div class="field">
+        <label>手機號碼</label>
+        <div class="phone-row">
+          <div class="phone-prefix">🇹🇼 +886</div>
+          <input type="tel" id="login-phone" placeholder="09XX-XXX-XXX" maxlength="10">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>密碼</label>
+        <div class="pwd-wrap">
+          <input type="password" id="login-pwd" placeholder="請輸入密碼" onkeydown="if(event.key==='Enter')doLogin()">
+          <button class="pwd-toggle" onclick="togglePwd('login-pwd',this)" type="button">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="forgot-row">
+        <button class="forgot-btn" onclick="switchTab('forgot')">忘記密碼？</button>
+      </div>
+
+      <button class="btn-submit" id="login-btn" onclick="doLogin()">登入</button>
+
+      <div class="register-hint">還沒有帳號？<a href="onboarding.html">立即註冊</a></div>
+    </div>
+
+    <!-- ── 忘記密碼 ─────────────────────────────────────────────────── -->
+    <div id="tab-forgot" style="display:none">
+
+      <!-- Step F1: 輸入手機 -->
+      <div class="step active" id="f-step-1">
+        <div class="alert" id="forgot-alert-1"></div>
+        <div class="field">
+          <label>註冊時的手機號碼</label>
+          <div class="phone-row">
+            <div class="phone-prefix">🇹🇼 +886</div>
+            <input type="tel" id="forgot-phone" placeholder="09XX-XXX-XXX" maxlength="10">
+            <button class="send-btn" id="forgot-send-btn" onclick="sendForgotOtp()">發送驗證碼</button>
+          </div>
+        </div>
+        <button class="btn-submit" onclick="goForgotStep(2)">下一步 →</button>
+      </div>
+
+      <!-- Step F2: 驗證 OTP -->
+      <div class="step" id="f-step-2">
+        <div class="alert" id="forgot-alert-2"></div>
+        <p style="font-size:13px;color:var(--brown-light);margin-bottom:16px;text-align:center">驗證碼已發送至 <strong id="forgot-show-phone"></strong></p>
+        <div class="otp-wrap">
+          <input class="otp-input" type="text" maxlength="1" id="fotp0" oninput="fotpNext(this,0)">
+          <input class="otp-input" type="text" maxlength="1" id="fotp1" oninput="fotpNext(this,1)">
+          <input class="otp-input" type="text" maxlength="1" id="fotp2" oninput="fotpNext(this,2)">
+          <input class="otp-input" type="text" maxlength="1" id="fotp3" oninput="fotpNext(this,3)">
+          <input class="otp-input" type="text" maxlength="1" id="fotp4" oninput="fotpNext(this,4)">
+          <input class="otp-input" type="text" maxlength="1" id="fotp5" oninput="fotpNext(this,5)">
+        </div>
+        <div class="resend-row">
+          <span id="forgot-countdown">60 秒後可重發</span>
+          <button class="resend-link" id="forgot-resend" style="display:none" onclick="sendForgotOtp()">重新發送</button>
+        </div>
+        <button class="btn-submit" onclick="verifyForgotOtp()" style="margin-top:16px">驗證 →</button>
+      </div>
+
+      <!-- Step F3: 重設密碼 -->
+      <div class="step" id="f-step-3">
+        <div class="alert" id="forgot-alert-3"></div>
+        <div class="field">
+          <label>新密碼</label>
+          <div class="pwd-wrap">
+            <input type="password" id="new-pwd" placeholder="8 位以上，含英文與數字">
+            <button class="pwd-toggle" onclick="togglePwd('new-pwd',this)" type="button">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="field">
+          <label>確認新密碼</label>
+          <div class="pwd-wrap">
+            <input type="password" id="new-pwd2" placeholder="再次輸入新密碼">
+            <button class="pwd-toggle" onclick="togglePwd('new-pwd2',this)" type="button">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <button class="btn-submit" onclick="resetPassword()">重設密碼</button>
+      </div>
+
+    </div><!-- end tab-forgot -->
+
+  </div>
+</div>
+
+<div class="footer">© 2026 育兒導航全攻略 · Powered by Supabase & Vercel</div>
+
+<script>
+const API = '';  // Vercel 同域，相對路徑即可
+
+/* ── Tab 切換 ─────────────────────────────────────────────────────────────── */
+function switchTab(tab) {
+  document.getElementById('tab-login').style.display  = tab === 'login'  ? 'block' : 'none';
+  document.getElementById('tab-forgot').style.display = tab === 'forgot' ? 'block' : 'none';
+  document.querySelectorAll('.tab-btn').forEach((b,i) =>
+    b.classList.toggle('active', (i===0 && tab==='login') || (i===1 && tab==='forgot')));
+}
+
+/* ── 工具 ──────────────────────────────────────────────────────────────────── */
+function togglePwd(id, btn) {
+  const inp = document.getElementById(id);
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+function showAlert(id, msg, type='error') {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = `alert ${type}`;
+  el.style.display = 'block';
+}
+function hideAlert(id) {
+  const el = document.getElementById(id);
+  if (el) { el.style.display = 'none'; el.textContent = ''; }
+}
+
+/* ── 密碼登入 ──────────────────────────────────────────────────────────────── */
+async function doLogin() {
+  hideAlert('login-alert');
+  const phone = document.getElementById('login-phone').value.trim();
+  const pwd   = document.getElementById('login-pwd').value;
+
+  if (!/^09\d{8}$/.test(phone)) { showAlert('login-alert','請輸入有效的手機號碼'); return; }
+  if (!pwd) { showAlert('login-alert','請輸入密碼'); return; }
+
+  const btn = document.getElementById('login-btn');
+  btn.disabled = true;
+  btn.textContent = '登入中…';
+
+  try {
+    const res = await fetch(`${API}/api/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, password: pwd })
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      showAlert('login-alert', data.error || '登入失敗，請稍後再試');
+    } else {
+      // 儲存 token 與使用者資訊
+      localStorage.setItem('pn_token', data.token);
+      localStorage.setItem('pn_user',  JSON.stringify(data.user));
+      showAlert('login-alert', '登入成功！正在跳轉…', 'success');
+      setTimeout(() => { window.location.href = 'parenting-navigator-demo.html'; }, 800);
+    }
+  } catch {
+    showAlert('login-alert', '無法連線至伺服器，請檢查網路後再試');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '登入';
+  }
+}
+
+/* ── 忘記密碼流程 ─────────────────────────────────────────────────────────── */
+let forgotToken = null;
+let forgotCountdown = 60, forgotTimer = null;
+
+function goForgotStep(n) {
+  document.querySelectorAll('[id^="f-step-"]').forEach(el => el.classList.remove('active'));
+  document.getElementById(`f-step-${n}`).classList.add('active');
+}
+
+async function sendForgotOtp() {
+  hideAlert('forgot-alert-1');
+  const phone = document.getElementById('forgot-phone').value.trim();
+  if (!/^09\d{8}$/.test(phone)) { showAlert('forgot-alert-1','請輸入有效的手機號碼'); return; }
+
+  const btn = document.getElementById('forgot-send-btn');
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(`${API}/api/send-otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone })
+    });
+    const data = await res.json();
+    if (!res.ok) { showAlert('forgot-alert-1', data.error); btn.disabled = false; return; }
+
+    document.getElementById('forgot-show-phone').textContent = phone.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3');
+    goForgotStep(2);
+    startForgotCountdown();
+  } catch {
+    showAlert('forgot-alert-1', '發送失敗，請稍後再試');
+    btn.disabled = false;
+  }
+}
+
+function startForgotCountdown() {
+  forgotCountdown = 60;
+  document.getElementById('forgot-resend').style.display = 'none';
+  document.getElementById('forgot-countdown').style.display = 'inline';
+  if (forgotTimer) clearInterval(forgotTimer);
+  forgotTimer = setInterval(() => {
+    forgotCountdown--;
+    const el = document.getElementById('forgot-countdown');
+    if (el) el.textContent = `${forgotCountdown} 秒後可重發`;
+    if (forgotCountdown <= 0) {
+      clearInterval(forgotTimer);
+      const el2 = document.getElementById('forgot-countdown');
+      if (el2) el2.style.display = 'none';
+      const rb = document.getElementById('forgot-resend');
+      if (rb) rb.style.display = 'inline';
+    }
+  }, 1000);
+}
+
+async function verifyForgotOtp() {
+  hideAlert('forgot-alert-2');
+  const phone = document.getElementById('forgot-phone').value.trim();
+  const code  = [0,1,2,3,4,5].map(i => document.getElementById(`fotp${i}`).value).join('');
+  if (code.length < 6) { showAlert('forgot-alert-2','請輸入完整的 6 位驗證碼'); return; }
+
+  try {
+    const res = await fetch(`${API}/api/verify-otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, code })
+    });
+    const data = await res.json();
+    if (!res.ok) { showAlert('forgot-alert-2', data.error); return; }
+
+    forgotToken = data.token;
+    goForgotStep(3);
+  } catch {
+    showAlert('forgot-alert-2', '驗證失敗，請稍後再試');
+  }
+}
+
+async function resetPassword() {
+  hideAlert('forgot-alert-3');
+  const pwd  = document.getElementById('new-pwd').value;
+  const pwd2 = document.getElementById('new-pwd2').value;
+
+  if (!/(?=.*[a-zA-Z])(?=.*\d).{8,}/.test(pwd)) {
+    showAlert('forgot-alert-3','密碼至少 8 位，需包含英文與數字'); return;
+  }
+  if (pwd !== pwd2) { showAlert('forgot-alert-3','兩次密碼不一致'); return; }
+
+  try {
+    const res = await fetch(`${API}/api/reset-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${forgotToken}` },
+      body: JSON.stringify({ password: pwd })
+    });
+    const data = await res.json();
+    if (!res.ok) { showAlert('forgot-alert-3', data.error); return; }
+
+    showAlert('forgot-alert-3','密碼重設成功！請重新登入。','success');
+    setTimeout(() => switchTab('login'), 1500);
+  } catch {
+    showAlert('forgot-alert-3','重設失敗，請稍後再試');
+  }
+}
+
+function fotpNext(inp, idx) {
+  inp.value = inp.value.replace(/[^0-9]/g, '');
+  if (inp.value && idx < 5) document.getElementById(`fotp${idx+1}`).focus();
+}
+
+/* ── 已登入則直接跳轉 ─────────────────────────────────────────────────────── */
+(function checkAuth() {
+  const token = localStorage.getItem('pn_token');
+  if (token) {
+    // 簡單檢查 JWT 是否過期（不做完整驗證，由後端 API 負責）
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      if (payload.exp * 1000 > Date.now()) {
+        window.location.href = 'parenting-navigator-demo.html';
+      }
+    } catch {}
+  }
+})();
+</script>
+</body>
+</html>
