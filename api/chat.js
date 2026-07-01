@@ -1,12 +1,12 @@
 /**
  * POST /api/chat
- * Body: { message, session_id?, city?, history? }
+ * Body: { message, session_id?, city? }
  *
- * 作為前端到 AnythingLLM 的 Proxy，讓 API Key 不暴露在瀏覽器端。
- * 所需環境變數：
- *   ANYTHINGLLM_ENDPOINT  — 完整 chat endpoint，例如：
- *     https://xxxx.trycloudflare.com/api/v1/workspace/my-workspace/chat
- *   ANYTHINGLLM_API_KEY   — Bearer token
+ * Proxy → AnythingLLM workspace chat API
+ * 支援的環境變數（擇一即可）：
+ *   ANYTHINGLLM_ENDPOINT  — 完整 URL（優先使用）
+ *   ANYTHINGLLM_BASE_URL  — 若 ENDPOINT 未設定，用此值當 endpoint
+ * API Key：ANYTHINGLLM_API_KEY
  */
 
 module.exports = async (req, res) => {
@@ -19,19 +19,26 @@ module.exports = async (req, res) => {
   const { message, session_id, city } = req.body || {};
   if (!message?.trim()) return res.status(400).json({ error: '請提供問題內容' });
 
-  const endpoint = process.env.ANYTHINGLLM_ENDPOINT;
+  // 支援兩種 env var 命名
+  const endpoint = process.env.ANYTHINGLLM_ENDPOINT || process.env.ANYTHINGLLM_BASE_URL;
   const apiKey   = process.env.ANYTHINGLLM_API_KEY;
 
-  // 若環境變數未設定，直接回 503，前端 catch 後會走 demoReply()
   if (!endpoint || !apiKey) {
-    return res.status(503).json({ error: 'AI 服務未設定，請聯繫管理員' });
+    console.error('[chat] env vars missing. ENDPOINT:', !!endpoint, 'KEY:', !!apiKey);
+    return res.status(503).json({ error: 'AI 服務未設定' });
   }
 
-  try {
-    // 將縣市資訊附加到問題開頭，讓 RAG 可依縣市篩選知識庫
-    const prompt = city ? `[使用者縣市：${city}]\n\n${message}` : message;
+  // 正確的 AnythingLLM workspace chat endpoint
+  // 若 env var 只有 base URL（如 https://xxx.com），自動補上路徑
+  let chatUrl = endpoint;
+  if (!chatUrl.includes('/workspace/') && !chatUrl.endsWith('/chat')) {
+    chatUrl = `${chatUrl.replace(/\/$/, '')}/api/v1/workspace/my-workspace/chat`;
+  }
 
-    const upstream = await fetch(endpoint, {
+  const prompt = city ? `[使用者縣市：${city}]\n\n${message}` : message;
+
+  try {
+    const upstream = await fetch(chatUrl, {
       method: 'POST',
       headers: {
         'Content-Type':  'application/json',
@@ -44,25 +51,42 @@ module.exports = async (req, res) => {
       }),
     });
 
+    const rawText = await upstream.text();
+    console.log('[chat] upstream status:', upstream.status);
+    console.log('[chat] upstream body:', rawText.slice(0, 500));
+
     if (!upstream.ok) {
-      const errText = await upstream.text().catch(() => '');
-      console.error('[chat] upstream error:', upstream.status, errText);
-      return res.status(502).json({ error: `AnythingLLM 回應異常 (${upstream.status})` });
+      return res.status(502).json({ error: `AnythingLLM 回應異常 (${upstream.status})`, detail: rawText.slice(0, 200) });
     }
 
-    const data  = await upstream.json();
-    // AnythingLLM 回傳欄位：textResponse（v1.x 標準）
-    const reply = data.textResponse || data.text || data.response || '（無回覆）';
+    let data = {};
+    try { data = JSON.parse(rawText); } catch(e) {
+      return res.status(502).json({ error: 'AnythingLLM 回傳非 JSON', raw: rawText.slice(0, 200) });
+    }
+
+    // AnythingLLM v1.x 標準欄位：textResponse
+    // 部分版本可能用 text、response、answer
+    const reply = data.textResponse || data.text || data.response || data.answer || null;
+
+    if (!reply) {
+      // 把完整回傳印出來幫助 debug
+      console.error('[chat] empty reply. Full data keys:', Object.keys(data));
+      console.error('[chat] data.type:', data.type, 'data.error:', data.error);
+      return res.status(200).json({
+        reply: data.error || '（AI 暫無回覆，請確認 AnythingLLM workspace 已設定正確的 LLM 模型）',
+        sources: []
+      });
+    }
+
     const sources = (data.sources || []).map(s => ({
-      title: s.title   || s.metadata?.title || '',
-      url:   s.url     || s.metadata?.url   || '',
-      chunk: s.chunk   || '',
+      title: s.title || s.metadata?.title || '',
+      url:   s.url   || s.metadata?.url   || '',
     }));
 
     return res.status(200).json({ reply, sources });
 
   } catch (err) {
-    console.error('[chat] error:', err.message);
-    return res.status(500).json({ error: '無法連接 AI 服務' });
+    console.error('[chat] fetch error:', err.message);
+    return res.status(500).json({ error: '無法連接 AnythingLLM：' + err.message });
   }
 };
