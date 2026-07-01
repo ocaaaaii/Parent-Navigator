@@ -448,6 +448,129 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 @media(max-width:920px){.main-wrap{grid-template-columns:1fr}.sidebar{position:static}.category-grid{grid-template-columns:repeat(2,1fr)}.news-panels{grid-template-columns:1fr}.family-hall-grid{grid-template-columns:1fr}}
 @media(max-width:640px){.search-filters{grid-template-columns:1fr 1fr}.category-grid{grid-template-columns:repeat(2,1fr)}}
 
+/* ════════════════════════════════════════════════════════════
+   RWD — 大平板 (≤1024px)  iPad Pro / Surface
+════════════════════════════════════════════════════════════ */
+@media(max-width:1024px){
+  /* Header */
+  .header-inner{padding:0 20px;gap:16px}
+  nav ul li a{padding:7px 11px;font-size:13.5px}
+
+  /* 頁面邊距縮小 */
+  .notice-strip{padding:0 20px}
+  .main-wrap{padding:0 20px;gap:20px}
+  footer{padding:40px 20px 24px}
+
+  /* Footer：4欄→3欄 */
+  .footer-inner{grid-template-columns:2fr 1fr 1fr;gap:28px}
+  .footer-col:last-child{display:none}
+
+  /* Chat panel：稍窄，overlay 不推版面 */
+  #chatbot-panel{width:380px;right:-400px}
+  body.cp-visible{margin-right:0}
+  /* 加半透明遮罩感（用 box-shadow 模擬，不需額外 DOM） */
+  #chatbot-panel.open{box-shadow:-8px 0 60px rgba(36,52,50,.28)}
+
+  /* Caregiver grid：平板維持 2 欄 */
+  .cg-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ════════════════════════════════════════════════════════════
+   RWD — 小平板 (≤768px)  iPad mini / 橫放手機
+════════════════════════════════════════════════════════════ */
+@media(max-width:768px){
+  /* Header */
+  .header-inner{padding:0 16px;gap:10px}
+  .logo-text .sub{display:none}
+  .header-actions .btn-outline{display:none}
+  nav ul{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;flex-wrap:nowrap}
+  nav ul::-webkit-scrollbar{display:none}
+  nav ul li a{padding:6px 10px;font-size:13px;white-space:nowrap}
+
+  /* Announce bar */
+  .announce-bar{padding:8px 16px;font-size:12px}
+
+  /* Hero */
+  .hero{padding:40px 16px 48px}
+  .search-filters{grid-template-columns:1fr 1fr}
+
+  /* Notice + Main */
+  .notice-strip{padding:0 16px}
+  .main-wrap{padding:0 16px;margin:20px auto}
+
+  /* Footer */
+  footer{padding:36px 16px 24px}
+  .footer-inner{grid-template-columns:1fr 1fr;gap:24px}
+  .footer-bottom{flex-direction:column;gap:8px;text-align:center}
+
+  /* Chat panel — overlay instead of push */
+  #chatbot-panel{width:360px}
+  body.cp-visible{margin-right:0}
+}
+
+/* ════════════════════════════════════════════════════════════
+   RWD — Mobile (≤480px)
+════════════════════════════════════════════════════════════ */
+@media(max-width:480px){
+  /* Header */
+  .header-inner{height:56px;padding:0 12px;gap:8px}
+  .btn-tour{display:none}
+  nav ul li a{padding:5px 9px;font-size:12px}
+  .btn-solid{padding:7px 12px;font-size:12px}
+
+  /* Announce bar */
+  .announce-bar{padding:7px 12px}
+
+  /* Hero */
+  .hero{padding:28px 14px 36px}
+  .hero p{font-size:14px;margin-bottom:18px}
+  .search-box{padding:6px 6px 6px 14px}
+  .search-filters{grid-template-columns:1fr}
+  .search-btn svg ~ *{display:none} /* icon only on very small */
+  .hot-keywords{gap:6px}
+  .keyword-tag{font-size:11px;padding:4px 10px}
+
+  /* Notice strip */
+  .notice-card{flex-wrap:wrap;gap:12px}
+  .notice-btn{margin-left:0;width:100%;text-align:center}
+
+  /* Category grid */
+  .category-grid{grid-template-columns:repeat(2,1fr)}
+
+  /* Caregiver */
+  .cg-filters{flex-direction:column;gap:8px}
+  .cg-filter-select,.cg-search-input{width:100%}
+  .post-cg-grid{grid-template-columns:1fr}
+
+  /* Footer */
+  .footer-inner{grid-template-columns:1fr;gap:20px}
+  .footer-col{display:none} /* hide secondary footer cols on tiny screens */
+  .footer-brand{display:block}
+
+  /* Modals */
+  .modal-overlay{padding:8px}
+  .modal-box{max-height:92vh;border-radius:14px;width:100%}
+  .modal-header{padding:14px 16px 12px}
+  .modal-body{padding:14px 16px}
+
+  /* Chat panel — full-width slide-up on mobile */
+  #chatbot-panel{width:100%;right:-100%;top:auto;bottom:0;height:85vh;border-radius:20px 20px 0 0;border-left:none;border-top:1px solid var(--border)}
+  #chatbot-panel.open{right:0}
+  body.cp-visible{margin-right:0}
+
+  /* Float chat button — 底部置中 */
+  #float-chat-wrap{bottom:16px;right:16px}
+  #float-chat-btn{width:52px;height:52px}
+  .float-popup{width:calc(100vw - 32px);right:-8px;bottom:64px}
+  .float-messages{max-height:50vh}
+
+  /* Sidebar chat */
+  .sidebar-chat{display:none}
+
+  /* Section cards */
+  .news-item{padding:10px 12px}
+}
+
 .forum-cat-tag{display:inline-block;padding:2px 8px;border-radius:6px;background:var(--teal-pale);color:var(--teal);font-size:11px;font-weight:600}
 .forum-post-excerpt{font-size:13px;color:var(--charcoal-light);margin:6px 0;line-height:1.6}
 
@@ -2094,22 +2217,29 @@ async function sidebarAsk(question) {
   m.innerHTML += `<div class="msg user"><div class="msg-avatar human">${userSVG}</div><div class="msg-bubble">${esc(question)}</div></div>`;
   m.innerHTML += `<div class="msg bot" id="s-typing"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">…</div></div>`;
   m.scrollTop = m.scrollHeight;
+  sidebarHistory.push({role:'user', content:question});
   try {
-    const res = await fetch(`/api/chat`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:sessionId,message:question,city:selectedCity})});
+    const res = await fetch(`/api/chat`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:sessionId,message:question,city:selectedCity,history:sidebarHistory.slice(-10)})});
     const d = await res.json();
     document.getElementById('s-typing')?.remove();
-    m.innerHTML += `<div class="msg bot"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">${esc(d.reply||'（無回覆）')}</div></div>`;
+    const reply = d.reply || '（無回覆）';
+    m.innerHTML += `<div class="msg bot"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">${esc(reply)}</div></div>`;
     m.scrollTop = m.scrollHeight;
+    sidebarHistory.push({role:'assistant', content:reply});
+    if(sidebarHistory.length > 20) sidebarHistory.splice(0, 2);
   } catch(e) {
     document.getElementById('s-typing')?.remove();
     const reply = demoReply(question);
     m.innerHTML += `<div class="msg bot"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">${reply.replace(/\n/g,'<br>')}</div></div>`;
     m.scrollTop = m.scrollHeight;
+    sidebarHistory.push({role:'assistant', content:reply});
   }
 }
 function sidebarSend() { const i=document.getElementById('sidebar-input'); if(!i.value.trim())return; sidebarAsk(i.value.trim()); i.value=''; }
 
 /* ══ 浮動 Widget ═════════════════════════════════════════════════════════ */
+// Sidebar 對話歷史
+const sidebarHistory = [];
 let floatOpen = false;
 // 對話歷史：保留最近 10 輪（避免超出 context window）
 const floatHistory = [];

@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST')   return res.status(405).json({ error: 'Method not allowed' });
 
-  const { message, session_id, city } = req.body || {};
+  const { message, session_id, city, history = [] } = req.body || {};
   if (!message?.trim()) return res.status(400).json({ error: '請提供問題內容' });
 
   // 支援兩種 env var 命名
@@ -35,7 +35,17 @@ module.exports = async (req, res) => {
     chatUrl = `${chatUrl.replace(/\/$/, '')}/api/v1/workspace/my-workspace/chat`;
   }
 
-  const prompt = city ? `[使用者縣市：${city}]\n\n${message}` : message;
+  // 將前端送來的對話歷史組成 context，讓 LLM 記得上下文
+  const historyLines = history
+    .slice(-8) // 最近 4 輪對話（user + assistant 各一條）
+    .map(h => h.role === 'user' ? `使用者：${h.content}` : `育兒小幫手：${h.content}`)
+    .join('\n');
+
+  const parts = [];
+  if (city) parts.push(`[使用者縣市：${city}]`);
+  if (historyLines) parts.push(`[對話記錄]\n${historyLines}\n[/對話記錄]`);
+  parts.push(`使用者：${message}`);
+  const prompt = parts.join('\n\n');
 
   try {
     const upstream = await fetch(chatUrl, {
