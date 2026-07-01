@@ -111,8 +111,21 @@ module.exports = async (req, res) => {
   }
 
   try {
+    // ⚠️ DEMO MODE：固定驗證碼 123456，不發送真實簡訊
+    // 正式上線前將 DEMO_MODE 環境變數移除，並設定 SMS_PROVIDER
+    const isDemoMode = process.env.DEMO_MODE === 'true' || !process.env.SMS_PROVIDER;
+
+    if (isDemoMode) {
+      // Demo 模式：直接把固定碼 123456 存入 Supabase，跳過 SMS
+      await supabase
+        .from('otp_codes')
+        .upsert({ phone, code: '123456', expires_at: new Date(Date.now() + 10 * 60 * 1000).toISOString(), verified: false, created_at: new Date().toISOString() });
+
+      return res.status(200).json({ success: true, message: '【Demo 模式】驗證碼為 123456' });
+    }
+
     const code = await storeOtp(phone);
-    const provider = process.env.SMS_PROVIDER || 'twilio';
+    const provider = process.env.SMS_PROVIDER;
 
     if (provider === 'every8d') {
       await sendViaEvery8D(phone, code);
