@@ -99,6 +99,36 @@ nav ul li a:hover,nav ul li a.active{background:var(--teal-pale);color:var(--tea
 .keyword-tag .rank{font-size:10px;font-weight:700;color:var(--teal)}
 .keyword-tag.hot .rank{color:var(--apricot)}
 
+/* ── PERSONALIZED RECOMMENDATIONS ── */
+#section-rec{display:none;margin-bottom:28px}
+.rec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;flex-wrap:wrap;gap:8px}
+.rec-mode-tabs{display:flex;gap:6px}
+.rec-mode-btn{padding:5px 14px;border:1.5px solid var(--border);border-radius:20px;background:#fff;font-size:12px;color:var(--charcoal-light);cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .2s}
+.rec-mode-btn.active{border-color:var(--teal-brand);background:var(--teal-pale);color:var(--charcoal);font-weight:600}
+.rec-grid{display:flex;flex-direction:column;gap:10px}
+.rec-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;display:flex;align-items:flex-start;gap:14px;cursor:pointer;transition:all .2s;position:relative}
+.rec-card:hover{border-color:var(--teal-brand);box-shadow:var(--shadow-md);transform:translateX(3px)}
+.rec-priority{width:8px;flex-shrink:0;align-self:stretch;border-radius:4px;margin-right:2px}
+.rec-priority.high{background:#E53935}
+.rec-priority.medium{background:#FB8C00}
+.rec-priority.low{background:#43A047}
+.rec-body{flex:1;min-width:0}
+.rec-tag-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.rec-badge{font-size:10px;font-weight:600;padding:2px 9px;border-radius:8px}
+.rec-badge.medical{background:var(--wine-pale);color:var(--wine)}
+.rec-badge.subsidy{background:var(--apricot-pale);color:var(--apricot)}
+.rec-badge.daycare{background:#E3F2FD;color:#1565C0}
+.rec-badge.activity{background:#F3E5F5;color:#7B1FA2}
+.rec-priority-label{font-size:10px;font-weight:600}
+.rec-priority-label.high{color:#E53935}
+.rec-priority-label.medium{color:#FB8C00}
+.rec-priority-label.low{color:#43A047}
+.rec-title{font-family:'Noto Serif TC',serif;font-size:15px;font-weight:700;color:var(--charcoal);margin-bottom:5px;line-height:1.4}
+.rec-reason{font-size:12px;color:var(--charcoal-mid);line-height:1.6}
+.rec-arrow{margin-left:auto;color:var(--teal);font-size:18px;flex-shrink:0;align-self:center}
+.rec-loading{padding:32px;text-align:center;font-size:13px;color:var(--charcoal-light)}
+.rec-demo-note{font-size:11px;color:var(--charcoal-light);margin-top:8px;padding:6px 12px;background:var(--warm-sand);border-radius:8px;display:inline-block}
+
 /* ── NOTICE STRIP ── */
 .notice-strip{max-width:1280px;margin:28px auto 0;padding:0 32px}
 .notice-card{background:linear-gradient(135deg,#E5F0F0,var(--teal-pale));border:1px solid rgba(153,182,180,.22);border-radius:var(--radius);padding:18px 24px;display:flex;align-items:center;gap:16px}
@@ -704,6 +734,25 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 
     <!-- 首頁：總覽 -->
     <div id="section-home">
+
+      <!-- ══ 個人化推薦 Section（登入後顯示）══ -->
+      <div id="section-rec">
+        <div class="rec-header">
+          <div>
+            <div class="section-title">為你量身推薦 ✨</div>
+            <div class="section-divider"></div>
+          </div>
+          <div class="rec-mode-tabs" id="rec-mode-tabs">
+            <button class="rec-mode-btn active" data-mode="personal" onclick="switchRecMode('personal')">個人化</button>
+            <button class="rec-mode-btn" data-mode="cohort"   onclick="switchRecMode('cohort')">同屬性</button>
+            <button class="rec-mode-btn" data-mode="platform" onclick="switchRecMode('platform')">全站熱門</button>
+          </div>
+        </div>
+        <div class="rec-grid" id="rec-grid">
+          <div class="rec-loading">載入個人化推薦中…</div>
+        </div>
+      </div>
+
       <div class="category-section">
         <div class="section-title">育兒相關資料</div>
         <div class="section-divider"></div>
@@ -1111,6 +1160,120 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 <script>
 /* ══ 設定 ══════════════════════════════════════════════════════════════════ */
 const API_BASE = '';  // Vercel 同域，相對路徑即可（/api/chat）
+
+/* ══ 個人化推薦 ══════════════════════════════════════════════════════════════ */
+let recCurrentMode = 'personal';
+let recCurrentUserId  = null;
+let recCurrentChildId = null;
+
+const CATEGORY_LABELS = { medical:'醫療保健', subsidy:'補助福利', daycare:'托育服務', activity:'親子教育活動' };
+const PRIORITY_LABELS = { high:'高關聯', medium:'中關聯', low:'低關聯' };
+
+async function initRecommendations() {
+  const token = localStorage.getItem('auth_token');
+  if (!token) return; // 未登入，不顯示推薦
+
+  // 解碼 JWT payload（不驗簽，只取 userId）
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    recCurrentUserId = payload.userId;
+  } catch { return; }
+
+  // 取得使用者偏好 + 孩子清單
+  try {
+    const r = await fetch(`/api/user-preferences?user_id=${recCurrentUserId}`);
+    if (!r.ok) return;
+    const d = await r.json();
+    // 取第一個 is_active 孩子（或第一個孩子）
+    const children = d.children || [];
+    const active = children.find(c => c.is_active) || children[0];
+    if (active) recCurrentChildId = active.id;
+  } catch { return; }
+
+  // 顯示 section 並載入
+  document.getElementById('section-rec').style.display = 'block';
+  await loadRecommendations('personal');
+}
+
+async function loadRecommendations(mode) {
+  const grid = document.getElementById('rec-grid');
+  if (!recCurrentUserId || !recCurrentChildId) {
+    // 沒有孩子資料時直接用 Demo 資料
+    grid.innerHTML = '<div class="rec-loading">載入推薦中（Demo 模式）…</div>';
+  } else {
+    grid.innerHTML = '<div class="rec-loading">載入個人化推薦中…</div>';
+  }
+
+  try {
+    const uid = recCurrentUserId  || 'demo-user';
+    const cid = recCurrentChildId || 'demo-child';
+    const r = await fetch(`/api/recommendations?user_id=${uid}&child_id=${cid}&mode=${mode}`);
+    const d = await r.json();
+    renderRecCards(d.results || [], d.demo);
+  } catch {
+    // 網路錯誤：直接渲染 Demo 資料（透過 API 降級，這裡是第二層保底）
+    grid.innerHTML = '<div class="rec-loading">推薦引擎暫時離線，顯示示範資料</div>';
+  }
+}
+
+function renderRecCards(items, isDemo) {
+  const grid = document.getElementById('rec-grid');
+  if (!items.length) {
+    grid.innerHTML = '<div class="rec-loading">目前沒有符合條件的推薦</div>';
+    return;
+  }
+  grid.innerHTML = items.map(item => {
+    const cat      = item.category || 'general';
+    const priority = item.priority || 'medium';
+    return `
+      <div class="rec-card" onclick="recCardClick('${esc(item.id)}','${cat}','${priority}')">
+        <div class="rec-priority ${priority}"></div>
+        <div class="rec-body">
+          <div class="rec-tag-row">
+            <span class="rec-badge ${cat}">${esc(CATEGORY_LABELS[cat] || cat)}</span>
+            <span class="rec-priority-label ${priority}">${esc(PRIORITY_LABELS[priority] || priority)}</span>
+          </div>
+          <div class="rec-title">${esc(item.title || '')}</div>
+          ${item.reason ? `<div class="rec-reason">${esc(item.reason)}</div>` : ''}
+        </div>
+        <span class="rec-arrow">›</span>
+      </div>`;
+  }).join('');
+
+  if (isDemo) {
+    grid.insertAdjacentHTML('beforeend',
+      '<div class="rec-demo-note">⚡ Demo 模式：整合組員評分引擎後將顯示個人化結果</div>');
+  }
+}
+
+function recCardClick(policyId, category, priority) {
+  // 記錄點擊事件
+  fetch('/api/click', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      user_id:   recCurrentUserId,
+      child_id:  recCurrentChildId,
+      policy_id: policyId,
+      category,
+      priority,
+    }),
+  }).catch(() => {}); // 靜默失敗，不影響使用者體驗
+
+  // 開啟對應文章
+  openArticle(policyId);
+}
+
+async function switchRecMode(mode) {
+  recCurrentMode = mode;
+  document.querySelectorAll('#rec-mode-tabs .rec-mode-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
+  await loadRecommendations(mode);
+}
+
+// 頁面載入後初始化推薦
+document.addEventListener('DOMContentLoaded', initRecommendations);
 
 /* ══ Demo 備援回答（API 無法連線時使用）═══════════════════════════════════ */
 function demoReply(q) {

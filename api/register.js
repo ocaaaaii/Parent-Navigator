@@ -2,12 +2,17 @@
  * POST /api/register
  * Header: Authorization: Bearer <phone_verified_token>
  * Body: {
- *   name, phone, password,
- *   baby_name, baby_birthday_or_due_date, baby_gender,
- *   region,
- *   interests: ["newborn","subsidy", ...]  // 按偏好順序排列
+ *   // users 表
+ *   name, phone, password, region,
+ *   parental_employment,           // both_working / single_working / not_working
+ *   special_status,                // 逗號分隔家庭特殊身分
+ *   preferred_categories,          // ["medical","subsidy","daycare","activity"]
+ *   // children 表
+ *   baby_name, birth_date, gender,
+ *   birth_order,                   // 1~4（4代表4胎以上）
+ *   child_special_status,          // 逗號分隔孩子特殊身分
  * }
- * 回傳: { success: true, token: "<long-lived-jwt>", user: {...} }
+ * 回傳: { success: true, token: "<jwt>", user: {...} }
  */
 
 const { createClient } = require('@supabase/supabase-js');
@@ -20,7 +25,7 @@ const supabase = createClient(
 );
 
 module.exports = async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*');
+  res.setHeader('Access-Control-Allow-Origin',  process.env.ALLOWED_ORIGIN || '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') return res.status(200).end();
@@ -29,7 +34,6 @@ module.exports = async (req, res) => {
   // ── 驗證 phone_verified token ─────────────────────────────────────────────
   const authHeader = req.headers.authorization || '';
   const phoneToken = authHeader.replace('Bearer ', '').trim();
-
   if (!phoneToken) {
     return res.status(401).json({ error: '缺少手機驗證憑證，請先完成簡訊驗證' });
   }
@@ -42,10 +46,19 @@ module.exports = async (req, res) => {
     return res.status(401).json({ error: '手機驗證憑證無效或已逾時，請重新驗證' });
   }
 
+  // ── 解構請求 body ─────────────────────────────────────────────────────────
   const {
-    name, phone, password,
-    baby_name, baby_birthday_or_due_date, baby_gender,
-    region, interests = []
+    // users
+    name, phone, password, region,
+    parental_employment  = null,
+    special_status       = null,   // 家庭特殊身分（逗號分隔）
+    preferred_categories = [],
+    // children
+    baby_name            = null,
+    birth_date,
+    gender               = null,
+    birth_order          = 1,
+    child_special_status = null,   // 孩子特殊身分（逗號分隔）
   } = req.body || {};
 
   // ── 基本驗證 ─────────────────────────────────────────────────────────────
@@ -57,6 +70,9 @@ module.exports = async (req, res) => {
   }
   if (!/(?=.*[a-zA-Z])(?=.*\d).{8,}/.test(password)) {
     return res.status(400).json({ error: '密碼至少 8 位，需包含英文與數字' });
+  }
+  if (!birth_date) {
+    return res.status(400).json({ error: '缺少寶寶出生日期' });
   }
 
   // ── 檢查手機是否已註冊 ───────────────────────────────────────────────────
@@ -73,31 +89,58 @@ module.exports = async (req, res) => {
   // ── 雜湊密碼 ─────────────────────────────────────────────────────────────
   const password_hash = await bcrypt.hash(password, 12);
 
-  // ── 寫入 Supabase users 表 ───────────────────────────────────────────────
-  const { data: user, error: insertError } = await supabase
+  // ── 寫入 users 表 ────────────────────────────────────────────────────────
+  const { data: user, error: userErr } = await supabase
     .from('users')
     .insert({
       phone,
       password_hash,
-      user_nickname: name,        // 家長姓名存為 user_nickname
-      baby_name,
-      baby_birthday_or_due_date,
-      baby_gender: baby_gender || 'unknown',
-      region,
-      interests: JSON.stringify(interests), // JSONB 欄位
-      onboarding_state: 'completed',
-      line_user_id: null,         // LINE Bot 連結後再填
-      created_at: new Date().toISOString(),
+      user_nickname:        name,
+      region:               region || null,
+      parental_employment:  parental_employment || null,
+      special_status:       special_status || null,
+      preferred_categories: preferred_categories,   // JSONB
+      onboarding_state:     'completed',
+      line_user_id:         null,
+      created_at:           new Date().toISOString(),
     })
-    .select('id, phone, user_nickname, baby_name, baby_birthday_or_due_date, region, interests')
+    .select('id, phone, user_nickname, region, preferred_categories')
     .single();
 
-  if (insertError) {
-    console.error('[register] Supabase insert error:', insertError.message);
-    return res.status(500).json({ error: '帳號建立失敗，請稍後再試' });
+  if (userErr) {
+    console.error('[register] users insert error:', userErr.message);
+    return res.status(500).json({ error: '帳號建立失敗：' + userErr.message });
   }
 
-  // ── 簽發長效 JWT（7 天）供後續登入使用 ───────────────────────────────────
+  // ── 寫入 children 表 ─────────────────────────────────────────────────────
+  const { error: childErr } = await supabase
+    .from('children')
+    .insert({
+      user_id:        user.id,
+      name:           baby_name || null,
+      birth_date:     birth_date,
+      gender:         gender && gender !== 'unknown' ? gender : null,
+      birth_order:    Math.min(Math.max(parseInt(birth_order) || 1, 1), 9),
+      special_status: child_special_status || null,
+      is_active:      true,
+    });
+
+  if (childErr) {
+    console.error('[register] children insert error:', childErr.message);
+    // users 已寫入；children 失敗不回滾，但回報警告
+    // （可後續由使用者重新填寫）
+    return res.status(207).json({
+      success: true,
+      warning: '帳號建立成功，但孩子資料寫入失敗：' + childErr.message,
+      token:   jwt.sign(
+        { userId: user.id, phone: user.phone, purpose: 'auth' },
+        process.env.JWT_SECRET,
+        { expiresIn: '7d' }
+      ),
+    });
+  }
+
+  // ── 簽發 JWT（7 天）─────────────────────────────────────────────────────
   const token = jwt.sign(
     { userId: user.id, phone: user.phone, purpose: 'auth' },
     process.env.JWT_SECRET,
@@ -108,12 +151,12 @@ module.exports = async (req, res) => {
     success: true,
     token,
     user: {
-      id:       user.id,
-      name:     user.user_nickname,
-      phone:    user.phone,
-      baby:     user.baby_name,
-      region:   user.region,
-      interests: user.interests,
-    }
+      id:                  user.id,
+      name:                user.user_nickname,
+      phone:               user.phone,
+      baby_name:           baby_name,
+      region:              user.region,
+      preferred_categories: user.preferred_categories,
+    },
   });
 };

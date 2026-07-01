@@ -181,6 +181,12 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--cream);color:var(--b
 .login-hint{text-align:center;font-size:13px;color:var(--brown-light);margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
 .login-hint a{color:var(--apricot);font-weight:600;text-decoration:none}
 .login-hint a:hover{text-decoration:underline}
+
+/* ── RADIO / CHECKBOX GROUPS ── */
+.radio-group,.check-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.radio-btn,.check-btn{padding:8px 14px;border:1.5px solid var(--border);border-radius:8px;background:#fff;font-size:13px;color:var(--brown-mid);cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .2s;user-select:none}
+.radio-btn:hover,.check-btn:hover{border-color:var(--amber)}
+.radio-btn.selected,.check-btn.selected{border-color:var(--apricot);background:var(--apricot-light);color:var(--apricot);font-weight:600}
 </style>
 </head>
 <body>
@@ -350,6 +356,30 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--cream);color:var(--b
         </div>
       </div>
 
+      <div class="field">
+        <label>孩子胎次 <span class="opt">選填</span></label>
+        <div class="radio-group" id="birth-order-group">
+          <button class="radio-btn selected" onclick="selectBirthOrder(this,1)">第 1 胎</button>
+          <button class="radio-btn" onclick="selectBirthOrder(this,2)">第 2 胎</button>
+          <button class="radio-btn" onclick="selectBirthOrder(this,3)">第 3 胎</button>
+          <button class="radio-btn" onclick="selectBirthOrder(this,4)">第 4 胎以上</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>孩子特殊身分 <span class="opt">可多選，可不填</span></label>
+        <div class="check-group" id="child-status-group">
+          <button class="check-btn" onclick="toggleCheck(this,'child','premature')">早產兒（未滿37週）</button>
+          <button class="check-btn" onclick="toggleCheck(this,'child','low_birth_weight')">低出生體重兒</button>
+          <button class="check-btn" onclick="toggleCheck(this,'child','very_low_birth_weight')">極低出生體重兒</button>
+          <button class="check-btn" onclick="toggleCheck(this,'child','developmental_delay')">發展遲緩</button>
+          <button class="check-btn" onclick="toggleCheck(this,'child','disability')">身心障礙</button>
+          <button class="check-btn" onclick="toggleCheck(this,'child','rare_disease')">罕見疾病</button>
+          <button class="check-btn" onclick="toggleCheck(this,'child','major_illness')">重大傷病</button>
+          <button class="check-btn" onclick="toggleCheck(this,'child','congenital_heart')">先天性心臟病</button>
+        </div>
+      </div>
+
       <div class="btn-row">
         <button class="btn-next" onclick="goStep(4)">繼續 →</button>
         <button class="btn-back" onclick="goStep(2)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>上一步</button>
@@ -366,6 +396,15 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--cream);color:var(--b
       </div>
       <div class="error-msg" style="margin-top:12px" id="err-region">請選擇居住縣市</div>
 
+      <div class="field" style="margin-top:20px">
+        <label>父母就業狀況 <span class="opt">選填，用於推薦育嬰假與就業補助</span></label>
+        <div class="radio-group" id="employment-group">
+          <button class="radio-btn" onclick="selectEmployment(this,'both_working')">👫 雙薪家庭</button>
+          <button class="radio-btn" onclick="selectEmployment(this,'single_working')">👤 單薪家庭</button>
+          <button class="radio-btn" onclick="selectEmployment(this,'not_working')">🏠 全職照顧</button>
+        </div>
+      </div>
+
       <div class="btn-row" style="margin-top:24px">
         <button class="btn-next" onclick="goStep(5)">繼續 →</button>
         <button class="btn-back" onclick="goStep(3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>上一步</button>
@@ -376,6 +415,20 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--cream);color:var(--b
     <div class="step" id="step-5">
       <div class="step-title">你最關心哪些主題？ ✨</div>
       <div class="step-sub">點選主題加入你的偏好清單，可在清單中拖曳調整優先順序。</div>
+
+      <div class="field" style="margin-bottom:20px">
+        <label>家庭特殊身分 <span class="opt">可多選，可不填，用於推薦專屬補助</span></label>
+        <div class="check-group" id="family-status-group">
+          <button class="check-btn" onclick="toggleCheck(this,'family','low_income')">低收入戶</button>
+          <button class="check-btn" onclick="toggleCheck(this,'family','middle_low_income')">中低收入戶</button>
+          <button class="check-btn" onclick="toggleCheck(this,'family','single_parent')">單親家庭</button>
+          <button class="check-btn" onclick="toggleCheck(this,'family','grandparent_care')">隔代教養</button>
+          <button class="check-btn" onclick="toggleCheck(this,'family','domestic_violence')">受暴家庭</button>
+          <button class="check-btn" onclick="toggleCheck(this,'family','special_circumstances')">特殊境遇家庭</button>
+          <button class="check-btn" onclick="toggleCheck(this,'family','indigenous')">原住民族</button>
+          <button class="check-btn" onclick="toggleCheck(this,'family','new_resident')">新住民子女</button>
+        </div>
+      </div>
 
       <div class="topic-instruction">
         <strong>使用方式：</strong>點擊卡片選取主題，數字代表你的偏好排序。在下方清單中可拖曳調整順序。至少選擇 <strong>1</strong> 個主題。
@@ -397,9 +450,10 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--cream);color:var(--b
       <div class="error-msg" id="err-topic">請至少選擇 1 個主題</div>
 
       <div class="btn-row" style="margin-top:24px">
-        <button class="btn-next" onclick="goStep(6)">完成設定 →</button>
+        <button class="btn-next" id="btn-submit" onclick="submitRegister()">完成設定 →</button>
         <button class="btn-back" onclick="goStep(4)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>上一步</button>
       </div>
+      <div class="error-msg" style="text-align:center;margin-top:10px" id="err-submit"></div>
     </div>
 
     <!-- STEP 6: 完成 -->
@@ -415,6 +469,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--cream);color:var(--b
           <div class="success-info-row"><span class="success-info-label">寶寶暱稱</span><span class="success-info-val" id="sum-baby">—</span></div>
           <div class="success-info-row"><span class="success-info-label">居住縣市</span><span class="success-info-val" id="sum-region">—</span></div>
           <div class="success-info-row"><span class="success-info-label">關注主題數</span><span class="success-info-val" id="sum-topics">—</span></div>
+          <div class="success-info-row"><span class="success-info-label">就業狀況</span><span class="success-info-val" id="sum-employment">—</span></div>
         </div>
         <a href="parenting-navigator-demo.html" class="btn-go">前往我的育兒導航 →</a>
       </div>
@@ -440,6 +495,11 @@ let dateType = 'birthday';
 let selectedRegion = '';
 let rankedTopics = []; // [{id, name, icon}]
 let countdown = 60, countdownTimer = null;
+let selectedBirthOrder   = 1;       // 1~4（4代表4胎以上）
+let selectedChildStatus  = [];      // e.g. ['premature','disability']
+let selectedEmployment   = '';      // both_working / single_working / not_working
+let selectedFamilyStatus = [];      // e.g. ['low_income','single_parent']
+let phoneVerifiedToken   = '';      // 由 /api/verify-otp 取得，提交 register 時使用
 
 /* ══ PROGRESS ══ */
 function renderProgress() {
@@ -539,12 +599,33 @@ function togglePwd(id, btn) {
 }
 
 /* ══ SMS ══ */
-function sendCode() {
+async function sendCode() {
   const phone = document.getElementById('f-phone').value.trim();
   if (!/^09\d{8}$/.test(phone)) { showErr('err-phone', true); return; }
-  document.getElementById('send-code-btn').disabled = true;
-  // TODO: 串接簡訊 API (e.g. Twilio, 每日簡訊)
-  alert(`✅ 模擬：驗證碼已發送至 ${phone}\n（Demo 模式：輸入任意 6 位數即可通過）`);
+  const btn = document.getElementById('send-code-btn');
+  btn.disabled = true;
+  btn.textContent = '發送中…';
+  try {
+    const r = await fetch('/api/send-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone }),
+    });
+    const d = await r.json();
+    if (!r.ok) {
+      alert('⚠️ ' + (d.error || '發送失敗，請稍後再試'));
+      btn.disabled = false;
+    } else {
+      // Demo 模式會在 message 裡告知驗證碼
+      if (d.message && d.message.includes('123456')) {
+        alert(`✅ ${d.message}`);
+      }
+    }
+  } catch {
+    alert('⚠️ 網路錯誤，請確認連線後再試');
+    btn.disabled = false;
+  }
+  btn.textContent = '發送驗證碼';
 }
 function startCountdown() {
   countdown = 60;
@@ -568,11 +649,29 @@ function resendCode() {
   sendCode();
   startCountdown();
 }
-function verifyOtp() {
+async function verifyOtp() {
   const otp = [0,1,2,3,4,5].map(i=>document.getElementById(`otp${i}`).value).join('');
   if (otp.length < 6) { showErr('err-otp', true); return; }
   showErr('err-otp', false);
-  goStep(3);
+  const phone = document.getElementById('f-phone').value.trim();
+  try {
+    const r = await fetch('/api/verify-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, code: otp }),
+    });
+    const d = await r.json();
+    if (!r.ok) {
+      showErr('err-otp', true);
+      document.getElementById('err-otp').textContent = d.error || '驗證碼錯誤，請重新輸入';
+      return;
+    }
+    phoneVerifiedToken = d.token; // 儲存 phone_verified JWT，submit 時使用
+    goStep(3);
+  } catch {
+    showErr('err-otp', true);
+    document.getElementById('err-otp').textContent = '網路錯誤，請稍後再試';
+  }
 }
 function otpNext(inp, idx) {
   inp.value = inp.value.replace(/[^0-9]/g,'');
@@ -603,6 +702,33 @@ function setDateType(type) {
 function selectGender(btn, val) {
   selectedGender = val;
   document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+/* ══ BIRTH ORDER ══ */
+function selectBirthOrder(btn, val) {
+  selectedBirthOrder = val;
+  document.querySelectorAll('#birth-order-group .radio-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+/* ══ CHECKBOX TOGGLE（孩子特殊身分 + 家庭特殊身分）══ */
+function toggleCheck(btn, group, val) {
+  if (group === 'child') {
+    const idx = selectedChildStatus.indexOf(val);
+    if (idx >= 0) { selectedChildStatus.splice(idx, 1); btn.classList.remove('selected'); }
+    else           { selectedChildStatus.push(val);      btn.classList.add('selected'); }
+  } else {
+    const idx = selectedFamilyStatus.indexOf(val);
+    if (idx >= 0) { selectedFamilyStatus.splice(idx, 1); btn.classList.remove('selected'); }
+    else           { selectedFamilyStatus.push(val);      btn.classList.add('selected'); }
+  }
+}
+
+/* ══ EMPLOYMENT ══ */
+function selectEmployment(btn, val) {
+  selectedEmployment = val;
+  document.querySelectorAll('#employment-group .radio-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
 }
 
@@ -698,9 +824,73 @@ function fillSummary() {
   document.getElementById('sum-phone').textContent  = ph ? ph.replace(/(\d{4})(\d{3})(\d{3})/, '+886 $1-$2-$3') : '—';
   const baby = document.getElementById('f-baby-name').value;
   const date = document.getElementById('f-birthday').value;
-  document.getElementById('sum-baby').textContent   = baby ? `${baby}（${date}）` : '—';
+  const birthOrderLabel = ['第 1 胎','第 2 胎','第 3 胎','第 4 胎以上'][selectedBirthOrder - 1] || '—';
+  document.getElementById('sum-baby').textContent   = baby ? `${baby}（${date}，${birthOrderLabel}）` : '—';
   document.getElementById('sum-region').textContent = selectedRegion || '—';
   document.getElementById('sum-topics').textContent = rankedTopics.length ? `${rankedTopics.length} 個（${rankedTopics.map(t=>t.name).join('、')}）` : '—';
+  const empMap = { both_working:'👫 雙薪家庭', single_working:'👤 單薪家庭', not_working:'🏠 全職照顧' };
+  document.getElementById('sum-employment').textContent = empMap[selectedEmployment] || '—';
+}
+
+/* ══ COLLECT FORM DATA（供 api/register.js 使用）══ */
+function collectFormData() {
+  return {
+    // users 表
+    name:                 document.getElementById('f-name').value.trim(),
+    phone:                document.getElementById('f-phone').value.trim(),
+    password:             document.getElementById('f-pwd').value,
+    region:               selectedRegion,
+    parental_employment:  selectedEmployment || null,
+    special_status:       selectedFamilyStatus.join(',') || null,
+    preferred_categories: rankedTopics.map(t => t.id),
+    // children 表
+    baby_name:            document.getElementById('f-baby-name').value.trim(),
+    birth_date:           document.getElementById('f-birthday').value,
+    gender:               selectedGender || null,
+    birth_order:          selectedBirthOrder,
+    child_special_status: selectedChildStatus.join(',') || null,
+  };
+}
+
+/* ══ SUBMIT REGISTER ══ */
+async function submitRegister() {
+  if (!validateStep(5)) return;
+  const btn = document.getElementById('btn-submit');
+  const errEl = document.getElementById('err-submit');
+  btn.disabled = true;
+  btn.textContent = '建立中…';
+  errEl.style.display = 'none';
+
+  const payload = collectFormData();
+
+  try {
+    const r = await fetch('/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${phoneVerifiedToken}`,
+      },
+      body: JSON.stringify(payload),
+    });
+    const d = await r.json();
+
+    if (!r.ok && r.status !== 207) {
+      errEl.textContent = d.error || '註冊失敗，請稍後再試';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = '完成設定 →';
+      return;
+    }
+
+    // 成功（201）或部分成功（207）：儲存 JWT 並跳成功頁
+    if (d.token) localStorage.setItem('auth_token', d.token);
+    goStep(6);
+  } catch {
+    errEl.textContent = '網路錯誤，請確認連線後再試';
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = '完成設定 →';
+  }
 }
 
 /* ══ INIT ══ */
