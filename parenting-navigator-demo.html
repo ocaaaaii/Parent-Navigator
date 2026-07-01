@@ -715,7 +715,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
             <div class="label">補助福利</div>
             <div class="count" id="count-subsidy">生育・育兒・社福</div>
           </div>
-          <div class="category-card" onclick="showSection('education')" style="animation-delay:.16s">
+          <div class="category-card" onclick="showSection('daycare')" style="animation-delay:.16s">
             <div class="icon-wrap blue">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
                 <path d="M3 21h18M5 21V8l7-4 7 4v13M9 21v-5h6v5"/>
@@ -725,7 +725,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
             <div class="label">托育服務</div>
             <div class="count" id="count-education">公托・準公共・保母</div>
           </div>
-          <div class="category-card" onclick="showSection('forum')" style="animation-delay:.24s">
+          <div class="category-card" onclick="showSection('activity')" style="animation-delay:.24s">
             <div class="icon-wrap lavender">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
@@ -796,7 +796,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
       <div class="article-grid" id="article-grid-subsidy"></div>
     </div>
 
-    <!-- 教育資源 section -->
+    <!-- 教育資源 section（navbar 保留） -->
     <div id="section-education" style="display:none">
       <div style="display:flex;align-items:flex-end;gap:12px;margin-bottom:4px">
         <div style="flex:1"><div class="section-title">教育資源</div></div>
@@ -805,6 +805,28 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
       <div class="section-divider"></div>
       <p style="font-size:13px;color:var(--charcoal-light);margin-bottom:18px">幼兒教育、托育、親子活動資源整合</p>
       <div class="article-grid" id="article-grid-education"></div>
+    </div>
+
+    <!-- 托育服務 section -->
+    <div id="section-daycare" style="display:none">
+      <div style="display:flex;align-items:flex-end;gap:12px;margin-bottom:4px">
+        <div style="flex:1"><div class="section-title">托育服務</div></div>
+        <img src="img/cropped/girl.png" alt="" style="height:70px;object-fit:contain;opacity:.8;margin-bottom:-4px">
+      </div>
+      <div class="section-divider"></div>
+      <p style="font-size:13px;color:var(--charcoal-light);margin-bottom:18px">公共化托育、準公共托育、合格保母與托嬰中心資訊</p>
+      <div class="article-grid" id="article-grid-daycare"></div>
+    </div>
+
+    <!-- 親子教育活動 section -->
+    <div id="section-activity" style="display:none">
+      <div style="display:flex;align-items:flex-end;gap:12px;margin-bottom:4px">
+        <div style="flex:1"><div class="section-title">親子教育活動</div></div>
+        <img src="img/cropped/girl.png" alt="" style="height:70px;object-fit:contain;opacity:.8;margin-bottom:-4px">
+      </div>
+      <div class="section-divider"></div>
+      <p style="font-size:13px;color:var(--charcoal-light);margin-bottom:18px">親子課程、幼兒教育、社群活動與學習資源</p>
+      <div class="article-grid" id="article-grid-activity"></div>
     </div>
 
     <!-- 論壇區 -->
@@ -1275,12 +1297,12 @@ let currentUser = null;
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 /*  導航  */
-const ALL_SECTIONS = ['section-home','section-forum','section-faq','section-medical','section-subsidy','section-education','section-caregiver'];
+const ALL_SECTIONS = ['section-home','section-forum','section-faq','section-medical','section-subsidy','section-education','section-daycare','section-activity','section-caregiver'];
 function showSection(name) {
   ALL_SECTIONS.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
   document.querySelectorAll('nav ul li a').forEach(a=>a.classList.remove('active'));
-  const secMap = { home:'section-home', forum:'section-forum', faq:'section-faq', medical:'section-medical', subsidy:'section-subsidy', education:'section-education', caregiver:'section-caregiver' };
-  const navMap = { home:'nav-home', forum:'nav-forum', faq:'nav-faq', medical:'nav-medical', subsidy:'nav-subsidy', education:'nav-education', caregiver:'nav-caregiver' };
+  const secMap = { home:'section-home', forum:'section-forum', faq:'section-faq', medical:'section-medical', subsidy:'section-subsidy', education:'section-education', daycare:'section-daycare', activity:'section-activity', caregiver:'section-caregiver' };
+  const navMap = { home:'nav-home', forum:'nav-forum', faq:'nav-faq', medical:'nav-medical', subsidy:'nav-subsidy', education:'nav-education', daycare:'nav-education', activity:'nav-education', caregiver:'nav-caregiver' };
   const secEl = document.getElementById(secMap[name]);
   if(secEl) secEl.style.display = 'block';
   const navEl = document.getElementById(navMap[name]);
@@ -2232,9 +2254,11 @@ function openArticle(id) {
 
 /*  文章列表建立  */
 const SECTION_ARTICLES = {
-  medical: ['newborn','child-medical','preventive-health','enterovirus-2026','special-needs','pregnancy-care','baby-food'],
-  subsidy: ['subsidy-apply','subsidy-compare','parental-leave','subsidy-q2-2026','birth-bonus','parental-leave-update','paternity-leave'],
-  education: ['preschool-edu','kindergarten-2025','daycare-guide','parenting-course']
+  medical:   ['newborn','child-medical','preventive-health','enterovirus-2026','special-needs','pregnancy-care','baby-food'],
+  subsidy:   ['subsidy-apply','subsidy-compare','parental-leave','subsidy-q2-2026','birth-bonus','parental-leave-update','paternity-leave'],
+  education: ['preschool-edu','kindergarten-2025','daycare-guide','parenting-course'],
+  daycare:   ['daycare-guide','kindergarten-2025','preschool-edu'],
+  activity:  ['parenting-course','preschool-edu'],
 };
 function buildArticleGrids() {
   Object.entries(SECTION_ARTICLES).forEach(([section, ids]) =>{

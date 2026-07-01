@@ -680,4 +680,205 @@ function otpNext(inp, idx) {
 }
 
 /* ══ DATE TYPE ══ */
-function setDateType(ty
+
+/* ══ STEP 1: DATE TYPE ══ */
+function setDateType(type) {
+  dateType = type;
+  document.getElementById('btn-birthday').classList.toggle('active', type === 'birthday');
+  document.getElementById('btn-duedate').classList.toggle('active', type === 'duedate');
+}
+
+/* ══ STEP 3: BABY INFO ══ */
+function selectGender(el, gender) {
+  selectedGender = gender;
+  document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function selectBirthOrder(el, n) {
+  selectedBirthOrder = n;
+  el.closest('.radio-group').querySelectorAll('.radio-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function toggleCheck(el, type, value) {
+  el.classList.toggle('selected');
+  const arr = type === 'child' ? selectedChildStatus : selectedFamilyStatus;
+  const idx = arr.indexOf(value);
+  if (idx > -1) arr.splice(idx, 1);
+  else arr.push(value);
+}
+
+/* ══ STEP 4: REGION & EMPLOYMENT ══ */
+function renderRegions() {
+  const grid = document.getElementById('region-grid');
+  grid.innerHTML = REGIONS.map(r =>
+    `<button class="region-btn" onclick="selectRegion(this,'${r}')">${r}</button>`
+  ).join('');
+}
+
+function selectRegion(el, region) {
+  selectedRegion = region;
+  document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  showErr('err-region', false);
+}
+
+function selectEmployment(el, value) {
+  selectedEmployment = value;
+  document.getElementById('employment-group').querySelectorAll('.radio-btn')
+    .forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+/* ══ STEP 5: TOPICS ══ */
+function renderTopics() {
+  const grid = document.getElementById('topics-grid');
+  grid.innerHTML = TOPICS.map(t => `
+    <div class="topic-card" id="tc-${t.id}" onclick="toggleTopic('${t.id}')">
+      <div class="topic-icon-wrap" style="background:${t.bg}">${t.icon}</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;color:var(--brown)">${t.name}</div>
+        <div style="font-size:11px;color:var(--brown-light);margin-top:2px">${t.tags}</div>
+      </div>
+      <div class="topic-rank" id="tr-${t.id}"></div>
+    </div>
+  `).join('');
+}
+
+function toggleTopic(id) {
+  const idx = rankedTopics.findIndex(t => t.id === id);
+  if (idx > -1) {
+    rankedTopics.splice(idx, 1);
+    document.getElementById(`tc-${id}`).classList.remove('selected');
+  } else {
+    const topic = TOPICS.find(t => t.id === id);
+    rankedTopics.push(topic);
+    document.getElementById(`tc-${id}`).classList.add('selected');
+  }
+  updateTopicRanks();
+  renderRanked();
+  showErr('err-topic', false);
+}
+
+function updateTopicRanks() {
+  TOPICS.forEach(t => {
+    const el = document.getElementById(`tr-${t.id}`);
+    if (!el) return;
+    const rank = rankedTopics.findIndex(r => r.id === t.id);
+    el.textContent = rank > -1 ? rank + 1 : '';
+  });
+}
+
+function renderRanked() {
+  const list  = document.getElementById('ranked-list');
+  const empty = document.getElementById('ranked-empty');
+  if (!rankedTopics.length) {
+    list.innerHTML = '';
+    list.appendChild(empty);
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  list.innerHTML = rankedTopics.map((t, i) => `
+    <div class="ranked-item" draggable="true" data-id="${t.id}"
+         ondragstart="dragStart(event)" ondragover="dragOver(event)"
+         ondrop="dropOn(event)" ondragend="dragEnd(event)">
+      <span style="font-size:11px;color:var(--brown-light);font-weight:700;min-width:16px">${i+1}</span>
+      <span class="ranked-item-icon">${t.icon}</span>
+      <span class="ranked-item-name">${t.name}</span>
+      <svg style="opacity:.4;flex-shrink:0" width="14" height="14" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/>
+      </svg>
+    </div>
+  `).join('');
+}
+
+let dragSrcId = null;
+function dragStart(e) { dragSrcId = e.currentTarget.dataset.id; e.currentTarget.style.opacity='.5'; }
+function dragEnd(e)   { e.currentTarget.style.opacity='1'; }
+function dragOver(e)  { e.preventDefault(); }
+function dropOn(e) {
+  e.preventDefault();
+  const tgtId = e.currentTarget.dataset.id;
+  if (!dragSrcId || dragSrcId === tgtId) return;
+  const from = rankedTopics.findIndex(t => t.id === dragSrcId);
+  const to   = rankedTopics.findIndex(t => t.id === tgtId);
+  const [item] = rankedTopics.splice(from, 1);
+  rankedTopics.splice(to, 0, item);
+  updateTopicRanks();
+  renderRanked();
+}
+
+/* ══ SUBMIT ══ */
+async function submitRegister() {
+  if (!validateStep(5)) return;
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true; btn.textContent = '送出中…';
+
+  const body = {
+    name:                 document.getElementById('f-name').value.trim(),
+    phone:                document.getElementById('f-phone').value.trim(),
+    password:             document.getElementById('f-pwd').value,
+    phone_verified_token: phoneVerifiedToken,
+    baby_name:            (document.getElementById('f-baby-name')?.value || '').trim(),
+    baby_date:            document.getElementById('f-baby-date')?.value || '',
+    date_type:            dateType,
+    gender:               selectedGender,
+    birth_order:          selectedBirthOrder,
+    child_status:         selectedChildStatus,
+    region:               selectedRegion,
+    employment:           selectedEmployment,
+    family_status:        selectedFamilyStatus,
+    topics:               rankedTopics.map(t => t.id),
+  };
+
+  try {
+    const r = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const d = await r.json();
+    if (!r.ok) {
+      const errEl = document.getElementById('err-submit');
+      errEl.textContent = d.error || '註冊失敗，請稍後再試';
+      errEl.style.display = 'block';
+      btn.disabled = false; btn.textContent = '完成設定 →';
+      return;
+    }
+    if (d.token) localStorage.setItem('auth_token', d.token);
+    if (d.user)  localStorage.setItem('user_info', JSON.stringify(d.user));
+    goStep(6);
+  } catch {
+    const errEl = document.getElementById('err-submit');
+    errEl.textContent = '網路錯誤，請稍後再試';
+    errEl.style.display = 'block';
+    btn.disabled = false; btn.textContent = '完成設定 →';
+  }
+}
+
+/* ══ SUMMARY (STEP 6) ══ */
+function fillSummary() {
+  const empMap = {
+    both_working:   '雙薪家庭',
+    single_working: '單薪家庭',
+    not_working:    '全職照顧'
+  };
+  document.getElementById('sum-name').textContent       = document.getElementById('f-name')?.value || '—';
+  document.getElementById('sum-phone').textContent      = document.getElementById('f-phone')?.value || '—';
+  document.getElementById('sum-baby').textContent       = document.getElementById('f-baby-name')?.value || '—';
+  document.getElementById('sum-region').textContent     = selectedRegion || '—';
+  document.getElementById('sum-topics').textContent     = rankedTopics.length + ' 個';
+  document.getElementById('sum-employment').textContent = empMap[selectedEmployment] || '—';
+}
+
+/* ══ INIT ══ */
+renderProgress();
+renderRegions();
+renderTopics();
+
+</script>
+</body>
+</html>
