@@ -987,7 +987,31 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 
 <script>
 /* ══ 設定 ══════════════════════════════════════════════════════════════════ */
-const API_BASE = 'http://localhost:5000';  // ← 部署後改為 Render 網址
+const API_BASE = '';  // Vercel 同域，相對路徑即可（/api/chat）
+
+/* ══ Demo 備援回答（API 無法連線時使用）═══════════════════════════════════ */
+function demoReply(q) {
+  const t = q.toLowerCase();
+  if (/托嬰|公托|托育|托嬰中心/.test(t))
+    return '托嬰中心分為公立、準公共和私立三種。\n\n✅ 公立費用最低（約 3,000–6,000 元/月），但名額少，建議寶寶出生後立即登記候補。\n✅ 準公共機構享有政府補助，費用僅略高於公立。\n\n可至衛福部托育媒合平台查詢：https://cwisweb.sfaa.gov.tw';
+  if (/育兒津貼|托育補助/.test(t))
+    return '育兒津貼與托育補助兩者擇一：\n\n💰 自己帶（未送托）→ 育兒津貼 5,000 元/月（0–2歲）\n💰 送公托/準公共 → 托育補助（補助後費用更低）\n\n建議先計算哪個划算再決定！詳情可至衛福部社家署查詢。';
+  if (/疫苗|預防接種|打針/.test(t))
+    return '台灣公費疫苗時程重點：\n\n👶 出生：B肝第1劑、卡介苗\n📅 2個月：五合一、肺炎鏈球菌、輪狀病毒\n📅 4個月：五合一第2劑、肺炎鏈球菌\n📅 6個月：五合一第3劑、流感（季節性）\n📅 12個月：MMR、水痘、日本腦炎\n\n詳細時程請參考疾管署網站。';
+  if (/育嬰假|留停|育嬰留職/.test(t))
+    return '育嬰留職停薪重點：\n\n⏰ 適用對象：子女未滿 3 歲\n📅 期間：最長 2 年（可分次申請）\n💰 津貼：投保薪資 80%（上限約 43,000 元/月）\n👫 爸爸媽媽都可以申請，且可同時申請！\n\n申請需有6個月以上勞保年資，向所屬公司HR提出。';
+  if (/生育獎勵|生育補助|生育金/.test(t))
+    return '生育獎勵金依縣市不同，以台北市為例：\n\n🎉 第1胎：2萬元\n🎉 第2胎：4萬元\n🎉 第3胎：6萬元\n\n各縣市金額不同，請選擇你的縣市查詢！另外全國統一有生育給付（勞保）約 5.7 萬元。';
+  if (/副食品|離乳食|副食/.test(t))
+    return '副食品添加建議：\n\n🥣 4–6個月：觀察寶寶發展，建議6個月開始\n🌾 第一週：10倍粥（純米）\n🥕 之後：每次新增一種食材，觀察2–3天\n⚠️ 1歲前不加鹽、糖、蜂蜜\n\n建議由稀到稠、由少到多、由單一到多樣慢慢進行！';
+  if (/保母|褓姆/.test(t))
+    return '找保母的管道：\n\n🔍 衛福部托育媒合平台（推薦，有政府把關）\n🔍 本平台「保母媒合」功能\n🔍 PTT BabyMother 板\n🔍 Dcard 親子版\n\n建議優先選擇有領取「準公共化」補助資格的保母，費用更有保障！';
+  if (/產檢|孕期|懷孕/.test(t))
+    return '孕期重要產檢時程：\n\n📅 6–8週：確認懷孕、心跳\n📅 16–18週：唐氏症篩檢\n📅 20週：大排畸（超音波）\n📅 24–28週：妊娠糖尿病篩檢\n📅 35週後：每週產檢\n\n健保補助 14 次產檢，高齡產婦另有羊膜穿刺補助。';
+  if (/補助|申請|怎麼辦|流程/.test(t))
+    return '育兒相關補助超多！常見的有：\n\n💰 育兒津貼（5,000元/月）\n💰 托育補助\n💰 生育獎勵金\n💰 育嬰留停津貼\n💰 兒童健保補助\n\n可以點上方「補助資訊」查看詳細內容，或直接問我具體問題！';
+  return '感謝您的提問！這個問題我正在查詢相關政府資料。\n\n您可以試試：\n• 點選上方分類卡片查看相關資訊\n• 撥打 1925 安心專線（衛福部）\n• 撥打 1957 福利諮詢專線\n\n或者換個關鍵字再問我，例如「育兒津貼」、「疫苗時程」、「托嬰補助」等。';
+}
 const botSVG  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"><path d="M12 20V10"/><path d="M12 10C8 10 5 7 5 4c4 0 7 3 7 6Z"/><path d="M12 12c4 0 7-3 7-6-4 0-7 3-7 6Z"/></svg>';
 const userSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></svg>';
 const sessionId = (() => { let id = sessionStorage.getItem('pn_sid'); if(!id){id='web_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);sessionStorage.setItem('pn_sid',id);} return id; })();
@@ -2071,14 +2095,15 @@ async function sidebarAsk(question) {
   m.innerHTML += `<div class="msg bot" id="s-typing"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">…</div></div>`;
   m.scrollTop = m.scrollHeight;
   try {
-    const res = await fetch(`${API_BASE}/chat`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:sessionId,message:question,city:selectedCity})});
+    const res = await fetch(`/api/chat`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:sessionId,message:question,city:selectedCity})});
     const d = await res.json();
     document.getElementById('s-typing')?.remove();
     m.innerHTML += `<div class="msg bot"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">${esc(d.reply||'（無回覆）')}</div></div>`;
     m.scrollTop = m.scrollHeight;
   } catch(e) {
     document.getElementById('s-typing')?.remove();
-    m.innerHTML += `<div class="msg bot"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">⚠️ 無法連線，請確認後端服務是否啟動。</div></div>`;
+    const reply = demoReply(question);
+    m.innerHTML += `<div class="msg bot"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">${reply.replace(/\n/g,'<br>')}</div></div>`;
     m.scrollTop = m.scrollHeight;
   }
 }
@@ -2137,7 +2162,7 @@ async function floatAsk(question) {
   if(floatHistory.length > HISTORY_LIMIT * 2) floatHistory.splice(0, 2);
 
   try {
-    const res = await fetch(`${API_BASE}/chat`, {
+    const res = await fetch(`/api/chat`, {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
@@ -2159,8 +2184,8 @@ async function floatAsk(question) {
     }
   } catch(e) {
     document.getElementById('float-typing')?.remove();
-    floatAddBotMsg('⚠️ 無法連線，請確認後端服務是否啟動（localhost:5000），或致電 1925 衛福部諮詢專線。', []);
-    floatHistory.pop(); // 失敗就把這輪問題移除
+    floatAddBotMsg(demoReply(question), []);
+    floatHistory.pop();
   }
 }
 function floatSend() { floatAsk(document.getElementById('float-input').value.trim()); }
@@ -2910,7 +2935,7 @@ async function cpAsk(q) {
   cpHistory.push({role:'user', content:q});
   const city = (document.getElementById('float-city-select')||{}).value || '';
   try {
-    const res = await fetch(`${API_BASE}/chat`, {method:'POST', headers:{'Content-Type':'application/json'},
+    const res = await fetch(`/api/chat`, {method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({message:q, city, session_id:sessionId, history:cpHistory.slice(-10)})});
     typing.remove();
     if(!res.ok) throw new Error();
@@ -2925,7 +2950,7 @@ async function cpAsk(q) {
     }
   } catch(e) {
     typing.remove();
-    cpAddBot('目前無法連線至伺服器，請確認後端是否啟動。', []);
+    cpAddBot(demoReply(q), []);
   }
 }
 function cpSend() { cpAsk(document.getElementById('float-input').value.trim()); }
