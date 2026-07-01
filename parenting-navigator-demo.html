@@ -18,8 +18,7 @@
   --radius:16px; --radius-sm:10px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans TC',sans-serif;background:var(--warm-cream);color:var(--charcoal);overflow-x:hidden;transition:margin-right .32s cubic-bezier(.4,0,.2,1)}
-body.cp-visible{margin-right:420px}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--warm-cream);color:var(--charcoal);overflow-x:hidden;margin-right:420px}
 
 /*  TOPBAR  */
 .topbar{background:var(--charcoal);color:rgba(255,255,255,.68);font-size:12px;padding:6px 32px;display:flex;justify-content:flex-end;align-items:center;gap:20px}
@@ -373,51 +372,6 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 .footer-col ul li a:hover{color:var(--teal-brand)}
 .footer-bottom{max-width:1280px;margin:0 auto;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;font-size:12px}
 
-/*  FLOAT CHAT  */
-#float-chat-wrap{position:fixed;bottom:28px;right:28px;z-index:9999}
-#float-chat-btn{width:58px;height:58px;border-radius:50%;background:var(--charcoal);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(36,52,50,.30);transition:transform .2s,box-shadow .2s;position:relative}
-#float-chat-btn:hover{transform:scale(1.08);box-shadow:0 10px 32px rgba(36,52,50,.38)}
-#float-chat-btn svg{width:26px;height:26px;stroke:var(--teal-brand);fill:none;stroke-width:2}
-.float-badge{position:absolute;top:-4px;right:-4px;background:var(--wine-brand);color:#fff;border-radius:50%;width:20px;height:20px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
-.float-popup{position:absolute;bottom:72px;right:0;width:340px;background:var(--warm-cream);border-radius:18px;box-shadow:0 16px 60px rgba(36,52,50,.22);overflow:hidden;display:flex;flex-direction:column;animation:popupIn .22s ease}
-@keyframes popupIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
-.float-popup-header{background:var(--charcoal);padding:14px 16px;display:flex;align-items:center;gap:10px}
-.float-popup-avatar{width:38px;height:38px;border-radius:50%;background:var(--charcoal-mid);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.float-popup-avatar svg{width:20px;height:20px;stroke:var(--teal-brand);fill:none}
-.float-popup-name{color:#fff;font-size:14px;font-weight:600}
-.float-popup-status{color:var(--teal-light);font-size:11px;display:flex;align-items:center;gap:5px;margin-top:2px}
-.float-popup-close{margin-left:auto;background:none;border:none;color:var(--teal-light);font-size:16px;cursor:pointer;line-height:1;padding:4px}
-.float-popup-close:hover{color:#fff}
-.float-city-bar{background:var(--apricot-pale);padding:8px 14px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--apricot)}
-.float-city-bar select{border:1px solid var(--apricot-brand);border-radius:6px;padding:2px 6px;font-size:12px;background:#fff;color:var(--charcoal);cursor:pointer}
-.float-messages{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:10px;max-height:340px;min-height:200px}
-.float-msg{display:flex;align-items:flex-end;gap:7px}
-.float-msg.user{flex-direction:row-reverse}
-.float-msg-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.float-msg.bot .float-msg-avatar{background:var(--charcoal)}
-.float-msg.user .float-msg-avatar{background:var(--teal-brand)}
-.float-msg-avatar svg{width:14px;height:14px;fill:none;stroke-width:1.8}
-.float-msg.bot .float-msg-avatar svg{stroke:var(--teal-brand)}
-.float-msg.user .float-msg-avatar svg{stroke:#fff}
-.float-bubble{max-width:76%;padding:9px 13px;border-radius:14px;font-size:13px;line-height:1.55;white-space:pre-wrap}
-.float-msg.bot .float-bubble{background:#fff;color:var(--charcoal);border-bottom-left-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.float-msg.user .float-bubble{background:var(--teal);color:#fff;border-bottom-right-radius:4px}
-.float-sources{margin-top:5px;display:flex;flex-wrap:wrap;gap:4px}
-.float-source-tag{font-size:10px;padding:2px 7px;border-radius:10px;background:var(--teal-pale);color:var(--teal);border:1px solid var(--teal-light)}
-.float-typing .float-bubble{display:flex;gap:4px;align-items:center;padding:12px 16px}
-.float-typing .dot{width:7px;height:7px;border-radius:50%;background:var(--teal-light);animation:typingDot .9s infinite}
-.float-typing .dot:nth-child(2){animation-delay:.15s}
-.float-typing .dot:nth-child(3){animation-delay:.30s}
-@keyframes typingDot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
-.float-quick-btns{padding:6px 12px 8px;display:flex;flex-wrap:wrap;gap:6px}
-.float-quick-btns button{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--teal-brand);background:#fff;color:var(--teal);cursor:pointer;transition:background .15s;font-family:'Noto Sans TC',sans-serif}
-.float-quick-btns button:hover{background:var(--teal-pale)}
-.float-input-area{display:flex;gap:8px;padding:10px 12px 14px;border-top:1px solid var(--border);background:#fff}
-.float-input-area input{flex:1;border:1.5px solid var(--border);border-radius:22px;padding:8px 14px;font-size:13px;outline:none;font-family:'Noto Sans TC',sans-serif}
-.float-input-area input:focus{border-color:var(--teal-brand)}
-.float-input-area button{width:38px;height:38px;border-radius:50%;background:var(--teal);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
-.float-input-area button:hover{background:var(--charcoal)}
-.float-input-area button svg{stroke:#fff;fill:none;stroke-width:2}
 
 /*  MODAL SYSTEM  */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(36,52,50,.6);z-index:1000;align-items:center;justify-content:center;padding:20px}
@@ -494,11 +448,8 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
   .footer-inner{grid-template-columns:2fr 1fr 1fr;gap:28px}
   .footer-col:last-child{display:none}
 
-  /* Chat panel：稍窄，overlay 不推版面 */
-  #chatbot-panel{width:380px;right:-400px}
-  body.cp-visible{margin-right:0}
-  /* 加半透明遮罩感（用 box-shadow 模擬，不需額外 DOM） */
-  #chatbot-panel.open{box-shadow:-8px 0 60px rgba(36,52,50,.28)}
+  /* Chat panel：稍窄，常態顯示 */
+  #chatbot-panel{width:380px}
 
   /* Caregiver grid：平板維持 2 欄 */
   .cg-grid{grid-template-columns:repeat(2,1fr)}
@@ -534,7 +485,6 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 
   /* Chat panel — overlay instead of push */
   #chatbot-panel{width:360px}
-  body.cp-visible{margin-right:0}
 }
 
 /* 
@@ -582,16 +532,8 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
   .modal-header{padding:14px 16px 12px}
   .modal-body{padding:14px 16px}
 
-  /* Chat panel — full-width slide-up on mobile */
-  #chatbot-panel{width:100%;right:-100%;top:auto;bottom:0;height:85vh;border-radius:20px 20px 0 0;border-left:none;border-top:1px solid var(--border)}
-  #chatbot-panel.open{right:0}
-  body.cp-visible{margin-right:0}
-
-  /* Float chat button — 底部置中 */
-  #float-chat-wrap{bottom:16px;right:16px}
-  #float-chat-btn{width:52px;height:52px}
-  .float-popup{width:calc(100vw - 32px);right:-8px;bottom:64px}
-  .float-messages{max-height:50vh}
+  /* Chat panel — 手機隱藏（畫面太窄無法常態顯示） */
+  #chatbot-panel{display:none}
 
   /* Sidebar chat */
   .sidebar-chat{display:none}
@@ -608,8 +550,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 .chatbot-pill:hover{background:rgba(255,255,255,.22)}
 .chatbot-pill svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2}
 
-#chatbot-panel{position:fixed;top:0;right:-440px;width:420px;height:100vh;background:var(--white);box-shadow:-6px 0 40px rgba(44,58,42,.16);z-index:8000;display:flex;flex-direction:column;transition:right .32s cubic-bezier(.4,0,.2,1);border-left:1px solid var(--border)}
-#chatbot-panel.open{right:0}
+#chatbot-panel{position:fixed;top:0;right:0;width:420px;height:100vh;background:var(--white);box-shadow:-6px 0 40px rgba(44,58,42,.16);z-index:8000;display:flex;flex-direction:column;border-left:1px solid var(--border)}
 
 .cp-header{background:var(--charcoal);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:12px;flex-shrink:0}
 .cp-avatar{width:38px;height:38px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -662,10 +603,6 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
     <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.48 2 2 6.03 2 11c0 3.08 1.63 5.8 4.13 7.46L5.5 22l4.04-2.08C10.29 20.28 11.13 20.4 12 20.4c5.52 0 10-4.03 10-9S17.52 2 12 2z"/></svg>
     加入 LINE Bot
   </span>
-  <button class="chatbot-pill" onclick="toggleChatPanel()">
-    <svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 8V4"/><path d="M9 4h6"/></svg>
-    問問 Chatbot
-  </button>
 </div>
 
 <!-- HEADER -->
@@ -2324,13 +2261,10 @@ function heroSearch() {
   const q = document.getElementById('hero-search').value.trim();
   if (!q) return;
   document.getElementById('hero-search').value = '';
-  floatAddBotMsg('', []); // open float chat
-  if(!floatOpen) toggleFloatChat();
-  floatAsk(q);
+  panelAsk(q);
 }
 function chatSearch(q) {
-  if(!floatOpen) toggleFloatChat();
-  floatAsk(q);
+  panelAsk(q);
 }
 
 /*  資料筆數（從 API 或 Wiki 統計）  */
@@ -2403,86 +2337,6 @@ function sidebarSend() { const i=document.getElementById('sidebar-input'); if(!i
 /*  浮動 Widget  */
 // Sidebar 對話歷史
 const sidebarHistory = [];
-let floatOpen = false;
-// 對話歷史：保留最近 10 輪（避免超出 context window）
-const floatHistory = [];
-const HISTORY_LIMIT = 10;
-function toggleFloatChat() {
-  floatOpen = !floatOpen;
-  const popup = document.getElementById('float-chat-popup');
-  const btnO  = document.getElementById('float-icon-open');
-  const btnC  = document.getElementById('float-icon-close');
-  popup.style.display = floatOpen ? 'flex' : 'none';
-  popup.style.flexDirection = 'column';
-  btnO.style.display = floatOpen ? 'none' : 'block';
-  btnC.style.display = floatOpen ? 'block' : 'none';
-  document.getElementById('float-badge').style.display = 'none';
-  if(floatOpen && document.getElementById('float-messages').children.length === 0) {
-    floatAddBotMsg('您好！我是育兒小幫手（網頁版），可以幫您查詢補助、疫苗、托育等育兒資訊。', []);
-    setTimeout(()=>floatAddBotMsg('請直接輸入問題，或點選下方快速選項。', []), 600);
-  }
-}
-function floatAddBotMsg(text, sources) {
-  if(!text) return;
-  const m = document.getElementById('float-messages');
-  const d = document.createElement('div'); d.className='float-msg bot';
-  let srcHtml = sources?.length ? `<div class="float-sources">${sources.map(s=>`<span class="float-source-tag">${esc(s)}</span>`).join('')}</div>` : '';
-  d.innerHTML=`<div class="float-msg-avatar">${botSVG}</div><div><div class="float-bubble">${esc(text)}</div>${srcHtml}</div>`;
-  m.appendChild(d); m.scrollTop=m.scrollHeight;
-}
-function floatAddUserMsg(text) {
-  const m = document.getElementById('float-messages');
-  const d = document.createElement('div'); d.className='float-msg user';
-  d.innerHTML=`<div class="float-bubble">${esc(text)}</div><div class="float-msg-avatar">${userSVG}</div>`;
-  m.appendChild(d); m.scrollTop=m.scrollHeight;
-}
-function floatShowTyping() {
-  const m=document.getElementById('float-messages');
-  const d=document.createElement('div'); d.className='float-msg bot float-typing'; d.id='float-typing';
-  d.innerHTML=`<div class="float-msg-avatar">${botSVG}</div><div class="float-bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
-  m.appendChild(d); m.scrollTop=m.scrollHeight;
-}
-async function floatAsk(question) {
-  if(!question.trim()) return;
-  if(!floatOpen) toggleFloatChat();
-  floatAddUserMsg(question);
-  floatShowTyping();
-  document.getElementById('float-input').value='';
-
-  // 把這一輪使用者問題加入歷史
-  floatHistory.push({role:'user', content:question});
-  // 只保留最近 HISTORY_LIMIT 輪
-  if(floatHistory.length >HISTORY_LIMIT * 2) floatHistory.splice(0, 2);
-
-  try {
-    const res = await fetch(`/api/chat`, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        session_id: sessionId,
-        message:    question,
-        city:       selectedCity,
-        history:    floatHistory.slice(0, -1) // 送這句之前的歷史
-      })
-    });
-    const d = await res.json();
-    document.getElementById('float-typing')?.remove();
-    const reply = d.reply || '（無回覆）';
-    floatAddBotMsg(reply, d.sources||[]);
-    // 把 AI 回覆也存進歷史
-    floatHistory.push({role:'assistant', content:reply});
-    if(d.quick_replies?.length) {
-      const qw=document.getElementById('float-quick-btns');
-      qw.innerHTML=d.quick_replies.map(l=>`<button onclick="floatSendQuick('${l.replace(/'/g,"\\'")}')">${esc(l)}</button>`).join('');
-    }
-  } catch(e) {
-    document.getElementById('float-typing')?.remove();
-    floatAddBotMsg(demoReply(question), []);
-    floatHistory.pop();
-  }
-}
-function floatSend() { floatAsk(document.getElementById('float-input').value.trim()); }
-function floatSendQuick(t) { floatAsk(t); }
 
 /*  MODAL 系統  */
 function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
@@ -2491,20 +2345,13 @@ function closeModalOutside(e, id) { if(e.target===document.getElementById(id)) c
 
 /*  親子館資料 
 /*  チャットパネル  */
-let panelOpen = false;
 const panelHistory = [];
 
-function toggleChatPanel() {
-  panelOpen = !panelOpen;
-  const panel = document.getElementById('chatbot-panel');
-  if (!panel) return;
-  panel.classList.toggle('open', panelOpen);
-  document.body.style.overflow = panelOpen ? 'hidden' : '';
-  if (panelOpen && document.getElementById('panel-messages').children.length === 0) {
-    panelAddBotMsg('您好！我是育兒小幫手，請問有什麼育兒相關問題需要協助？');
-    setTimeout(() =>panelAddBotMsg('可以問我：疫苗時程、生育補助、托育申請、育嬰假…'), 700);
-  }
-}
+// 頁面載入後自動初始化 panel 訊息
+document.addEventListener('DOMContentLoaded', function() {
+  panelAddBotMsg('您好！我是育兒小幫手，請問有什麼育兒相關問題需要協助？');
+  setTimeout(() => panelAddBotMsg('可以問我：疫苗時程、生育補助、托育申請、育嬰假…'), 700);
+});
 
 function panelAddBotMsg(text) {
   const m = document.getElementById('panel-messages');
@@ -2570,7 +2417,7 @@ function panelSend() {
       <div style="font-size:14px;font-weight:600;color:#fff">育兒小幫手 AI</div>
       <div style="font-size:11px;color:var(--teal-light)">隨時為你解答育兒問題</div>
     </div>
-    <button onclick="toggleChatPanel()" style="background:none;border:none;color:#aaa;font-size:22px;cursor:pointer;line-height:1;padding:4px"></button>
+
   </div>
 
   <div class="chatbot-messages" id="panel-messages" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--warm-bg,#faf9f7)">
@@ -2593,35 +2440,6 @@ function panelSend() {
   </div>
 </div>
 
-<!--  Float Chat Wrap  -->
-<div id="float-chat-wrap">
-  <div id="float-chat-popup" style="display:none;width:340px;background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:0 12px 48px rgba(44,58,42,.18);position:absolute;bottom:70px;right:0;overflow:hidden;">
-    <div style="background:var(--charcoal);padding:12px 14px;display:flex;align-items:center;gap:8px">
-      <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--teal-brand)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      </div>
-      <div style="flex:1;font-size:13px;font-weight:600;color:#fff">育兒小幫手</div>
-      <button onclick="toggleFloatChat()" style="background:none;border:none;color:#aaa;font-size:18px;cursor:pointer"></button>
-    </div>
-    <div class="float-messages" id="float-messages"></div>
-    <div id="float-quick-btns" style="padding:4px 8px 6px;display:flex;flex-wrap:wrap;gap:4px;border-top:1px solid var(--border)">
-      <button onclick="floatAsk('疫苗接種時程')">疫苗</button>
-      <button onclick="floatAsk('生育補助有哪些')">補助</button>
-      <button onclick="floatAsk('育嬰假怎麼申請')">育嬰假</button>
-    </div>
-    <div class="float-input-area">
-      <input id="float-input" placeholder="輸入問題…" onkeydown="if(event.key==='Enter')floatSend()">
-      <button onclick="floatSend()">
-        <svg viewBox="0 0 24 24" width="14" height="14"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-      </button>
-    </div>
-  </div>
-  <button id="float-chat-btn" onclick="toggleFloatChat()">
-    <span id="float-icon-open"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
-    <span id="float-icon-close" style="display:none;font-size:20px;color:#fff"></span>
-    <span class="float-badge" id="float-badge">1</span>
-  </button>
-</div>
 
 </body>
 </html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
