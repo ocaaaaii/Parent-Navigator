@@ -415,7 +415,7 @@ async function doLogin() {
   btn.disabled = true; btn.textContent = '驗證中…';
   err.style.display = 'none';
   try {
-    const r = await fetch('/api/admin-auth', {
+    const r = await fetch('/api/admin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password: pwd })
@@ -490,7 +490,7 @@ function setUpdatedNow() {
 
 /* ── API Helper ──────────────────────────────────────── */
 async function api(type, extra = '') {
-  const r = await fetch(`/api/admin-stats?type=${type}${extra}`, {
+  const r = await fetch(`/api/admin?type=${type}${extra}`, {
     headers: { Authorization: `Bearer ${adminToken}` }
   });
   if (r.status === 401) { doLogout(); throw new Error('Unauthorized'); }
