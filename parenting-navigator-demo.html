@@ -1216,7 +1216,7 @@ function renderRecCards(items, isDemo) {
     const cat      = item.category || 'general';
     const priority = item.priority || 'medium';
     return `
-      <div class="rec-card" onclick="recCardClick('${esc(item.id)}','${cat}','${priority}')">
+      <div class="rec-card" onclick="recCardClick('${esc(item.id)}','${cat}','${priority}')" data-url="${esc(item.url||'')}" data-policy="${esc(item.id)}">
         <div class="rec-priority ${priority}"></div>
         <div class="rec-body">
           <div class="rec-tag-row">
@@ -1250,8 +1250,15 @@ function recCardClick(policyId, category, priority) {
     }),
   }).catch(() =>{}); // 靜默失敗，不影響使用者體驗
 
-  // 開啟對應文章
-  openArticle(policyId);
+  // 開啟對應文章；若 ARTICLES 無此 key，嘗試從卡片的 url 欄位開新分頁
+  if (ARTICLES[policyId]) {
+    openArticle(policyId);
+  } else {
+    // 從 DOM 抓最近的 rec-card 上的 data-url（若有）
+    const card = event?.currentTarget || event?.target?.closest('.rec-card');
+    const url  = card?.dataset?.url;
+    if (url) window.open(url, '_blank', 'noopener');
+  }
 }
 
 async function switchRecMode(mode) {

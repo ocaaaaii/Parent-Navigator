@@ -9,7 +9,7 @@
 
 const DEMO_RECOMMENDATIONS = [
   {
-    id: 'taipei-birth-bonus',
+    id: 'birth-bonus',
     title: '台北市生育獎勵金',
     category: 'subsidy',
     priority: 'high',
@@ -20,7 +20,7 @@ const DEMO_RECOMMENDATIONS = [
     url: 'https://www.gov.taipei',
   },
   {
-    id: 'childcare-subsidy',
+    id: 'subsidy-apply',
     title: '育兒津貼（未滿 2 歲）',
     category: 'subsidy',
     priority: 'high',
@@ -31,7 +31,7 @@ const DEMO_RECOMMENDATIONS = [
     url: 'https://www.mohw.gov.tw',
   },
   {
-    id: 'vaccine-schedule',
+    id: 'newborn',
     title: '公費疫苗接種時程提醒',
     category: 'medical',
     priority: 'high',
@@ -42,7 +42,7 @@ const DEMO_RECOMMENDATIONS = [
     url: 'https://www.cdc.gov.tw',
   },
   {
-    id: 'health-checkup',
+    id: 'preventive-health',
     title: '兒童預防保健服務（7 次免費健檢）',
     category: 'medical',
     priority: 'medium',
@@ -64,7 +64,7 @@ const DEMO_RECOMMENDATIONS = [
     url: 'https://www.bli.gov.tw',
   },
   {
-    id: 'daycare-public',
+    id: 'daycare-guide',
     title: '台北市公托申請指南',
     category: 'daycare',
     priority: 'low',
