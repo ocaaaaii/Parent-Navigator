@@ -90,7 +90,8 @@ async function enrichUserNames(rows, idField = 'user_id') {
   const ids = [...new Set(rows.map(r => r[idField]).filter(Boolean))];
   if (!ids.length) return rows;
 
-  const query = ids.map(id => `id=eq.${id}`).join(',');
+  // PostgREST or() 語法：id.eq.uuid（點號分隔，不是等號）
+  const query = ids.map(id => `id.eq.${id}`).join(',');
   const users = await dbGet(`users?or=(${query})&select=id,user_nickname`);
   const map = {};
   users.forEach(u => { map[u.id] = u.user_nickname || '育兒朋友'; });
@@ -154,7 +155,7 @@ module.exports = async function handler(req, res) {
         const likes = await dbGet(`forum_post_likes?user_id=eq.${user_id}&select=post_id,created_at&order=created_at.desc&limit=50`);
         if (!likes.length) return res.json({ ok: true, posts: [] });
 
-        const postIds = likes.map(l => `id=eq.${l.post_id}`).join(',');
+        const postIds = likes.map(l => `id.eq.${l.post_id}`).join(',');
         const posts   = await dbGet(`forum_posts?or=(${postIds})&select=id,title,category,likes,views,created_at&order=created_at.desc`);
         return res.json({ ok: true, posts });
       }
@@ -165,7 +166,7 @@ module.exports = async function handler(req, res) {
         // 也把 post title 補進來
         if (comments.length) {
           const postIds = [...new Set(comments.map(c => c.post_id))];
-          const qs = postIds.map(pid => `id=eq.${pid}`).join(',');
+          const qs = postIds.map(pid => `id.eq.${pid}`).join(',');
           const posts = await dbGet(`forum_posts?or=(${qs})&select=id,title`);
           const titleMap = {};
           posts.forEach(p => { titleMap[p.id] = p.title; });
