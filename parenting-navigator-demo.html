@@ -168,6 +168,7 @@ nav ul li a:hover,nav ul li a.active{background:var(--teal-pale);color:var(--tea
 .category-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .category-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px 16px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;text-decoration:none;transition:all .22s;opacity:0;animation:fadeInUp .4s ease forwards}
 .category-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--teal-brand)}
+.category-card.active{border-color:var(--teal-brand);box-shadow:var(--shadow-md);background:var(--teal-light,#f0faf8)}
 .icon-wrap{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center}
 .icon-wrap svg{width:26px;height:26px;stroke-width:1.8}
 .icon-wrap.green{background:#E8F5E9;color:#388E3C}
@@ -673,10 +674,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
       <div class="logo-text"><div class="main">育兒導航全攻略</div><div class="sub">PARENTING NAVIGATOR · TAIWAN</div></div>
     </a>
     <nav><ul>
-      <li><a onclick="showSection('home')" class="active" id="nav-home">最新消息</a></li>
-      <li><a onclick="showSection('medical')" id="nav-medical">醫療資訊</a></li>
-      <li><a onclick="showSection('subsidy')" id="nav-subsidy">補助資訊</a></li>
-      <li><a onclick="showSection('education')" id="nav-education">教育資源</a></li>
+      <li><a onclick="showSection('home')" class="active" id="nav-home">首頁</a></li>
       <li><a onclick="showSection('forum')" id="nav-forum">社群論壇</a></li>
       <li><a onclick="showSection('caregiver')" id="nav-caregiver">保母媒合</a></li>
       <li><a onclick="showSection('faq')" id="nav-faq">FAQ</a></li>
@@ -757,7 +755,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
         <div class="section-divider"></div>
         <div class="category-grid" style="grid-template-columns:repeat(4,1fr)">
           <!-- 四大主題 — 對應推薦引擎 category: medical / subsidy / daycare / activity -->
-          <div class="category-card" onclick="showSection('medical')" style="animation-delay:.00s">
+          <div class="category-card" onclick="expandCategoryArticles('medical',this)" id="cat-card-medical" style="animation-delay:.00s">
             <div class="icon-wrap rose">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
                 <path d="M12 22s-7-4.5-7-11a7 7 0 0 1 14 0c0 6.5-7 11-7 11Z"/>
@@ -767,7 +765,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
             <div class="label">醫療保健</div>
             <div class="count" id="count-medical">疫苗・健檢・醫療</div>
           </div>
-          <div class="category-card" onclick="showSection('subsidy')" style="animation-delay:.08s">
+          <div class="category-card" onclick="expandCategoryArticles('subsidy',this)" id="cat-card-subsidy" style="animation-delay:.08s">
             <div class="icon-wrap gold">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
                 <rect x="3" y="6" width="18" height="13" rx="2"/>
@@ -778,7 +776,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
             <div class="label">補助福利</div>
             <div class="count" id="count-subsidy">生育・育兒・社福</div>
           </div>
-          <div class="category-card" onclick="showSection('daycare')" style="animation-delay:.16s">
+          <div class="category-card" onclick="expandCategoryArticles('daycare',this)" id="cat-card-daycare" style="animation-delay:.16s">
             <div class="icon-wrap blue">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
                 <path d="M3 21h18M5 21V8l7-4 7 4v13M9 21v-5h6v5"/>
@@ -788,7 +786,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
             <div class="label">托育服務</div>
             <div class="count" id="count-education">公托・準公共・保母</div>
           </div>
-          <div class="category-card" onclick="showSection('activity')" style="animation-delay:.24s">
+          <div class="category-card" onclick="expandCategoryArticles('activity',this)" id="cat-card-activity" style="animation-delay:.24s">
             <div class="icon-wrap lavender">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
@@ -799,6 +797,14 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
             <div class="label">親子教育活動</div>
             <div class="count" id="count-parental">社群・活動・資源</div>
           </div>
+        </div>
+        <!-- 主題文章展開區：點擊 category card 後在此展開 -->
+        <div id="cat-article-panel" style="display:none;margin-top:20px;padding:20px 0 8px;border-top:2px solid var(--primary-light,#e8f4f0)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+            <div class="section-title" id="cat-panel-title" style="margin:0;font-size:18px"></div>
+            <button onclick="closeCategoryPanel()" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--charcoal-light,#888);line-height:1" title="關閉">×</button>
+          </div>
+          <div class="article-grid" id="cat-panel-grid"></div>
         </div>
       </div>
 
@@ -1435,10 +1441,6 @@ function renderRecCards(items, isDemo) {
       </div>`;
   }).join('');
 
-  if (isDemo) {
-    grid.insertAdjacentHTML('beforeend',
-      '<div class="rec-demo-note">Demo 模式：整合組員評分引擎後將顯示個人化結果</div>');
-  }
 }
 
 function recCardClick(policyId, category, priority) {
@@ -1765,7 +1767,7 @@ function showSection(name) {
   ALL_SECTIONS.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
   document.querySelectorAll('nav ul li a').forEach(a=>a.classList.remove('active'));
   const secMap = { home:'section-home', forum:'section-forum', faq:'section-faq', medical:'section-medical', subsidy:'section-subsidy', education:'section-education', daycare:'section-daycare', activity:'section-activity', caregiver:'section-caregiver' };
-  const navMap = { home:'nav-home', forum:'nav-forum', faq:'nav-faq', medical:'nav-medical', subsidy:'nav-subsidy', education:'nav-education', daycare:'nav-education', activity:'nav-education', caregiver:'nav-caregiver' };
+  const navMap = { home:'nav-home', forum:'nav-forum', faq:'nav-faq', medical:'nav-home', subsidy:'nav-home', education:'nav-home', daycare:'nav-home', activity:'nav-home', caregiver:'nav-caregiver' };
   const secEl = document.getElementById(secMap[name]);
   if(secEl) secEl.style.display = 'block';
   const navEl = document.getElementById(navMap[name]);
@@ -2989,6 +2991,50 @@ function buildArticleGrids() {
   });
 }
 buildArticleGrids();
+
+/* 主題卡片展開文章（inline，不切換 section）*/
+let _activeCatCard = null;
+const CAT_PANEL_LABEL = { medical:'醫療保健', subsidy:'補助福利', daycare:'托育服務', activity:'親子教育活動' };
+function expandCategoryArticles(cat, cardEl) {
+  const panel = document.getElementById('cat-article-panel');
+  const grid  = document.getElementById('cat-panel-grid');
+  const title = document.getElementById('cat-panel-title');
+
+  // 同一張卡再點 → 收起
+  if (_activeCatCard === cat && panel.style.display !== 'none') {
+    closeCategoryPanel();
+    return;
+  }
+  _activeCatCard = cat;
+
+  // 更新全部卡片的 active 狀態
+  document.querySelectorAll('.category-card').forEach(c => c.classList.remove('active'));
+  if (cardEl) cardEl.classList.add('active');
+
+  // 產生文章
+  const ids = SECTION_ARTICLES[cat] || [];
+  grid.innerHTML = ids.map(id => {
+    const a = ARTICLES[id];
+    if (!a) return '';
+    return `<button class="article-card" onclick="openArticle('${id}')">
+      <div class="article-card-header">
+        <span class="article-tag ${a.tagClass}">${a.tag}</span>
+        <span class="article-date">${a.date}</span>
+      </div>
+      <div class="article-title">${a.title}</div>
+      <div class="article-excerpt">${a.excerpt}</div>
+    </button>`;
+  }).join('') || '<p style="color:var(--charcoal-light);padding:12px 0">目前尚無相關文章</p>';
+
+  title.textContent = CAT_PANEL_LABEL[cat] || '';
+  panel.style.display = 'block';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function closeCategoryPanel() {
+  document.getElementById('cat-article-panel').style.display = 'none';
+  document.querySelectorAll('.category-card').forEach(c => c.classList.remove('active'));
+  _activeCatCard = null;
+}
 
 /*  搜尋觸發聊天  */
 function heroSearch() {
