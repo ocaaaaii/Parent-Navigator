@@ -42,6 +42,25 @@ nav ul li a:hover,nav ul li a.active{background:var(--teal-pale);color:var(--tea
 .btn-outline{padding:8px 16px;border:1.5px solid var(--border);border-radius:8px;background:transparent;color:var(--charcoal-mid);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Noto Sans TC',sans-serif}
 .btn-outline:hover{border-color:var(--teal-brand);color:var(--teal)}
 .btn-solid{padding:8px 18px;border:none;border-radius:8px;background:var(--teal);color:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Noto Sans TC',sans-serif}
+/* ── 登入後用戶選單 ── */
+.user-menu-wrap{position:relative}
+.user-menu-btn{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;border:1.5px solid var(--border);border-radius:20px;background:#fff;cursor:pointer;font-size:13px;font-weight:600;color:var(--charcoal);transition:all .2s;font-family:'Noto Sans TC',sans-serif}
+.user-menu-btn:hover{border-color:var(--teal);background:var(--warm-cream)}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:var(--apricot);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;flex-shrink:0}
+.user-menu-btn .chevron{font-size:10px;color:var(--charcoal-light);transition:transform .2s}
+.user-menu-btn.open .chevron{transform:rotate(180deg)}
+.user-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:200px;background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:9999;overflow:hidden;display:none}
+.user-dropdown.show{display:block;animation:fadeInDown .15s ease}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.user-dropdown-header{padding:14px 16px;border-bottom:1px solid var(--border);background:var(--warm-cream)}
+.user-dropdown-name{font-size:14px;font-weight:700;color:var(--charcoal)}
+.user-dropdown-phone{font-size:11px;color:var(--charcoal-light);margin-top:2px}
+.user-dropdown-item{display:flex;align-items:center;gap:10px;padding:11px 16px;font-size:13px;color:var(--charcoal);cursor:pointer;transition:background .15s;border:none;background:none;width:100%;text-align:left;font-family:'Noto Sans TC',sans-serif}
+.user-dropdown-item:hover{background:var(--warm-cream)}
+.user-dropdown-item svg{width:15px;height:15px;stroke:var(--charcoal-mid);flex-shrink:0}
+.user-dropdown-divider{border:none;border-top:1px solid var(--border);margin:4px 0}
+.user-dropdown-item.logout{color:#e53935}
+.user-dropdown-item.logout svg{stroke:#e53935}
 .btn-solid:hover{background:var(--charcoal)}
 .btn-solid.logged-in{background:var(--charcoal-mid)}
 .btn-tour{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:transparent;color:var(--charcoal-mid);font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
@@ -275,6 +294,47 @@ nav ul li a:hover,nav ul li a.active{background:var(--teal-pale);color:var(--tea
 .forum-write-btn{padding:8px 18px;background:var(--teal);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:background .2s}
 .forum-write-btn:hover{background:var(--charcoal)}
 .forum-empty{padding:40px;text-align:center;color:var(--charcoal-light);font-size:14px}
+.forum-cat-tag{display:inline-block;padding:2px 9px;border-radius:12px;font-size:11px;font-weight:600}
+.forum-cat-tag.subsidy{background:#e8f5e9;color:#388e3c}
+.forum-cat-tag.medical{background:#e3f2fd;color:#1565c0}
+.forum-cat-tag.daycare{background:#fff8e1;color:#f57f17}
+.forum-cat-tag.general{background:#f3e5f5;color:#7b1fa2}
+.forum-cat-tag.life{background:#fce4ec;color:#c62828}
+.forum-like-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--charcoal-mid);font-size:12px;cursor:pointer;transition:all .15s;font-family:'Noto Sans TC',sans-serif}
+.forum-like-btn:hover,.forum-like-btn.liked{border-color:var(--apricot);background:var(--apricot-pale);color:var(--apricot)}
+
+/* PROFILE TABS */
+.prof-tabs{display:flex;border-bottom:1.5px solid var(--border);padding:0 20px;gap:2px}
+.prof-tab{padding:10px 14px;border:none;background:none;font-size:13px;color:var(--charcoal-light);cursor:pointer;font-family:'Noto Sans TC',sans-serif;border-bottom:2px solid transparent;margin-bottom:-1.5px;transition:all .15s;white-space:nowrap}
+.prof-tab.active{color:var(--teal);font-weight:700;border-bottom-color:var(--teal)}
+.prof-tab:hover:not(.active){color:var(--charcoal)}
+
+/* CHILD SWITCHER */
+.child-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;border:1.5px solid var(--border);background:#fff;font-size:13px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .15s;margin:3px}
+.child-chip.active{background:var(--teal-pale);border-color:var(--teal-brand);color:var(--teal);font-weight:700}
+.child-chip-avatar{width:24px;height:24px;border-radius:50%;background:var(--apricot);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700}
+
+/* POST DETAIL MODAL */
+.post-detail-body{padding:20px}
+.post-detail-author{font-size:13px;color:var(--charcoal-mid);margin-bottom:14px}
+.post-detail-content{font-size:14px;line-height:1.8;color:var(--charcoal);white-space:pre-wrap;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.comment-item{padding:12px 0;border-bottom:1px solid var(--warm-sand)}
+.comment-item:last-child{border-bottom:none}
+.comment-author{font-size:12px;font-weight:600;color:var(--charcoal);margin-bottom:4px}
+.comment-text{font-size:13px;color:var(--charcoal-mid);line-height:1.7;white-space:pre-wrap}
+.comment-box{border:1.5px solid var(--border);border-radius:10px;width:100%;padding:10px;font-size:13px;font-family:'Noto Sans TC',sans-serif;resize:vertical;min-height:72px;box-sizing:border-box;outline:none}
+.comment-box:focus{border-color:var(--teal-brand)}
+
+/* WRITE POST MODAL */
+.write-post-input{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Noto Sans TC',sans-serif;box-sizing:border-box;outline:none;transition:border .15s}
+.write-post-input:focus{border-color:var(--teal-brand)}
+
+/* PROFILE ACTIVITY LIST */
+.prof-activity-item{padding:10px 0;border-bottom:1px solid var(--warm-sand);cursor:pointer}
+.prof-activity-item:last-child{border-bottom:none}
+.prof-activity-item:hover{opacity:.8}
+.prof-activity-title{font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.prof-activity-meta{font-size:11px;color:var(--charcoal-light)}
 
 /*  SIDEBAR  */
 .sidebar{display:flex;flex-direction:column;gap:16px;position:sticky;top:88px;max-height:calc(100vh - 100px);overflow-y:auto}
@@ -625,7 +685,10 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
       <button class="btn-tour" id="tour-trigger-btn" onclick="startTour()" title="平台功能導覽">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
       </button>
-      <button class="btn-solid" id="login-btn" onclick="openModal('modal-auth')">會員登入</button>
+      <!-- 未登入：顯示登入按鈕；已登入：顯示用戶選單 -->
+      <div id="auth-area">
+        <button class="btn-solid" id="login-btn" onclick="openModal('modal-auth')">會員登入</button>
+      </div>
     </div>
   </div>
 </header>
@@ -1051,6 +1114,148 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
   </div>
 </div>
 
+<!--  個人資料 Modal  -->
+<div class="modal-overlay" id="modal-profile" onclick="closeModalOutside(event,'modal-profile')">
+  <div class="modal-box" style="max-width:460px;max-height:88vh;overflow-y:auto">
+    <div class="modal-header" style="position:sticky;top:0;background:#fff;z-index:2">
+      <h2 class="modal-title">我的帳號</h2>
+      <button class="modal-close" onclick="closeModal('modal-profile')"></button>
+    </div>
+    <div class="modal-body" style="padding:0">
+      <!-- 頭像 + 姓名 -->
+      <div style="text-align:center;padding:20px 20px 12px">
+        <div id="prof-avatar" style="width:60px;height:60px;border-radius:50%;background:var(--apricot);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:700;margin:0 auto 10px"></div>
+        <div id="prof-name" style="font-size:17px;font-weight:700;color:var(--charcoal)"></div>
+        <div style="font-size:12px;color:var(--charcoal-light);margin-top:2px">歡迎回來 👋</div>
+      </div>
+
+      <!-- 寶寶切換器 -->
+      <div id="child-switcher-area" style="padding:4px 20px 12px;border-bottom:1px solid var(--border)">
+        <div style="font-size:11px;color:var(--charcoal-light);margin-bottom:6px">切換寶寶</div>
+        <div id="child-chips" style="display:flex;flex-wrap:wrap"></div>
+      </div>
+
+      <!-- 分頁標籤 -->
+      <div class="prof-tabs">
+        <button class="prof-tab active" id="ptab-info"     onclick="switchProfileTab('info')">個人資料</button>
+        <button class="prof-tab"        id="ptab-posts"    onclick="switchProfileTab('posts')">我的貼文</button>
+        <button class="prof-tab"        id="ptab-likes"    onclick="switchProfileTab('likes')">我的讚</button>
+        <button class="prof-tab"        id="ptab-comments" onclick="switchProfileTab('comments')">我的回覆</button>
+      </div>
+
+      <!-- Tab: 個人資料 -->
+      <div id="prof-tab-info" style="padding:16px 20px 20px">
+        <div style="background:var(--warm-cream);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px;margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:13px;color:var(--charcoal-light)">手機號碼</span>
+            <span id="prof-phone" style="font-size:13px;font-weight:600;color:var(--charcoal)"></span>
+          </div>
+          <div style="border-top:1px solid var(--border)"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:13px;color:var(--charcoal-light)">居住縣市</span>
+            <span id="prof-region" style="font-size:13px;font-weight:600;color:var(--charcoal)"></span>
+          </div>
+          <div style="border-top:1px solid var(--border)"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:13px;color:var(--charcoal-light)">寶寶暱稱</span>
+            <span id="prof-baby" style="font-size:13px;font-weight:600;color:var(--charcoal)"></span>
+          </div>
+          <div style="border-top:1px solid var(--border)"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:13px;color:var(--charcoal-light)">寶寶生日</span>
+            <span id="prof-birthday" style="font-size:13px;font-weight:600;color:var(--charcoal)"></span>
+          </div>
+          <div style="border-top:1px solid var(--border)"></div>
+          <div>
+            <div style="font-size:13px;color:var(--charcoal-light);margin-bottom:8px">關注主題</div>
+            <div id="prof-interests" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+          </div>
+        </div>
+        <button onclick="logout()" style="width:100%;padding:12px;border:1.5px solid #e53935;border-radius:8px;background:#fff;color:#e53935;font-size:14px;font-weight:600;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .2s" onmouseover="this.style.background='#ffeaea'" onmouseout="this.style.background='#fff'">登出</button>
+      </div>
+
+      <!-- Tab: 我的貼文 -->
+      <div id="prof-tab-posts" style="display:none;padding:16px 20px 20px">
+        <div id="prof-posts-list"><div style="text-align:center;color:var(--charcoal-light);padding:30px;font-size:13px">載入中…</div></div>
+      </div>
+
+      <!-- Tab: 我的讚 -->
+      <div id="prof-tab-likes" style="display:none;padding:16px 20px 20px">
+        <div id="prof-likes-list"><div style="text-align:center;color:var(--charcoal-light);padding:30px;font-size:13px">載入中…</div></div>
+      </div>
+
+      <!-- Tab: 我的回覆 -->
+      <div id="prof-tab-comments" style="display:none;padding:16px 20px 20px">
+        <div id="prof-comments-list"><div style="text-align:center;color:var(--charcoal-light);padding:30px;font-size:13px">載入中…</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 論壇貼文詳情 Modal -->
+<div class="modal-overlay" id="modal-post-detail" onclick="closeModalOutside(event,'modal-post-detail')">
+  <div class="modal-box" style="max-width:560px;max-height:88vh;overflow-y:auto">
+    <div class="modal-header" style="position:sticky;top:0;background:#fff;z-index:2">
+      <h2 class="modal-title" id="post-detail-title" style="font-size:15px;max-width:460px;line-height:1.4"></h2>
+      <button class="modal-close" onclick="closeModal('modal-post-detail')"></button>
+    </div>
+    <div class="post-detail-body">
+      <div class="post-detail-author" id="post-detail-author"></div>
+      <div class="post-detail-content" id="post-detail-content"></div>
+      <!-- 按讚 + 操作 -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+        <button id="post-detail-like-btn" class="forum-like-btn" onclick="togglePostLike()">❤ <span id="post-detail-like-count">0</span> 按讚</button>
+        <span style="font-size:12px;color:var(--charcoal-light)" id="post-detail-like-hint"></span>
+      </div>
+      <!-- 留言列表 -->
+      <div style="font-size:13px;font-weight:700;color:var(--charcoal);margin-bottom:12px">留言 (<span id="post-detail-comment-count">0</span>)</div>
+      <div id="post-detail-comments"></div>
+      <!-- 留言輸入 -->
+      <div id="comment-input-area" style="margin-top:20px;display:none">
+        <textarea class="comment-box" id="new-comment-text" placeholder="寫下你的留言…（按 Ctrl+Enter 發送）" onkeydown="if(event.ctrlKey&&event.key==='Enter')submitComment()"></textarea>
+        <div style="display:flex;justify-content:flex-end;margin-top:8px">
+          <button onclick="submitComment()" style="padding:8px 20px;background:var(--teal);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Noto Sans TC',sans-serif">發表留言</button>
+        </div>
+      </div>
+      <div id="comment-login-hint" style="margin-top:16px;text-align:center;font-size:13px;color:var(--charcoal-light);display:none">
+        <a href="#" onclick="openModal('modal-auth');closeModal('modal-post-detail');return false" style="color:var(--teal)">登入</a> 後即可留言
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 論壇發文 Modal -->
+<div class="modal-overlay" id="modal-write-post" onclick="closeModalOutside(event,'modal-write-post')">
+  <div class="modal-box" style="max-width:500px">
+    <div class="modal-header">
+      <h2 class="modal-title">發表新貼文</h2>
+      <button class="modal-close" onclick="closeModal('modal-write-post')"></button>
+    </div>
+    <div class="modal-body" style="padding-top:16px;display:flex;flex-direction:column;gap:14px">
+      <div id="write-post-alert" class="alert" style="display:none"></div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:6px">標題</div>
+        <input id="wp-title" class="write-post-input" placeholder="讓大家快速了解你的貼文…" maxlength="60">
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:6px">分類</div>
+        <select id="wp-category" class="write-post-input">
+          <option value="general">新手問答</option>
+          <option value="subsidy">補助討論</option>
+          <option value="medical">寶寶健康</option>
+          <option value="daycare">托育分享</option>
+          <option value="life">生活日常</option>
+        </select>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:6px">內容</div>
+        <textarea id="wp-content" class="write-post-input" style="min-height:140px;resize:vertical" placeholder="分享你的問題、心得或建議…"></textarea>
+      </div>
+      <button onclick="submitForumPost()" style="width:100%;padding:12px;background:var(--teal);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Noto Sans TC',sans-serif">發表貼文</button>
+    </div>
+  </div>
+</div>
+
 <!--  LINE Bot Modal  -->
 <div class="modal-overlay" id="modal-line" onclick="closeModalOutside(event,'modal-line')">
   <div class="modal-box" style="max-width:400px;text-align:center">
@@ -1270,6 +1475,257 @@ async function switchRecMode(mode) {
 }
 
 // 頁面載入後初始化推薦
+/* ══ AUTH UI ══════════════════════════════════════════════════════ */
+const CAT_LABEL = { medical:'醫療保健', subsidy:'補助福利', daycare:'托育服務', activity:'親子活動' };
+
+function initAuthUI() {
+  const raw = localStorage.getItem('user_info');
+  if (!raw) return; // 未登入，保留原本按鈕
+
+  let user;
+  try { user = JSON.parse(raw); } catch { return; }
+
+  const name    = user.name || '會員';
+  const initial = name.charAt(0);
+
+  // 替換 auth-area 為用戶選單
+  document.getElementById('auth-area').innerHTML = `
+    <div class="user-menu-wrap" id="user-menu-wrap">
+      <button class="user-menu-btn" id="user-menu-btn" onclick="toggleUserMenu()">
+        <div class="user-avatar">${initial}</div>
+        <span>${name}，你好</span>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="user-dropdown" id="user-dropdown">
+        <div class="user-dropdown-header">
+          <div class="user-dropdown-name">${name}</div>
+          <div class="user-dropdown-phone">${user.phone || ''}</div>
+        </div>
+        <button class="user-dropdown-item" onclick="openProfile();toggleUserMenu()">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          個人資料
+        </button>
+        <hr class="user-dropdown-divider">
+        <button class="user-dropdown-item logout" onclick="logout()">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          登出
+        </button>
+      </div>
+    </div>`;
+
+  // 點擊其他地方關閉選單
+  document.addEventListener('click', e => {
+    const wrap = document.getElementById('user-menu-wrap');
+    if (wrap && !wrap.contains(e.target)) closeUserMenu();
+  });
+}
+
+function toggleUserMenu() {
+  const dd  = document.getElementById('user-dropdown');
+  const btn = document.getElementById('user-menu-btn');
+  if (!dd) return;
+  const isOpen = dd.classList.toggle('show');
+  btn.classList.toggle('open', isOpen);
+}
+
+function closeUserMenu() {
+  const dd  = document.getElementById('user-dropdown');
+  const btn = document.getElementById('user-menu-btn');
+  if (dd)  dd.classList.remove('show');
+  if (btn) btn.classList.remove('open');
+}
+
+function openProfile() {
+  const raw = localStorage.getItem('user_info');
+  if (!raw) return;
+  let user;
+  try { user = JSON.parse(raw); } catch { return; }
+
+  const name = user.name || '—';
+  document.getElementById('prof-avatar').textContent   = name.charAt(0);
+  document.getElementById('prof-name').textContent     = name;
+  document.getElementById('prof-phone').textContent    = user.phone || '—';
+  document.getElementById('prof-region').textContent   = user.region || '—';
+  document.getElementById('prof-baby').textContent     = user.baby || user.baby_name || '—';
+
+  // 生日格式化
+  const bd = user.babyBirthday || user.birth_date;
+  document.getElementById('prof-birthday').textContent = bd ? bd.replace(/-/g, '/') : '—';
+
+  // 關注主題 tags
+  const interests = user.interests || user.preferred_categories || [];
+  const tagsEl = document.getElementById('prof-interests');
+  tagsEl.innerHTML = interests.length
+    ? interests.map(c => `<span style="padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;background:var(--teal-pale);color:var(--teal)">${CAT_LABEL[c] || c}</span>`).join('')
+    : '<span style="font-size:12px;color:var(--charcoal-light)">尚未設定</span>';
+
+  // 顯示 modal 並預設在個人資料 tab
+  openModal('modal-profile');
+  switchProfileTab('info');
+
+  // 載入子女切換器
+  loadChildSwitcher(user);
+}
+
+/* ── 子女切換器 ─────────────────────────────────────── */
+async function loadChildSwitcher(user) {
+  const chips = document.getElementById('child-chips');
+  if (!chips) return;
+
+  const activeChildId = localStorage.getItem('active_child_id');
+  const token  = localStorage.getItem('auth_token');
+  const userId = user.id;
+
+  // 嘗試從 API 拿多孩子資料
+  let children = [];
+  try {
+    const r = await fetch(`/api/user-preferences?user_id=${userId}`, {
+      headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+    });
+    const d = await r.json();
+    if (Array.isArray(d.children) && d.children.length) {
+      children = d.children;
+    }
+  } catch {}
+
+  // 如果 API 沒回傳，用 localStorage 的單一孩子
+  if (!children.length) {
+    const name = user.baby || user.baby_name;
+    const bd   = user.babyBirthday || user.birth_date;
+    if (name) children = [{ id: 'main', name, birth_date: bd }];
+  }
+
+  if (children.length <= 1) {
+    document.getElementById('child-switcher-area').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('child-switcher-area').style.display = '';
+  chips.innerHTML = children.map(c => {
+    const isActive = activeChildId ? c.id === activeChildId : c === children[0];
+    const age = c.birth_date ? calcAge(c.birth_date) : '';
+    return `<button class="child-chip${isActive?' active':''}" onclick="switchChild('${c.id}','${esc(c.name)}')">
+      <div class="child-chip-avatar">${c.name.charAt(0)}</div>
+      <span>${esc(c.name)}</span>${age ? `<span style="font-size:11px;color:inherit;opacity:.7">${age}</span>` : ''}
+    </button>`;
+  }).join('');
+}
+
+function switchChild(childId, childName) {
+  localStorage.setItem('active_child_id', childId);
+  // 更新所有 chip 的 active 狀態
+  document.querySelectorAll('.child-chip').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick')?.includes(`'${childId}'`));
+  });
+  // 更新個人資料顯示的寶寶名稱
+  const el = document.getElementById('prof-baby');
+  if (el) el.textContent = childName;
+}
+
+function calcAge(birthDate) {
+  if (!birthDate) return '';
+  const now  = new Date();
+  const born = new Date(birthDate);
+  const days = Math.floor((now - born) / 86400000);
+  if (days < 30)  return `${days}天`;
+  const months = Math.floor(days / 30.4);
+  if (months < 24) return `${months}個月`;
+  return `${Math.floor(months/12)}歲${months%12?months%12+'個月':''}`;
+}
+
+/* ── 分頁切換 ─────────────────────────────────────────── */
+function switchProfileTab(tab) {
+  ['info','posts','likes','comments'].forEach(t => {
+    document.getElementById(`prof-tab-${t}`).style.display   = t === tab ? '' : 'none';
+    document.getElementById(`ptab-${t}`)?.classList.toggle('active', t === tab);
+  });
+
+  const userRaw = localStorage.getItem('user_info');
+  if (!userRaw) return;
+  const user = JSON.parse(userRaw);
+
+  if (tab === 'posts')    loadProfilePosts(user);
+  if (tab === 'likes')    loadProfileLikes(user);
+  if (tab === 'comments') loadProfileComments(user);
+}
+
+async function loadProfilePosts(user) {
+  const el = document.getElementById('prof-posts-list');
+  el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--charcoal-light);font-size:13px">載入中…</div>';
+  try {
+    const r = await fetch(`/api/forum?type=my_posts&user_id=${user.id}`);
+    const d = await r.json();
+    if (!d.ok || !d.posts.length) {
+      el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--charcoal-light);font-size:13px">還沒有發過貼文</div>';
+      return;
+    }
+    el.innerHTML = d.posts.map(p => `
+      <div class="prof-activity-item" onclick="closeModal('modal-profile');openForumPost('${p.id}')">
+        <div class="prof-activity-title">${esc(p.title)}</div>
+        <div class="prof-activity-meta">
+          <span class="forum-cat-tag ${p.category||'general'}">${FORUM_CAT_LABEL[p.category]||p.category}</span>
+          &nbsp;❤ ${p.likes||0}&nbsp;&nbsp;${fmtDate(p.created_at)}
+        </div>
+      </div>`).join('');
+  } catch {
+    el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--charcoal-light);font-size:13px">載入失敗，請稍後再試</div>';
+  }
+}
+
+async function loadProfileLikes(user) {
+  const el = document.getElementById('prof-likes-list');
+  el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--charcoal-light);font-size:13px">載入中…</div>';
+  try {
+    const r = await fetch(`/api/forum?type=my_likes&user_id=${user.id}`);
+    const d = await r.json();
+    if (!d.ok || !d.posts.length) {
+      el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--charcoal-light);font-size:13px">還沒有按過讚</div>';
+      return;
+    }
+    el.innerHTML = d.posts.map(p => `
+      <div class="prof-activity-item" onclick="closeModal('modal-profile');openForumPost('${p.id}')">
+        <div class="prof-activity-title">${esc(p.title)}</div>
+        <div class="prof-activity-meta">
+          <span class="forum-cat-tag ${p.category||'general'}">${FORUM_CAT_LABEL[p.category]||p.category}</span>
+          &nbsp;❤ ${p.likes||0}&nbsp;&nbsp;${fmtDate(p.created_at)}
+        </div>
+      </div>`).join('');
+  } catch {
+    el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--charcoal-light);font-size:13px">載入失敗，請稍後再試</div>';
+  }
+}
+
+async function loadProfileComments(user) {
+  const el = document.getElementById('prof-comments-list');
+  el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--charcoal-light);font-size:13px">載入中…</div>';
+  try {
+    const r = await fetch(`/api/forum?type=my_comments&user_id=${user.id}`);
+    const d = await r.json();
+    if (!d.ok || !d.comments.length) {
+      el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--charcoal-light);font-size:13px">還沒有回覆過任何貼文</div>';
+      return;
+    }
+    el.innerHTML = d.comments.map(c => `
+      <div class="prof-activity-item" onclick="closeModal('modal-profile');openForumPost('${c.post_id}')">
+        <div class="prof-activity-meta" style="margin-bottom:3px;color:var(--charcoal-light)">回覆：${esc(c.post_title||'貼文')}</div>
+        <div class="prof-activity-title" style="font-weight:400;color:var(--charcoal-mid)">${esc(c.content)}</div>
+        <div class="prof-activity-meta">${fmtDate(c.created_at)}</div>
+      </div>`).join('');
+  } catch {
+    el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--charcoal-light);font-size:13px">載入失敗，請稍後再試</div>';
+  }
+}
+
+function logout() {
+  localStorage.removeItem('auth_token');
+  localStorage.removeItem('user_info');
+  // 還原按鈕
+  document.getElementById('auth-area').innerHTML =
+    '<button class="btn-solid" id="login-btn" onclick="openModal(\'modal-auth\')">會員登入</button>';
+  closeModal('modal-profile');
+}
+
+document.addEventListener('DOMContentLoaded', initAuthUI);
 document.addEventListener('DOMContentLoaded', initRecommendations);
 
 /*  Demo 備援回答（API 無法連線時使用） */
@@ -1476,6 +1932,221 @@ const DEMO_CG_ITEMS = [
   { source:'gov', source_url:'https://familycloud.moe.gov.tw', title:'桃園市中壢區 公立托育媒合 準公共保母', caregiver_type:'babysitter', region:'桃園市', district:'中壢區', price_range:'補助後約6,000元/月', contact:'撥打1925查詢', image_url:null, tags:['準公共','政府補助','2歲以下'], posted_at: new Date(Date.now()-86400000*7).toISOString() },
   { source:'self', source_url:null, title:'新北市淡水區 英語家教 外師品質 幼稚園至小學', caregiver_type:'tutor', region:'新北市', district:'淡水區', price_range:'1,200元/小時', contact:'0923-XXX-XXX', image_url:null, tags:['英語','外師品質','可到府'], posted_at: new Date(Date.now()-86400000*1).toISOString() },
 ];
+/* ══════════════════════════════════════════════════════════════
+   FORUM
+   ══════════════════════════════════════════════════════════════ */
+const FORUM_CAT_MAP = { null:'', 1:'subsidy', 2:'medical', 3:'daycare', 4:'general', 5:'life' };
+const FORUM_CAT_LABEL = { subsidy:'補助討論', medical:'寶寶健康', daycare:'托育分享', general:'新手問答', life:'生活日常' };
+let currentPostId = null; // 正在查看的貼文 ID
+
+function fmtDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  const now = new Date();
+  const diff = (now - d) / 1000;
+  if (diff < 60)     return '剛剛';
+  if (diff < 3600)   return `${Math.floor(diff/60)} 分鐘前`;
+  if (diff < 86400)  return `${Math.floor(diff/3600)} 小時前`;
+  if (diff < 86400*7)return `${Math.floor(diff/86400)} 天前`;
+  return `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`;
+}
+
+async function loadForum(catNum, btnEl) {
+  // 更新分類按鈕樣式
+  if (btnEl) {
+    document.querySelectorAll('.forum-cat-btn').forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+  }
+
+  const listEl = document.getElementById('forum-post-list');
+  listEl.innerHTML = '<div class="forum-empty">載入中…</div>';
+
+  const category = catNum ? FORUM_CAT_MAP[catNum] : null;
+
+  // 先嘗試 API，失敗則用 Demo 資料
+  try {
+    const url = '/api/forum?type=posts' + (category ? `&category=${category}` : '');
+    const r   = await fetch(url);
+    const d   = await r.json();
+
+    if (!d.ok || !d.posts?.length) {
+      listEl.innerHTML = '<div class="forum-empty">目前還沒有貼文，來當第一個！</div>';
+      return;
+    }
+    renderForumPosts(d.posts, listEl);
+  } catch {
+    // API 掛了 → 靜態 Demo 資料
+    renderForumPosts(DEMO_FORUM_POSTS.filter(p => !category || p.category === category), listEl);
+  }
+}
+
+function renderForumPosts(posts, listEl) {
+  if (!posts.length) {
+    listEl.innerHTML = '<div class="forum-empty">這個分類還沒有貼文</div>';
+    return;
+  }
+  listEl.innerHTML = posts.map(p => `
+    <div class="forum-post-item" onclick="openForumPost('${p.id}')">
+      <div class="forum-post-title">${esc(p.title)}</div>
+      <div class="forum-post-meta">
+        <span class="forum-cat-tag ${p.category||'general'}">${FORUM_CAT_LABEL[p.category]||'其他'}</span>
+        <span>${esc(p.user_name||'育兒朋友')}</span>
+        <span>❤ ${p.likes||0}</span>
+        <span>${fmtDate(p.created_at)}</span>
+      </div>
+    </div>`).join('');
+}
+
+async function openForumPost(postId) {
+  currentPostId = postId;
+  openModal('modal-post-detail');
+
+  document.getElementById('post-detail-title').textContent   = '載入中…';
+  document.getElementById('post-detail-author').textContent  = '';
+  document.getElementById('post-detail-content').textContent = '';
+  document.getElementById('post-detail-comments').innerHTML  = '';
+  document.getElementById('post-detail-like-count').textContent = '0';
+  document.getElementById('post-detail-like-btn').classList.remove('liked');
+
+  try {
+    const r = await fetch(`/api/forum?type=post&id=${postId}`);
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error);
+    renderPostDetail(d.post, d.comments);
+  } catch {
+    // 嘗試從 demo 資料找
+    const p = DEMO_FORUM_POSTS.find(p => p.id === postId);
+    if (p) renderPostDetail(p, []);
+    else document.getElementById('post-detail-title').textContent = '載入失敗，請稍後再試';
+  }
+}
+
+function renderPostDetail(post, comments) {
+  document.getElementById('post-detail-title').textContent   = post.title;
+  document.getElementById('post-detail-author').innerHTML    =
+    `<span class="forum-cat-tag ${post.category||'general'}">${FORUM_CAT_LABEL[post.category]||'其他'}</span>
+     &nbsp;<strong>${esc(post.user_name||'育兒朋友')}</strong>&nbsp;
+     <span style="color:var(--charcoal-light)">${fmtDate(post.created_at)}</span>`;
+  document.getElementById('post-detail-content').textContent = post.content;
+  document.getElementById('post-detail-like-count').textContent = post.likes || 0;
+
+  // 留言
+  document.getElementById('post-detail-comment-count').textContent = comments.length;
+  if (comments.length) {
+    document.getElementById('post-detail-comments').innerHTML = comments.map(c => `
+      <div class="comment-item">
+        <div class="comment-author">${esc(c.user_name||'育兒朋友')} <span style="font-weight:400;color:var(--charcoal-light)">${fmtDate(c.created_at)}</span></div>
+        <div class="comment-text">${esc(c.content)}</div>
+      </div>`).join('');
+  } else {
+    document.getElementById('post-detail-comments').innerHTML =
+      '<div style="text-align:center;padding:16px;color:var(--charcoal-light);font-size:13px">還沒有留言，來留下第一則！</div>';
+  }
+
+  // 登入才能留言
+  const loggedIn = !!localStorage.getItem('auth_token');
+  document.getElementById('comment-input-area').style.display  = loggedIn ? '' : 'none';
+  document.getElementById('comment-login-hint').style.display  = loggedIn ? 'none' : '';
+}
+
+async function togglePostLike() {
+  if (!currentPostId) return;
+  const token = localStorage.getItem('auth_token');
+  if (!token) { openModal('modal-auth'); return; }
+
+  try {
+    const r = await fetch('/api/forum', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${token}` },
+      body: JSON.stringify({ action:'like', post_id: currentPostId }),
+    });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error);
+
+    const btn   = document.getElementById('post-detail-like-btn');
+    const count = document.getElementById('post-detail-like-count');
+    const n     = parseInt(count.textContent) || 0;
+    count.textContent = d.liked ? n + 1 : Math.max(0, n - 1);
+    btn.classList.toggle('liked', d.liked);
+  } catch {}
+}
+
+async function submitComment() {
+  const text  = document.getElementById('new-comment-text').value.trim();
+  const token = localStorage.getItem('auth_token');
+  if (!text || !currentPostId || !token) return;
+
+  try {
+    const r = await fetch('/api/forum', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${token}` },
+      body: JSON.stringify({ action:'comment', post_id: currentPostId, content: text }),
+    });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error);
+
+    document.getElementById('new-comment-text').value = '';
+    // 重新載入貼文
+    openForumPost(currentPostId);
+  } catch (e) {
+    alert('留言失敗：' + e.message);
+  }
+}
+
+function checkLoginThenWrite() {
+  if (!localStorage.getItem('auth_token')) {
+    openModal('modal-auth');
+    return;
+  }
+  openModal('modal-write-post');
+}
+
+async function submitForumPost() {
+  const alertEl = document.getElementById('write-post-alert');
+  alertEl.style.display = 'none';
+
+  const title    = document.getElementById('wp-title').value.trim();
+  const category = document.getElementById('wp-category').value;
+  const content  = document.getElementById('wp-content').value.trim();
+  const token    = localStorage.getItem('auth_token');
+
+  if (!title)   { alertEl.textContent='請填寫標題'; alertEl.style.display=''; return; }
+  if (!content) { alertEl.textContent='請填寫內容'; alertEl.style.display=''; return; }
+
+  try {
+    const r = await fetch('/api/forum', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${token}` },
+      body: JSON.stringify({ action:'post', title, content, category }),
+    });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error);
+
+    closeModal('modal-write-post');
+    document.getElementById('wp-title').value = '';
+    document.getElementById('wp-content').value = '';
+    // 跳到論壇並刷新
+    showSection('forum');
+  } catch (e) {
+    alertEl.textContent = '發文失敗：' + e.message;
+    alertEl.style.display = '';
+  }
+}
+
+/* Demo 論壇資料（API 掛掉時的靜態備援） */
+const DEMO_FORUM_POSTS = [
+  { id:'d1', user_name:'育兒朋友', title:'台北市生育獎勵金申請成功！分享流程給大家', category:'subsidy', likes:23, created_at: new Date(Date.now()-20*86400000).toISOString(),
+    content:'我剛申請到台北市第一胎的生育獎勵金，來分享一下流程！\n準備文件：戶口名簿、存摺封面、媽媽手冊（含出生頁）。\n出生後 60 天內到戶政事務所，或用台北市政府線上申辦，3 週內入帳。\n記得戶籍要設在台北市喔！有問題歡迎留言。' },
+  { id:'d2', user_name:'新手爸媽', title:'寶寶打五合一疫苗後發燒！大家有遇過嗎', category:'medical', likes:42, created_at: new Date(Date.now()-22*86400000).toISOString(),
+    content:'小橙打完五合一第一劑之後，當天晚上就開始發燒，量了 38.5 度。\n護士說是正常反應，但還是很緊張。給了退燒藥之後，隔天就好多了。\n分享幾個重點：\n- 38.5度以下觀察\n- 超過則可以給退燒藥\n- 超過 39.5度或持續3天以上，立刻看醫生' },
+  { id:'d3', user_name:'雙寶媽', title:'雙寶媽媽的每日時間表分享', category:'general', likes:63, created_at: new Date(Date.now()-16*86400000).toISOString(),
+    content:'我有兩個孩子（2歲和8個月），一個人帶娃真的很累但也很有成就感。\n分享我的時間表：\n06:00 老大起床 → 吃早餐\n07:00 老二起床 → 餵奶換尿布\n09:00 帶出去散步\n11:30 午餐\n14:00 靜謐時光\n16:30 接老大下課\n有雙寶的媽媽嗎？一起分享心得！' },
+  { id:'d4', user_name:'保母小蓮', title:'公托候補真的排這麼久嗎？桃園市實測', category:'daycare', likes:29, created_at: new Date(Date.now()-19*86400000).toISOString(),
+    content:'我在桃園市候補公托，從寶寶出生就開始排，等了整整 8 個月才排到。\n建議一定要一出生就去登記，不要等！\n同時也要申請準公共保母，補助後一個月約 5,000-7,000 元，是很好的替代方案。' },
+  { id:'d5', user_name:'新北市媽媽', title:'副食品推薦！從 6 個月到 1 歲的菜單', category:'life', likes:41, created_at: new Date(Date.now()-7*86400000).toISOString(),
+    content:'分享寶寶副食品進階歷程：\n6個月：米糊、南瓜泥、地瓜泥\n7個月：雞肉泥、蘋果泥、豆腐\n8個月：蒸蛋、香蕉、花椰菜\n9個月：粥 + 各種蔬菜丁\n10個月：軟飯 + 手指食物\n注意：蜂蜜、堅果、海鮮要 1 歲後！' },
+];
+
 document.getElementById('section-home').style.display = '';
 
 /*  文章資料庫  */
