@@ -1936,7 +1936,7 @@ const DEMO_CG_ITEMS = [
    FORUM
    ══════════════════════════════════════════════════════════════ */
 const FORUM_CAT_MAP = { null:'', 1:'subsidy', 2:'medical', 3:'daycare', 4:'general', 5:'life' };
-const FORUM_CAT_LABEL = { subsidy:'補助討論', medical:'寶寶健康', daycare:'托育分享', general:'新手問答', life:'生活日常' };
+const FORUM_CAT_LABEL = { subsidy:'補助討論', medical:'寶寶健康', daycare:'托育分享', general:'新手問答', life:'生活日常', other:'其他' };
 let currentPostId = null; // 正在查看的貼文 ID
 
 function fmtDate(iso) {
@@ -1988,13 +1988,43 @@ function renderForumPosts(posts, listEl) {
   listEl.innerHTML = posts.map(p => `
     <div class="forum-post-item" onclick="openForumPost('${p.id}')">
       <div class="forum-post-title">${esc(p.title)}</div>
-      <div class="forum-post-meta">
+      <div class="forum-post-meta" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
         <span class="forum-cat-tag ${p.category||'general'}">${FORUM_CAT_LABEL[p.category]||'其他'}</span>
         <span>${esc(p.user_name||'育兒朋友')}</span>
-        <span>❤ ${p.likes||0}</span>
+        <button class="forum-like-btn" id="like-${p.id}"
+          onclick="event.stopPropagation();quickLike('${p.id}',this)"
+          style="padding:2px 10px;font-size:11px">
+          ❤ <span class="like-count">${p.likes||0}</span>
+        </button>
         <span>${fmtDate(p.created_at)}</span>
       </div>
     </div>`).join('');
+}
+
+/* 列表頁快速按讚（不需開詳情） */
+async function quickLike(postId, btnEl) {
+  const token = localStorage.getItem('auth_token');
+  if (!token) { openModal('modal-auth'); return; }
+
+  btnEl.disabled = true;
+  try {
+    const r = await fetch('/api/forum', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${token}` },
+      body: JSON.stringify({ action:'like', post_id: postId }),
+    });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error);
+
+    const countEl = btnEl.querySelector('.like-count');
+    const n = parseInt(countEl.textContent) || 0;
+    countEl.textContent = d.liked ? n + 1 : Math.max(0, n - 1);
+    btnEl.classList.toggle('liked', d.liked);
+  } catch (e) {
+    console.warn('[quickLike]', e.message);
+  } finally {
+    btnEl.disabled = false;
+  }
 }
 
 async function openForumPost(postId) {
@@ -2068,7 +2098,9 @@ async function togglePostLike() {
     const n     = parseInt(count.textContent) || 0;
     count.textContent = d.liked ? n + 1 : Math.max(0, n - 1);
     btn.classList.toggle('liked', d.liked);
-  } catch {}
+  } catch (e) {
+    console.warn('[togglePostLike]', e.message);
+  }
 }
 
 async function submitComment() {
