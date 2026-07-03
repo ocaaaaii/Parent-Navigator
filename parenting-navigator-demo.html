@@ -375,6 +375,16 @@ nav ul li a:hover,nav ul li a.active{background:var(--teal-pale);color:var(--tea
 .msg-bubble{max-width:78%;padding:8px 12px;border-radius:12px;font-size:12.5px;line-height:1.55}
 .msg.bot .msg-bubble{background:#f5f5f5;color:var(--charcoal);border-bottom-left-radius:3px}
 .msg.user .msg-bubble{background:var(--teal);color:#fff;border-bottom-right-radius:3px}
+/* Markdown in bot bubbles */
+.msg-bubble h1,.msg-bubble h2,.msg-bubble h3{font-size:13px;font-weight:700;color:var(--teal);margin:8px 0 3px;line-height:1.4}
+.msg-bubble h1:first-child,.msg-bubble h2:first-child,.msg-bubble h3:first-child{margin-top:2px}
+.msg-bubble p{margin:4px 0}
+.msg-bubble ul,.msg-bubble ol{padding-left:18px;margin:4px 0}
+.msg-bubble li{margin-bottom:3px}
+.msg-bubble a{color:var(--teal);text-decoration:underline;word-break:break-all}
+.msg-bubble strong{font-weight:700}
+.msg-bubble em{font-style:italic}
+.msg-bubble hr{border:none;border-top:1px solid #ddd;margin:8px 0}
 .chatbot-quick-btns{padding:6px 10px 8px;display:flex;flex-wrap:wrap;gap:5px;border-top:1px solid var(--warm-sand)}
 .quick-btn{font-size:11px;padding:4px 10px;border-radius:16px;border:1px solid var(--teal-brand);background:#fff;color:var(--teal);cursor:pointer;transition:background .15s;font-family:'Noto Sans TC',sans-serif}
 .quick-btn:hover{background:var(--teal-pale)}
@@ -667,6 +677,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 .cp-send:hover{background:var(--charcoal)}
 .cp-send svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
 </head>
 <body>
 
@@ -3174,14 +3185,14 @@ async function sidebarAsk(question) {
     const d = await res.json();
     document.getElementById('s-typing')?.remove();
     const reply = d.reply || '（無回覆）';
-    m.innerHTML += `<div class="msg bot"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">${esc(reply)}</div></div>`;
+    m.innerHTML += `<div class="msg bot"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">${mdToHtml(reply)}</div></div>`;
     m.scrollTop = m.scrollHeight;
     sidebarHistory.push({role:'assistant', content:reply});
     if(sidebarHistory.length >20) sidebarHistory.splice(0, 2);
   } catch(e) {
     document.getElementById('s-typing')?.remove();
     const reply = demoReply(question);
-    m.innerHTML += `<div class="msg bot"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">${reply.replace(/\n/g,'<br>')}</div></div>`;
+    m.innerHTML += `<div class="msg bot"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">${mdToHtml(reply)}</div></div>`;
     m.scrollTop = m.scrollHeight;
     sidebarHistory.push({role:'assistant', content:reply});
   }
@@ -3207,12 +3218,20 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(() => panelAddBotMsg('可以問我：疫苗時程、生育補助、托育申請、育嬰假…'), 700);
 });
 
+function mdToHtml(text) {
+  if (typeof marked !== 'undefined') {
+    return marked.parse(text, { breaks: true, gfm: true });
+  }
+  // fallback: just escape + newlines
+  return esc(text).replace(/\n/g, '<br>');
+}
+
 function panelAddBotMsg(text) {
   const m = document.getElementById('panel-messages');
   if (!m) return;
   const d = document.createElement('div');
   d.className = 'msg bot';
-  d.innerHTML = `<div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">${esc(text)}</div>`;
+  d.innerHTML = `<div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">${mdToHtml(text)}</div>`;
   m.appendChild(d);
   m.scrollTop = m.scrollHeight;
 }
