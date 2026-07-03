@@ -1762,24 +1762,24 @@ document.addEventListener('DOMContentLoaded', initRecommendations);
 function demoReply(q) {
   const t = q.toLowerCase();
   if (/托嬰|公托|托育|托嬰中心/.test(t))
-    return '托嬰中心分為公立、準公共和私立三種。\n\n公立費用最低（約 3,000–6,000 元/月），但名額少，建議寶寶出生後立即登記候補。\n準公共機構享有政府補助，費用僅略高於公立。\n\n可至衛福部托育媒合平台查詢：https://cwisweb.sfaa.gov.tw';
+    return '托育的選擇我最懂了 🏠\n\n托嬰中心分三種：\n\n- **公立**：費用最低（約 3,000–6,000 元/月），但名額超搶手，建議寶寶一出生就去候補！\n- **準公共機構**：有政府補助把關，費用比公立略高一點點\n- **私立**：選擇多，但費用差很大\n\n👉 可以去[衛福部托育媒合平台](https://cwisweb.sfaa.gov.tw)查詢附近的資源喔～';
   if (/育兒津貼|托育補助/.test(t))
-    return '育兒津貼與托育補助兩者擇一：\n\n自己帶（未送托）→ 育兒津貼 5,000 元/月（0–2歲）\n送公托/準公共 → 托育補助（補助後費用更低）\n\n建議先計算哪個划算再決定！詳情可至衛福部社家署查詢。';
+    return '這兩個只能選一個，我來幫你算算 🧮\n\n| 情況 | 補助 |\n|------|------|\n| 自己帶寶寶 | **育兒津貼 5,000 元/月**（0–2歲）|\n| 送公托/準公共 | **托育補助**（補助後可能更划算！）|\n\n💡 建議先問問托嬰中心的實際費用，再決定哪個比較省錢！\n\n詳情可至衛福部社家署查詢～';
   if (/疫苗|預防接種|打針/.test(t))
-    return '台灣公費疫苗時程重點：\n\n出生：B肝第1劑、卡介苗\n2個月：五合一、肺炎鏈球菌、輪狀病毒\n4個月：五合一第2劑、肺炎鏈球菌\n6個月：五合一第3劑、流感（季節性）\n12個月：MMR、水痘、日本腦炎\n\n詳細時程請參考疾管署網站。';
+    return '疫苗時程整理好囉，幫你記起來 💉\n\n| 時間 | 疫苗 |\n|------|------|\n| 出生 | B肝第1劑、卡介苗 |\n| 2個月 | 五合一、肺炎鏈球菌、輪狀病毒 |\n| 4個月 | 五合一第2劑、肺炎鏈球菌 |\n| 6個月 | 五合一第3劑、流感（季節性）|\n| 12個月 | MMR、水痘、日本腦炎 |\n\n⏰ 建議存到手機方便對照，或去衛生所確認詳細時程喔！';
   if (/育嬰假|留停|育嬰留職/.test(t))
-    return '育嬰留職停薪重點：\n\n適用對象：子女未滿 3 歲\n期間：最長 2 年（可分次申請）\n津貼：投保薪資 80%（上限約 43,000 元/月）\n爸爸媽媽都可以申請，且可同時申請！\n\n申請需有6個月以上勞保年資，向所屬公司HR提出。';
+    return '育嬰留停的細節我整理給你 👶\n\n- **適用對象**：子女未滿 3 歲\n- **最長期間**：2 年（可以分次申請！）\n- **津貼金額**：投保薪資的 **80%**（上限約 43,000 元/月）\n\n✨ 爸爸媽媽都可以申請，而且可以同時申請喔！\n\n記得要有 6 個月以上勞保年資，向公司 HR 提出申請就可以了～';
   if (/生育獎勵|生育補助|生育金/.test(t))
-    return '生育獎勵金依縣市不同，以台北市為例：\n\n第1胎：2萬元\n第2胎：4萬元\n第3胎：6萬元\n\n各縣市金額不同，請選擇你的縣市查詢！另外全國統一有生育給付（勞保）約 5.7 萬元。';
+    return '生一個寶寶政府送你錢 🎉\n\n以台北市為例：\n- 第 1 胎：**2 萬元**\n- 第 2 胎：**4 萬元**\n- 第 3 胎以上：**6 萬元**\n\n各縣市金額不一樣，可以選你的縣市查詢！\n另外全國統一還有**勞保生育給付**（約 5.7 萬元），記得也要申請喔 😊';
   if (/副食品|離乳食|副食/.test(t))
-    return '副食品添加建議：\n\n4–6個月：觀察寶寶發展，建議6個月開始\n第一週：10倍粥（純米）\n之後：每次新增一種食材，觀察2–3天\n1歲前不加鹽、糖、蜂蜜\n\n建議由稀到稠、由少到多、由單一到多樣慢慢進行！';
+    return '副食品新手教學來了 🥣\n\n- **何時開始**：建議 6 個月（觀察寶寶有沒有發展好再開始）\n- **第一週**：10倍粥（純米，超稀那種）\n- **之後**：每次只加一種新食材，觀察 2–3 天再換下一個\n\n❌ **1歲前不要加**：鹽、糖、蜂蜜\n\n原則是「由稀到稠、由少到多」，慢慢來不用急喔～寶寶會愛上吃東西的 💕';
   if (/保母|褓姆/.test(t))
-    return '找保母的管道：\n\n衛福部托育媒合平台（推薦，有政府把關）\n本平台「保母媒合」功能\nPTT BabyMother 板\nDcard 親子版\n\n建議優先選擇有領取「準公共化」補助資格的保母，費用更有保障！';
+    return '找保母的管道我都幫你整理好了 🔍\n\n1. **衛福部托育媒合平台**（最推薦！有政府把關）\n2. **本平台「保母媒合」功能**（直接在這裡搜尋）\n3. PTT BabyMother 板、Dcard 親子版\n4. 社區公告、口耳相傳\n\n💡 小毛毛建議：優先找有「**準公共化補助資格**」的保母，費用有保障，品質也比較穩定喔！';
   if (/產檢|孕期|懷孕/.test(t))
-    return '孕期重要產檢時程：\n\n6–8週：確認懷孕、心跳\n16–18週：唐氏症篩檢\n20週：大排畸（超音波）\n24–28週：妊娠糖尿病篩檢\n35週後：每週產檢\n\n健保補助 14 次產檢，高齡產婦另有羊膜穿刺補助。';
+    return '孕期產檢時程整理好了，媽媽辛苦了 💗\n\n| 週數 | 重點項目 |\n|------|----------|\n| 6–8 週 | 確認懷孕、聽心跳 |\n| 16–18 週 | 唐氏症篩檢 |\n| 20 週 | 大排畸（超音波）|\n| 24–28 週 | 妊娠糖尿病篩檢 |\n| 35 週後 | 每週產檢 |\n\n健保補助 14 次產檢！高齡產婦另有羊膜穿刺補助，記得問醫生～';
   if (/補助|申請|怎麼辦|流程/.test(t))
-    return '育兒相關補助超多！常見的有：\n\n育兒津貼（5,000元/月）\n托育補助\n生育獎勵金\n育嬰留停津貼\n兒童健保補助\n\n可以點上方「補助資訊」查看詳細內容，或直接問我具體問題！';
-  return '感謝您的提問！這個問題我正在查詢相關政府資料。\n\n您可以試試：\n• 點選上方分類卡片查看相關資訊\n• 撥打 1925 安心專線（衛福部）\n• 撥打 1957 福利諮詢專線\n\n或者換個關鍵字再問我，例如「育兒津貼」、「疫苗時程」、「托嬰補助」等。';
+    return '育兒補助超多，我幫你整理清單 💰\n\n- 🍼 **育兒津貼**：5,000 元/月（0–2歲自帶）\n- 🏠 **托育補助**：送公托/準公共機構適用\n- 🎉 **生育獎勵金**：依縣市不同\n- 😴 **育嬰留停津貼**：投保薪資的 80%\n- 🩺 **兒童健保補助**：6歲以下免自負額\n\n點上方「**補助資訊**」看詳細內容，或直接問我具體的問題也可以喔！';
+  return '嗯嗯，我去找一下相關資料 🔍\n\n目前系統是展示模式，有些問題我可能還沒學到！\n\n你可以試試：\n- 點上方的分類卡片找相關資訊\n- 撥打 **1925** 安心專線（衛福部）\n- 撥打 **1957** 福利諮詢專線\n\n或者換個關鍵字問我，例如「育兒津貼」、「疫苗時程」、「公托報名」試試看 😊';
 }
 const botSVG  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"><path d="M12 20V10"/><path d="M12 10C8 10 5 7 5 4c4 0 7 3 7 6Z"/><path d="M12 12c4 0 7-3 7-6-4 0-7 3-7 6Z"/></svg>';
 const userSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></svg>';
@@ -3177,6 +3177,10 @@ function toggleSidebarChat() {
 async function sidebarAsk(question) {
   const m = document.getElementById('sidebar-messages');
   m.innerHTML += `<div class="msg user"><div class="msg-avatar human">${userSVG}</div><div class="msg-bubble">${esc(question)}</div></div>`;
+  if (isOffTopic(question)) {
+    m.innerHTML += `<div class="msg bot"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">${mdToHtml(_OFF_REPLY)}</div></div>`;
+    m.scrollTop = m.scrollHeight; return;
+  }
   m.innerHTML += `<div class="msg bot" id="s-typing"><div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">…</div></div>`;
   m.scrollTop = m.scrollHeight;
   sidebarHistory.push({role:'user', content:question});
@@ -3214,9 +3218,35 @@ const panelHistory = [];
 
 // 頁面載入後自動初始化 panel 訊息
 document.addEventListener('DOMContentLoaded', function() {
-  panelAddBotMsg('您好！我是育兒小幫手，請問有什麼育兒相關問題需要協助？');
-  setTimeout(() => panelAddBotMsg('可以問我：疫苗時程、生育補助、托育申請、育嬰假…'), 700);
+  panelAddBotMsg('嗨嗨～我是毛毛 🐣 你的育兒小幫手！\n\n不管是補助申請、疫苗時程、還是托育問題，都可以問我喔！');
+  setTimeout(() => panelAddBotMsg('小提示 💡 你可以直接問我：\n「**育兒津貼怎麼申請**」\n「**寶寶2個月要打什麼疫苗**」\n「**公托怎麼報名**」\n讓我來幫你查 ✨'), 800);
 });
+
+/* ── 主題守門員：只回答育兒相關問題 ── */
+const _PARENTING_KW = [
+  '育兒','寶寶','嬰兒','幼兒','孩子','小孩','孕','產','疫苗','補助','津貼',
+  '托嬰','公托','幼兒園','親子','哺乳','奶粉','尿布','育嬰','生育','新生兒',
+  '兒童','健保','健檢','學前','保母','家長','父母','媽媽','爸爸','月子',
+  '懷孕','妊娠','產後','奶嘴','副食品','身高','體重','發展','早療','特教',
+  '托育','社會局','衛福部','戶政','出生登記','嬰','baby','bb','生小孩'
+];
+const _OFFTOPIC_KW = [
+  '程式','寫code','coding','python','javascript','java','c++','c#','ruby','golang',
+  'rust','swift','kotlin','演算法','algorithm','leetcode','排序','函數','變數',
+  'two-sum','two sum','資料結構','sql','html','css','react','vue','angular',
+  '股票','投資','加密貨幣','比特幣','以太幣','天氣','電影','音樂','歌曲',
+  '遊戲','game','政治','選舉','新聞','體育','運動比賽','翻譯','英文','數學',
+  '物理','化學','歷史','地理','法律','稅務','會計','報稅'
+];
+const _OFF_REPLY = '哎呀，這個我不會耶 😅\n\n我是毛毛，一隻專門研究育兒的小幫手 🐣\n寫程式、算數學這種事太難啦，我只懂寶寶的世界！\n\n你可以問我這些 👇\n- 🍼 疫苗接種時程\n- 💰 生育／育兒補助申請\n- 🏠 公共托育怎麼報名\n- 👶 育嬰留職停薪規定\n- 🩺 寶寶健康與發展問題\n\n換個問題試試看吧～';
+
+function isOffTopic(q) {
+  const ql = q.toLowerCase();
+  // 只要包含育兒關鍵字，就放行
+  if (_PARENTING_KW.some(k => ql.includes(k))) return false;
+  // 包含明確的非育兒關鍵字，就攔截
+  return _OFFTOPIC_KW.some(k => ql.includes(k));
+}
 
 function mdToHtml(text) {
   if (typeof marked !== 'undefined') {
@@ -3247,6 +3277,7 @@ function panelAddUserMsg(text) {
 async function panelAsk(question) {
   if (!question.trim()) return;
   panelAddUserMsg(question);
+  if (isOffTopic(question)) { panelAddBotMsg(_OFF_REPLY); return; }
   const input = document.getElementById('panel-input');
   if (input) input.value = '';
   const m = document.getElementById('panel-messages');
@@ -3287,8 +3318,8 @@ function panelSend() {
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--teal-brand)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
     </div>
     <div style="flex:1">
-      <div style="font-size:14px;font-weight:600;color:#fff">育兒小幫手 AI</div>
-      <div style="font-size:11px;color:var(--teal-light)">隨時為你解答育兒問題</div>
+      <div style="font-size:14px;font-weight:600;color:#fff">毛毛 🐣 育兒小幫手</div>
+      <div style="font-size:11px;color:var(--teal-light)">專業育兒問題，隨時幫你查 ✨</div>
     </div>
 
   </div>
