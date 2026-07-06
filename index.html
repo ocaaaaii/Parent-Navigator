@@ -176,6 +176,12 @@ nav ul li a:hover,nav ul li a.active{background:var(--teal-pale);color:var(--tea
 /*  SECTIONS  */
 .section-title{font-family:'Noto Serif TC',serif;font-size:20px;font-weight:700;color:var(--charcoal);margin-bottom:4px}
 .section-divider{width:36px;height:3px;background:var(--teal);border-radius:2px;margin-bottom:20px}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-item:last-child{border-bottom:none}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;cursor:pointer;font-size:14px;font-weight:600;color:var(--charcoal);transition:background .15s}
+.faq-q:hover{background:var(--warm-sand)}
+.faq-arrow{flex-shrink:0;transition:transform .2s;color:var(--teal)}
+.faq-a{padding:0 18px 16px;font-size:13px;line-height:1.8;color:#555;white-space:pre-line}
 
 /*  CATEGORY GRID  */
 .category-section{margin-bottom:28px}
@@ -1888,6 +1894,52 @@ function showSection(name) {
   window.scrollTo(0,0);
 }
 
+/* ── FAQ ── */
+const FAQ_DATA = [
+  { q:'什麼是育兒津貼？每月可以領多少？',
+    a:'育兒津貼（0–2歲）是政府補助未送托公共化托育的家庭。2024年起，每位孩子每月最高補助 5,000 元（一般戶），中低收入戶及低收入戶可領更多。透過戶政事務所或網路申辦。' },
+  { q:'育嬰留職停薪津貼怎麼申請？',
+    a:'受僱勞工申請育嬰留職停薪，可同時申請「育嬰留職停薪津貼」，每月領取投保薪資 80%，最長 6 個月。向勞保局（www.bli.gov.tw）線上申辦或至各地勞保局辦理。' },
+  { q:'寶寶打疫苗要帶什麼文件？',
+    a:'攜帶兒童健康手冊（媽媽手冊附的黃色小冊）即可。公費疫苗在各地衛生所及合約診所均可施打，免費。建議提前電話確認當日是否有疫苗庫存。' },
+  { q:'公共托育（公托）怎麼申請？資格是什麼？',
+    a:'公立或非營利托嬰中心收費低廉，有名額限制。各縣市開放申請時間不同，通常需在戶籍所在地抽籤。台北市可至「born.taipei」平台查詢、線上申請。' },
+  { q:'新生兒出生後需要辦哪些手續？',
+    a:'① 出生申報（14天內至戶政事務所）② 申請兒童健保（連帶父母健保）③ 辦理育兒津貼 ④ 申請各縣市生育獎勵金 ⑤ 預約新生兒第一次健兒門診。文件：出生通知書、雙親身分證、戶口名簿。' },
+  { q:'準公共保母跟一般保母差在哪？',
+    a:'加入「準公共化」的居家保母需通過政府稽查、定期受訓，家長每月自付費用上限為 11,000 元（政府補貼差額）。相較一般保母，準公共保母有政府背書，品質較有保障。' },
+  { q:'生育補助有哪些？',
+    a:'① 中央育兒津貼（0–2歲）② 各縣市生育獎勵金（台北市第一胎 2 萬元起）③ 勞保生育給付（45 天投保薪資）④ 國民年金生育給付 ⑤ 部分縣市另有尿布、奶粉補助。可在本平台搜尋「生育補助」查看完整列表。' },
+  { q:'兒童預防保健免費健檢幾歲前要做？',
+    a:'7歲以前政府補助 7 次免費兒童預防保健服務，含評估生長發育、視力、聽力、牙齒等。帶兒童健保卡至合約小兒科或衛生所即可，不用自費。' },
+  { q:'平台上的資料來自哪裡？準確嗎？',
+    a:'本平台整合衛福部、勞動部、各縣市政府官方公告，並由 AI 定期更新。補助金額可能隨政策調整，建議查到資料後再至官方網站確認最新版本，或撥打 1925 全國社福專線詢問。' },
+  { q:'保母媒合資料怎麼來？安全嗎？',
+    a:'保母資料來自 PTT BabyMother 板（公開貼文）及政府居家托育媒合平台（已登記合法保母）。有「政府媒合」標籤的保母均已通過政府稽核，建議優先考慮。聯絡前請先透過居家托育服務中心確認登記狀態。' },
+];
+
+function buildFaq() {
+  const el = document.getElementById('faq-list');
+  if (!el || el.dataset.built) return;
+  el.dataset.built = '1';
+  el.innerHTML = FAQ_DATA.map((item, i) => `
+    <div class="faq-item" onclick="toggleFaq(${i})">
+      <div class="faq-q" id="faq-q-${i}">
+        <span>${esc(item.q)}</span>
+        <svg class="faq-arrow" id="faq-arr-${i}" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a" id="faq-a-${i}" style="display:none">${esc(item.a)}</div>
+    </div>
+  `).join('');
+}
+function toggleFaq(i) {
+  const a   = document.getElementById(`faq-a-${i}`);
+  const arr = document.getElementById(`faq-arr-${i}`);
+  const open = a.style.display === 'none';
+  a.style.display  = open ? 'block' : 'none';
+  arr.style.transform = open ? 'rotate(180deg)' : '';
+}
+
 /*  保母/家教媒合  */
 const SOURCE_LABELS = { ptt:'PTT', dcard:'Dcard', '1111':'1111保母網', gov:'政府媒合', self:'自行刊登', facebook:'Facebook' };
 const TYPE_LABELS   = { babysitter:'保母', tutor:'家教', nanny:'到府褓姆', other:'其他' };
@@ -1918,7 +1970,7 @@ async function loadCaregivers(page = 1) {
   if (keyword) params.set('keyword', keyword);
 
   try {
-    const res  = await fetch(`/api/get-caregivers?${params}`);
+    const res  = await fetch(`/api/caregivers?${params}`);
     const data = await res.json();
 
     if (!data.items || data.items.length === 0) {
