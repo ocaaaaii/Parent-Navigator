@@ -398,6 +398,28 @@ nav ul li a:hover,nav ul li a.active{background:var(--teal-pale);color:var(--tea
 .chatbot-send svg{stroke:#fff;width:14px;height:14px}
 .chatbot-collapsed .chatbot-body{display:none}
 
+/* ── 對話記錄面板 ── */
+#chat-history-panel{position:absolute;inset:0;background:var(--white);z-index:10;transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+#chat-history-panel .hist-header{background:var(--charcoal);padding:14px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+#chat-history-panel .hist-header h3{flex:1;font-size:15px;font-weight:600;color:#fff;margin:0}
+.hist-close-btn{background:none;border:none;color:rgba(255,255,255,.7);font-size:22px;cursor:pointer;line-height:1;padding:4px 6px;border-radius:6px;transition:all .2s}
+.hist-close-btn:hover{color:#fff;background:rgba(255,255,255,.1)}
+.hist-new-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;color:#fff;font-size:12px;font-weight:500;padding:5px 10px;cursor:pointer;transition:all .2s;white-space:nowrap;font-family:'Noto Sans TC',sans-serif}
+.hist-new-btn:hover{background:rgba(255,255,255,.22)}
+#history-list{flex:1;overflow-y:auto;padding:8px}
+.hist-date-label{font-size:11px;color:#aaa;padding:10px 8px 4px;font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+.hist-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;cursor:pointer;transition:background .15s;margin-bottom:2px}
+.hist-item:hover{background:var(--warm-sand)}
+.hist-item-icon{font-size:20px;flex-shrink:0}
+.hist-item-body{flex:1;min-width:0}
+.hist-item-title{font-size:13px;font-weight:500;color:var(--charcoal);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hist-item-meta{font-size:11px;color:#aaa;margin-top:2px}
+.hist-delete-btn{background:none;border:none;color:#ccc;font-size:18px;cursor:pointer;padding:4px 6px;border-radius:6px;transition:all .2s;flex-shrink:0;line-height:1}
+.hist-delete-btn:hover{background:#fee2e2;color:#e53e3e}
+.hist-icon-btn{background:none;border:none;color:rgba(255,255,255,.75);cursor:pointer;padding:6px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.hist-icon-btn:hover{color:#fff;background:rgba(255,255,255,.12)}
+.hist-empty{text-align:center;color:#bbb;padding:48px 20px;font-size:13px;line-height:1.8}
+
 /*  QUICK LINKS  */
 .quick-links-panel{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
 .ql-header{padding:12px 16px;border-bottom:1px solid var(--border);font-family:'Noto Serif TC',serif;font-size:14px;font-weight:700;color:var(--charcoal);display:flex;align-items:center;gap:8px}
@@ -461,7 +483,7 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 
 
 /*  MODAL SYSTEM  */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(36,52,50,.6);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(36,52,50,.6);z-index:9000;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.open{display:flex}
 .modal-box{background:#fff;border-radius:var(--radius);max-width:660px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.3);animation:modalIn .22s ease}
 @keyframes modalIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
@@ -3405,7 +3427,8 @@ async function panelAsk(question) {
     const reply = data.reply || '（無回覆）';
     panelAddBotMsg(reply);
     panelHistory.push({ role: 'assistant', content: reply });
-    if (panelHistory.length >20) panelHistory.splice(0, 2);
+    if (panelHistory.length > 20) panelHistory.splice(0, 2);
+    saveChatSession();   // 每次 bot 回覆後自動存檔
   } catch (e) {
     document.getElementById('panel-typing')?.remove();
     panelAddBotMsg(demoReply(question));
@@ -3415,6 +3438,145 @@ async function panelAsk(question) {
 function panelSend() {
   const input = document.getElementById('panel-input');
   if (input && input.value.trim()) panelAsk(input.value.trim());
+}
+
+// ── 對話記錄功能 ─────────────────────────────────────────────────────────────
+
+const CHAT_STORAGE_KEY = 'mao_chat_sessions';
+const CHAT_MAX_SESSIONS = 20;
+
+/** 從 localStorage 讀所有 sessions */
+function getChatSessions() {
+  try { return JSON.parse(localStorage.getItem(CHAT_STORAGE_KEY) || '[]'); }
+  catch { return []; }
+}
+
+/** 儲存目前 session（至少有 2 則才存） */
+function saveChatSession() {
+  if (!panelHistory || panelHistory.length < 2) return;
+  const sessions = getChatSessions();
+  const idx = sessions.findIndex(s => s.id === sessionId);
+
+  const firstUserMsg = panelHistory.find(m => m.role === 'user');
+  const entry = {
+    id:        sessionId,
+    title:     (firstUserMsg?.content || '對話').slice(0, 40),
+    startedAt: sessions[idx]?.startedAt || new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    msgCount:  panelHistory.length,
+    messages:  panelHistory.map(m => ({ role: m.role, content: m.content })),
+  };
+
+  if (idx >= 0) sessions[idx] = entry;
+  else { sessions.unshift(entry); if (sessions.length > CHAT_MAX_SESSIONS) sessions.pop(); }
+
+  try { localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(sessions)); } catch {}
+}
+
+/** 刪除單筆 session */
+function deleteChatSession(id) {
+  const sessions = getChatSessions().filter(s => s.id !== id);
+  try { localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(sessions)); } catch {}
+  renderHistoryPanel();
+}
+
+/** 載入歷史 session 回對話視窗 */
+function resumeSession(id) {
+  const session = getChatSessions().find(s => s.id === id);
+  if (!session) return;
+
+  const m = document.getElementById('panel-messages');
+  m.innerHTML = '';
+  panelHistory.length = 0;
+
+  session.messages.forEach(msg => {
+    if (msg.role === 'user') {
+      const d = document.createElement('div');
+      d.className = 'msg user';
+      d.innerHTML = `<div class="msg-bubble">${esc(msg.content)}</div><div class="msg-avatar human">${userSVG}</div>`;
+      m.appendChild(d);
+      panelHistory.push({ role: 'user', content: msg.content });
+    } else {
+      const d = document.createElement('div');
+      d.className = 'msg bot';
+      d.innerHTML = `<div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">${mdToHtml(msg.content)}</div>`;
+      m.appendChild(d);
+      panelHistory.push({ role: 'assistant', content: msg.content });
+    }
+  });
+
+  const hint = document.createElement('div');
+  hint.style.cssText = 'text-align:center;font-size:11px;color:#bbb;padding:6px 0 10px';
+  hint.textContent = '── 已載入歷史對話，可繼續提問 ──';
+  m.appendChild(hint);
+  m.scrollTop = m.scrollHeight;
+
+  toggleHistoryPanel(false);
+}
+
+/** 開新對話（先存目前的） */
+function startNewSession() {
+  saveChatSession();
+  panelHistory.length = 0;
+  const m = document.getElementById('panel-messages');
+  m.innerHTML = '';
+  const d = document.createElement('div');
+  d.className = 'msg bot';
+  d.innerHTML = `<div class="msg-avatar bot">${botSVG}</div><div class="msg-bubble">${mdToHtml('嗨！我是毛毛 🐣\n開始新對話囉，有什麼育兒問題都可以問我！')}</div>`;
+  m.appendChild(d);
+  toggleHistoryPanel(false);
+}
+
+// ── 歷史面板開關 ──────────────────────────────────────────────────────────────
+
+let _histPanelOpen = false;
+
+function toggleHistoryPanel(force) {
+  _histPanelOpen = (force !== undefined) ? force : !_histPanelOpen;
+  const panel = document.getElementById('chat-history-panel');
+  if (_histPanelOpen) { renderHistoryPanel(); panel.style.transform = 'translateX(0)'; }
+  else { panel.style.transform = 'translateX(-100%)'; }
+}
+
+function renderHistoryPanel() {
+  const sessions = getChatSessions();
+  const container = document.getElementById('history-list');
+
+  if (!sessions.length) {
+    container.innerHTML = '<div class="hist-empty">還沒有對話記錄<br><span style="font-size:28px">🐣</span><br><small>和毛毛聊聊，記錄就會出現這裡</small></div>';
+    return;
+  }
+
+  const today     = new Date().toDateString();
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+  const grouped   = {};
+  sessions.forEach(s => {
+    const d = new Date(s.updatedAt || s.startedAt);
+    let label;
+    if (d.toDateString() === today)          label = '今天';
+    else if (d.toDateString() === yesterday) label = '昨天';
+    else label = d.toLocaleDateString('zh-TW', { month: 'long', day: 'numeric' });
+    (grouped[label] = grouped[label] || []).push(s);
+  });
+
+  let html = '';
+  for (const [label, items] of Object.entries(grouped)) {
+    html += `<div class="hist-date-label">${label}</div>`;
+    items.forEach(s => {
+      const time   = new Date(s.updatedAt || s.startedAt).toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' });
+      const active = s.id === sessionId ? 'background:var(--warm-sand);' : '';
+      html += `
+        <div class="hist-item" style="${active}" onclick="resumeSession('${s.id}')">
+          <div class="hist-item-icon">💬</div>
+          <div class="hist-item-body">
+            <div class="hist-item-title">${esc(s.title)}</div>
+            <div class="hist-item-meta">${time}・${s.msgCount || 0} 則訊息</div>
+          </div>
+          <button class="hist-delete-btn" onclick="event.stopPropagation();deleteChatSession('${s.id}')" title="刪除">×</button>
+        </div>`;
+    });
+  }
+  container.innerHTML = html;
 }
 
 </script>
@@ -3429,7 +3591,20 @@ function panelSend() {
   <span class="fab-badge"></span>
 </button>
 
-<div id="chatbot-panel">
+<div id="chatbot-panel" style="position:relative">
+
+  <!-- ── 對話記錄面板（絕對定位，滑入覆蓋） ── -->
+  <div id="chat-history-panel">
+    <div class="hist-header">
+      <button class="hist-close-btn" onclick="toggleHistoryPanel(false)" title="關閉">←</button>
+      <h3>💬 對話記錄</h3>
+      <button class="hist-new-btn" onclick="startNewSession()">＋ 新對話</button>
+    </div>
+    <div id="history-list">
+      <div class="hist-empty">還沒有對話記錄<br><span style="font-size:28px">🐣</span></div>
+    </div>
+  </div>
+
   <div class="chatbot-header" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--charcoal)">
     <div class="chatbot-avatar" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--teal-brand)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -3438,6 +3613,12 @@ function panelSend() {
       <div style="font-size:14px;font-weight:600;color:#fff">毛毛 🐣 育兒小幫手</div>
       <div style="font-size:11px;color:var(--teal-light)">專業育兒問題，隨時幫你查 ✨</div>
     </div>
+    <!-- 歷史記錄按鈕 -->
+    <button class="hist-icon-btn" onclick="toggleHistoryPanel()" title="對話記錄">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+    </button>
     <!-- 手機關閉按鈕（桌機隱藏） -->
     <button id="panel-close-mobile" onclick="closeMobileChat()" style="display:none;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.8);padding:6px;border-radius:8px;font-size:20px;line-height:1;transition:all .2s" title="關閉">×</button>
     <button class="panel-expand-btn" id="panel-expand-btn" onclick="togglePanelFullscreen()" title="展開全螢幕">
