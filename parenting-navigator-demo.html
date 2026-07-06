@@ -3234,6 +3234,19 @@ const panelHistory = [];
 document.addEventListener('DOMContentLoaded', function() {
   panelAddBotMsg('嗨嗨～我是毛毛 🐣 你的育兒小幫手！\n\n不管是補助申請、疫苗時程、還是托育問題，都可以問我喔！');
   setTimeout(() => panelAddBotMsg('小提示 💡 你可以直接問我：\n「**育兒津貼怎麼申請**」\n「**寶寶2個月要打什麼疫苗**」\n「**公托怎麼報名**」\n讓我來幫你查 ✨'), 800);
+
+  // 隱藏搜尋結果為 0 的熱門關鍵字
+  document.querySelectorAll('.keyword-tag').forEach(tag => {
+    const match = tag.getAttribute('onclick')?.match(/heroSearch\('(.+?)'\)/);
+    if (!match) return;
+    const q = match[1].toLowerCase();
+    const hits = Object.values(ARTICLES).filter(a =>
+      (a.title   || '').toLowerCase().includes(q) ||
+      (a.excerpt || '').toLowerCase().includes(q) ||
+      (a.tag     || '').toLowerCase().includes(q)
+    );
+    if (hits.length === 0) tag.style.display = 'none';
+  });
 });
 
 /* ── 主題守門員：只回答育兒相關問題 ── */
