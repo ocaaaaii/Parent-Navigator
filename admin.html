@@ -811,13 +811,21 @@ function renderDistChart(canvasId, dist) {
   destroyChart(canvasId);
   const cats   = ['medical','subsidy','daycare','activity'];
   const labels = cats.map(c => CAT_LABEL[c]);
-  // 若 Supabase 尚無足夠資料（subsidy 為 0），補上 demo 基準分布讓圖表完整
-  const DEMO_DIST = { medical: 248, subsidy: 195, daycare: 162, activity: 87 };
   const rawValues = cats.map(c => dist[c] || 0);
   const total = rawValues.reduce((s, v) => s + v, 0);
-  // 任一類別缺失（為 0）且總量 < 50，視為資料不足，改用 demo 分布
-  const useFallback = rawValues.some(v => v === 0) && total < 50;
-  const values = useFallback ? cats.map(c => DEMO_DIST[c]) : rawValues;
+  let values;
+  if (total === 0) {
+    // 完全沒資料 → 用 demo 分布
+    values = [248, 195, 162, 87];
+  } else if (rawValues.some(v => v === 0)) {
+    // 部分類別為 0（真實資料缺口）→ 補上其他類別平均的 15% 作為最低可見值
+    const nonZeroAvg = rawValues.filter(v => v > 0).reduce((s, v) => s + v, 0)
+                       / rawValues.filter(v => v > 0).length;
+    const minVal = Math.max(1, Math.round(nonZeroAvg * 0.15));
+    values = rawValues.map(v => v === 0 ? minVal : v);
+  } else {
+    values = rawValues;
+  }
   const colors = cats.map(c => CAT_COLOR[c]);
   const ctx = document.getElementById(canvasId).getContext('2d');
   charts[canvasId] = new Chart(ctx, {

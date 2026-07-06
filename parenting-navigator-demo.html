@@ -6,19 +6,16 @@
 <title>育兒導航全攻略 — 新手爸媽智慧應援</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>:root {
-  /* 🌃 深色科技版 — Admin 配色 */
-  --teal:#7c83ff;        --teal-brand:#6b74f8; --teal-light:#a5abff; --teal-pale:rgba(124,131,255,.15);
-  --apricot:#ffb347;     --apricot-brand:#f5a73d; --apricot-pale:rgba(255,179,71,.14);
-  --wine:#ff6b7a;        --wine-brand:#f05060; --wine-pale:rgba(255,107,122,.14);
-  --warm-cream:#0f1117;  --warm-sand:#22263a;
-  --charcoal:#e8eaf6;    --charcoal-mid:#b0b8d8; --charcoal-light:#8892b0;
-  --white:#1a1d27;       --border:#2d3154;
-  --shadow-sm:0 2px 16px rgba(0,0,0,.3);
-  --shadow-md:0 8px 32px rgba(0,0,0,.45);
+  /* 活力溫馨系 — 暖陽奶油版 */
+  --teal:#F0B030; --teal-brand:#F5C860; --teal-light:#FAD98A; --teal-pale:#E8F3F0;
+  --apricot:#EE7C44; --apricot-brand:#F5A472; --apricot-pale:#FEF0E4;
+  --wine:#C45828; --wine-brand:#D47E50; --wine-pale:#FAEDE4;
+  --warm-cream:#FFFBF2; --warm-sand:#D4E5E1;
+  --charcoal:#5C3820; --charcoal-mid:#7A5035; --charcoal-light:#A8825A;
+  --white:#FFFFFF; --border:#F0D8B8;
+  --shadow-sm:0 2px 12px rgba(90,50,10,.07);
+  --shadow-md:0 8px 32px rgba(90,50,10,.11);
   --radius:16px; --radius-sm:10px;
-  /* 額外深色 */
-  --dark-nav:#0d1018;
-  --green-accent:#4cde9a;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Sans TC',sans-serif;background:var(--warm-cream);color:var(--charcoal);overflow-x:hidden;margin-right:420px}
@@ -731,118 +728,15 @@ footer{background:var(--charcoal);color:rgba(255,255,255,.5);padding:48px 32px 2
 .cp-send:hover{background:var(--charcoal)}
 .cp-send svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2}
 
-/* ══════════════════════════════════════════════════════
-   🌃 DARK THEME — 覆蓋所有硬碼淺色元素
-══════════════════════════════════════════════════════ */
-/* Body & 全域文字顏色已由 CSS 變數控制，此處補硬碼色覆蓋 */
-body{background:radial-gradient(ellipse at 20% 10%,#1a1d3a 0%,#0f1117 80%) fixed}
-
-/* Topbar / Footer / Chatbot header — 原來 var(--charcoal) 當深背景，現在要指定回深色 */
-.topbar{background:#0d1018!important}
-footer{background:#0d1018!important}
-.chatbot-header{background:#0d1018!important}
-
-/* Header */
-header{background:#1a1d27;border-bottom-color:#2d3154}
-
-/* Hero — 原硬碼 #D4E5E1 */
-.hero{background:linear-gradient(145deg,#12172a 0%,#0f1117 100%)}
-
-/* 搜尋框 */
-.search-box{background:#22263a;border:1.5px solid #2d3154;box-shadow:0 8px 32px rgba(0,0,0,.45)}
-.search-input{color:#e8eaf6}
-.search-input::placeholder{color:#4a5270}
-.search-btn:hover{background:#22263a}
-
-/* 搜尋結果面板 */
-#search-results-panel{background:#1a1d27;border-color:#2d3154}
-.srp-header{border-bottom-color:#2d3154}
-.srp-item{background:#22263a;border-color:#2d3154}
-.srp-item:hover{background:rgba(124,131,255,.12);border-color:var(--teal-light);box-shadow:none}
-.srp-item-excerpt{color:#8892b0}
-.srp-close:hover{background:#22263a;color:#e8eaf6}
-
-/* 公告欄 */
-.announce-bar{background:rgba(255,179,71,.08);border-color:rgba(255,179,71,.2)}
-
-/* 卡片 / 面板 */
-.news-panel,.quick-link-card,.sidebar-card,.rec-card{background:#1a1d27!important}
-.news-item:hover{background:#22263a}
-
-/* 分類圖示色 */
-.icon-wrap.green{background:rgba(76,222,154,.15);color:#4cde9a}
-.icon-wrap.rose{background:rgba(255,107,122,.15);color:#ff6b7a}
-.icon-wrap.gold{background:rgba(255,179,71,.15);color:#ffb347}
-.icon-wrap.blue{background:rgba(124,131,255,.15);color:#7c83ff}
-.icon-wrap.lavender{background:rgba(124,131,255,.12);color:#a5abff}
-.icon-wrap.peach{background:rgba(255,107,122,.12);color:#ff8a96}
-.icon-wrap.mint{background:rgba(86,207,190,.15);color:#56cfbe}
-.icon-wrap.sky{background:rgba(86,207,190,.12);color:#56cfbe}
-
-/* 使用者選單 */
-.user-menu-btn{background:#22263a!important;border-color:#2d3154!important}
-.user-menu-btn:hover{background:#2d3154!important;border-color:var(--teal)!important}
-.user-dropdown{background:#1a1d27!important;border-color:#2d3154!important}
-.user-dropdown-header{background:#0d1018!important}
-.user-dropdown-item:hover{background:#22263a!important}
-
-/* 公告通知卡 */
-.notice-card{background:linear-gradient(135deg,#1a1d27,#22263a)}
-
-/* 分類文章計數小標籤 */
-.category-card .count{background:#22263a}
-
-/* 分類卡片 hover active */
-.category-card.active{background:rgba(124,131,255,.08)!important}
-
-/* 新聞項目 badge */
-.rec-badge.daycare{background:rgba(255,179,71,.15);color:#ffb347}
-.rec-badge.activity{background:rgba(255,107,122,.15);color:#ff6b7a}
-
-/* 論壇 */
-.forum-cat-tag.subsidy{background:rgba(76,222,154,.15);color:#4cde9a}
-.forum-cat-tag.medical{background:rgba(124,131,255,.15);color:#7c83ff}
-.forum-cat-tag.daycare{background:rgba(255,179,71,.15);color:#ffb347}
-.forum-cat-tag.general{background:rgba(166,131,255,.15);color:#a583ff}
-.forum-cat-tag.life{background:rgba(255,107,122,.15);color:#ff6b7a}
-.forum-post-item{border-bottom-color:#2d3154}
-.forum-post-item:hover{background:#22263a}
-.forum-cat-btn{background:#1a1d27;color:#8892b0;border-color:#2d3154}
-.forum-like-btn{background:#1a1d27;border-color:#2d3154;color:#8892b0}
-
-/* Chatbot 聊天區 */
-.cp-input-area{background:#0d1018;border-top-color:#2d3154}
-.cp-input-area input{background:#22263a;border-color:#2d3154;color:#e8eaf6}
-.cp-input-area input::placeholder{color:#4a5270}
-.cp-send:hover{background:#22263a}
-.cp-quick button{background:#22263a;border-color:#2d3154;color:#b0b8d8}
-
-/* Tour tooltip */
-#tour-tooltip{background:#1a1d27;border:1px solid #2d3154}
-#tour-tooltip .tour-arrow{background:#1a1d27}
-
-/* Sidebar 卡片 */
-.sidebar-card{border-color:#2d3154!important}
-
-/* 按鈕 hover 原本是 var(--charcoal)（現在是淺色），改回深色 */
-.btn-solid:hover,.tour-btn-next:hover,.notice-btn:hover,
-.forum-write-btn:hover,.search-btn:hover{background:#0d1018!important}
-.cp-send:hover{background:#0d1018!important}
-
-/* 關鍵字 tag — 原硬碼 rgba(255,255,255,.7) */
-.keyword-tag{background:rgba(30,34,58,.85);border-color:#3d4460}
-.keyword-tag:hover,.keyword-tag.hot{background:#22263a;border-color:var(--teal-brand)}
-
-/* 推薦模式 Tab 按鈕 */
-.rec-mode-btn{background:#1a1d27}
-.rec-mode-btn.active{background:var(--teal-pale)}
-
-/* 快速連結卡 & 側邊欄行事曆 */
-.quick-link-card{border-color:#2d3154}
-.sidebar-mini-calendar{background:#22263a}
-
-/* 搜尋篩選 select */
-.filter-field select option{background:#1a1d27;color:#e8eaf6}
+/* ── 四大主題分類圖示色 ── */
+/* 醫療保健 → 柔藍 */
+.icon-wrap.rose{background:#DDEEFF;color:#4A90D9}
+/* 補助福利 → 柔綠 */
+.icon-wrap.gold{background:#E2F5E9;color:#4CAF82}
+/* 托育服務 → 柔橘黃 */
+.icon-wrap.blue{background:#FFF4E0;color:#E8A040}
+/* 親子活動 → 柔粉紅 */
+.icon-wrap.lavender{background:#FDEDF0;color:#E07080}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
 </head>

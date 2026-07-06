@@ -189,11 +189,17 @@ module.exports = async (req, res) => {
         case 'forum_posts': {
           const { data, error } = await supabase
             .from('forum_posts')
-            .select('id, title, category, author_id, created_at, view_count, like_count')
+            .select('id, title, category, user_id, created_at, views, likes')
             .order('created_at', { ascending: false })
             .limit(50);
           if (error) throw error;
-          return res.status(200).json({ posts: data || [] });
+          // 欄位 alias：前端 admin.html 讀 view_count / like_count
+          const posts = (data || []).map(p => ({
+            ...p,
+            view_count: p.views ?? 0,
+            like_count: p.likes ?? 0,
+          }));
+          return res.status(200).json({ posts });
         }
 
         default:
