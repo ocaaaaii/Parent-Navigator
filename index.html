@@ -398,10 +398,7 @@ nav ul li a:hover,nav ul li a.active{background:var(--teal-pale);color:var(--tea
 .chatbot-send svg{stroke:#fff;width:14px;height:14px}
 .chatbot-collapsed .chatbot-body{display:none}
 
-/* ── 對話記錄面板（貼在 chatbot 左側，獨立 fixed） ── */
-#chat-history-panel{position:fixed;top:0;right:420px;width:300px;height:100vh;background:var(--white);box-shadow:-4px 0 24px rgba(44,58,42,.13);z-index:7999;display:flex;flex-direction:column;transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);border-right:1px solid var(--border)}
-#chat-history-panel .hist-header{background:var(--charcoal);padding:14px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
-#chat-history-panel .hist-header h3{flex:1;font-size:15px;font-weight:600;color:#fff;margin:0}
+/* ── 對話記錄（內嵌於 chatbot-panel，視圖切換） ── */
 .hist-close-btn{background:none;border:none;color:rgba(255,255,255,.7);font-size:22px;cursor:pointer;line-height:1;padding:4px 6px;border-radius:6px;transition:all .2s}
 .hist-close-btn:hover{color:#fff;background:rgba(255,255,255,.1)}
 .hist-new-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;color:#fff;font-size:12px;font-weight:500;padding:5px 10px;cursor:pointer;transition:all .2s;white-space:nowrap;font-family:'Noto Sans TC',sans-serif}
@@ -1953,12 +1950,17 @@ function renderCgCard(item) {
     ...(item.tags || []).slice(0,3).map(t=>`<span class="cg-tag cg-tag-misc">${esc(t)}</span>`)
   ].join('');
 
-  const viewBtn = item.source_url
+  // 已知下線的域名，不顯示外連
+  const DEAD_DOMAINS = ['baby.1111.com.tw'];
+  const isDeadUrl = item.source_url && DEAD_DOMAINS.some(d => item.source_url.includes(d));
+  const SOURCE_LABELS = { '1111':'1111保母網', ptt:'PTT BabyMother', dcard:'Dcard 親子板', gov:'衛福部托育平台', self:'自行刊登' };
+
+  const viewBtn = (item.source_url && !isDeadUrl)
     ? `<a class="cg-view-btn" href="${esc(item.source_url)}" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         查看原始貼文
       </a>`
-    : `<div class="cg-view-btn" style="background:var(--charcoal-light);cursor:default">自行刊登 · 聯絡見下方</div>`;
+    : `<div class="cg-view-btn" style="background:var(--charcoal-light);cursor:default;opacity:.75">來源：${SOURCE_LABELS[item.source] || item.source || '自行刊登'}</div>`;
 
   const postedDate = item.posted_at ? new Date(item.posted_at).toLocaleDateString('zh-TW') : '';
 
@@ -2043,7 +2045,7 @@ const DEMO_CG_ITEMS = [
   { source:'self', source_url:null, title:'台北市大安區 有執照保母 承接0-3歲寶寶', caregiver_type:'babysitter', region:'台北市', district:'大安區', price_range:'22,000–25,000元/月', contact:'0912-XXX-XXX', image_url:null, tags:['持有執照','中英雙語','每日回報'], posted_at: new Date(Date.now()-86400000*2).toISOString() },
   { source:'ptt', source_url:'https://www.ptt.cc/bbs/BabyMother/index.html', title:'[徵保母] 新北市板橋區 找長托保母 寶寶8個月', caregiver_type:'babysitter', region:'新北市', district:'板橋區', price_range:'20,000元/月', contact:null, image_url:null, tags:['急徵','長托'], posted_at: new Date(Date.now()-86400000*1).toISOString() },
   { source:'dcard', source_url:'https://www.dcard.tw/f/parent', title:'台中市西屯區 數學家教 國小至國中 有教師資格', caregiver_type:'tutor', region:'台中市', district:'西屯區', price_range:'800元/小時', contact:null, image_url:null, tags:['數學','英語','持有師資'], posted_at: new Date(Date.now()-86400000*3).toISOString() },
-  { source:'1111', source_url:'https://baby.1111.com.tw', title:'高雄市三民區 到府褓姆 可照顧新生兒/月子寶寶', caregiver_type:'nanny', region:'高雄市', district:'三民區', price_range:'28,000–32,000元/月', contact:'LINE: care_mama', image_url:null, tags:['到府服務','新生兒','夜間服務'], posted_at: new Date(Date.now()-86400000*5).toISOString() },
+  { source:'1111', source_url:null, title:'高雄市三民區 到府褓姆 可照顧新生兒/月子寶寶', caregiver_type:'nanny', region:'高雄市', district:'三民區', price_range:'28,000–32,000元/月', contact:'LINE: care_mama', image_url:null, tags:['到府服務','新生兒','夜間服務'], posted_at: new Date(Date.now()-86400000*5).toISOString() },
   { source:'gov', source_url:'https://familycloud.moe.gov.tw', title:'桃園市中壢區 公立托育媒合 準公共保母', caregiver_type:'babysitter', region:'桃園市', district:'中壢區', price_range:'補助後約6,000元/月', contact:'撥打1925查詢', image_url:null, tags:['準公共','政府補助','2歲以下'], posted_at: new Date(Date.now()-86400000*7).toISOString() },
   { source:'self', source_url:null, title:'新北市淡水區 英語家教 外師品質 幼稚園至小學', caregiver_type:'tutor', region:'新北市', district:'淡水區', price_range:'1,200元/小時', contact:'0923-XXX-XXX', image_url:null, tags:['英語','外師品質','可到府'], posted_at: new Date(Date.now()-86400000*1).toISOString() },
 ];
@@ -3533,9 +3535,22 @@ let _histPanelOpen = false;
 
 function toggleHistoryPanel(force) {
   _histPanelOpen = (force !== undefined) ? force : !_histPanelOpen;
-  const panel = document.getElementById('chat-history-panel');
-  if (_histPanelOpen) { renderHistoryPanel(); panel.style.transform = 'translateX(0)'; }
-  else { panel.style.transform = 'translateX(-100%)'; }
+  const chatHeader = document.getElementById('chat-panel-header');
+  const histHeader = document.getElementById('hist-panel-header');
+  const chatView   = document.getElementById('chat-view');
+  const histView   = document.getElementById('history-view');
+  if (_histPanelOpen) {
+    chatHeader.style.display = 'none';
+    histHeader.style.display = 'flex';
+    chatView.style.display   = 'none';
+    histView.style.display   = 'flex';
+    renderHistoryPanel();
+  } else {
+    chatHeader.style.display = 'flex';
+    histHeader.style.display = 'none';
+    chatView.style.display   = 'flex';
+    histView.style.display   = 'none';
+  }
 }
 
 function renderHistoryPanel() {
@@ -3581,18 +3596,6 @@ function renderHistoryPanel() {
 
 </script>
 
-<!--  對話記錄面板（chatbot 左側滑入，獨立 fixed） -->
-<div id="chat-history-panel">
-  <div class="hist-header">
-    <button class="hist-close-btn" onclick="toggleHistoryPanel(false)" title="關閉">←</button>
-    <h3>💬 對話記錄</h3>
-    <button class="hist-new-btn" onclick="startNewSession()">＋ 新對話</button>
-  </div>
-  <div id="history-list">
-    <div class="hist-empty">還沒有對話記錄<br><span style="font-size:28px">🐣</span><br><small>和毛毛聊聊，記錄就會出現這裡</small></div>
-  </div>
-</div>
-
 <!--  Chatbot Panel（右側推入 Drawer） -->
 <!-- 手機遮罩 -->
 <div id="chat-backdrop" onclick="closeMobileChat()"></div>
@@ -3605,7 +3608,8 @@ function renderHistoryPanel() {
 
 <div id="chatbot-panel">
 
-  <div class="chatbot-header" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--charcoal)">
+  <!-- ── 聊天 Header（預設顯示） ── -->
+  <div id="chat-panel-header" class="chatbot-header" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--charcoal)">
     <div class="chatbot-avatar" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--teal-brand)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
     </div>
@@ -3613,13 +3617,9 @@ function renderHistoryPanel() {
       <div style="font-size:14px;font-weight:600;color:#fff">毛毛 🐣 育兒小幫手</div>
       <div style="font-size:11px;color:var(--teal-light)">專業育兒問題，隨時幫你查 ✨</div>
     </div>
-    <!-- 歷史記錄按鈕 -->
-    <button class="hist-icon-btn" onclick="toggleHistoryPanel()" title="對話記錄">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-      </svg>
+    <button class="hist-icon-btn" onclick="toggleHistoryPanel(true)" title="對話記錄">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
     </button>
-    <!-- 手機關閉按鈕（桌機隱藏） -->
     <button id="panel-close-mobile" onclick="closeMobileChat()" style="display:none;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.8);padding:6px;border-radius:8px;font-size:20px;line-height:1;transition:all .2s" title="關閉">×</button>
     <button class="panel-expand-btn" id="panel-expand-btn" onclick="togglePanelFullscreen()" title="展開全螢幕">
       <svg id="panel-expand-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3629,24 +3629,41 @@ function renderHistoryPanel() {
     </button>
   </div>
 
-  <div class="chatbot-messages" id="panel-messages" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--warm-bg,#faf9f7)">
-    <!-- messages appended by JS -->
-  </div>
-
-  <div style="padding:6px 10px 8px;display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid var(--border);background:#fff">
-    <button class="quick-btn" onclick="panelAsk('疫苗接種時程')">疫苗時程</button>
-    <button class="quick-btn" onclick="panelAsk('育嬰留職停薪怎麼申請')">育嬰假</button>
-    <button class="quick-btn" onclick="panelAsk('生育補助有哪些')">生育補助</button>
-    <button class="quick-btn" onclick="panelAsk('公共托育怎麼申請')">托育申請</button>
-  </div>
-
-  <div class="chatbot-input-area" style="display:flex;gap:6px;padding:8px 10px 12px;background:#fff;border-top:1px solid var(--border)">
-    <input id="panel-input" class="chatbot-input" placeholder="輸入育兒問題…"
-      onkeydown="if(event.key==='Enter')panelSend()">
-    <button class="chatbot-send" onclick="panelSend()">
-      <svg viewBox="0 0 24 24" width="14" height="14" stroke="#fff" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+  <!-- ── 歷史 Header（點時鐘後顯示） ── -->
+  <div id="hist-panel-header" style="display:none;align-items:center;gap:10px;padding:14px 16px;background:var(--charcoal);flex-shrink:0">
+    <button class="hist-icon-btn" onclick="toggleHistoryPanel(false)" title="返回聊天">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
+    <div style="flex:1;font-size:15px;font-weight:600;color:#fff">💬 對話記錄</div>
+    <button class="hist-new-btn" onclick="startNewSession()">＋ 新對話</button>
   </div>
+
+  <!-- ── 聊天視圖（預設顯示） ── -->
+  <div id="chat-view" style="flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0">
+    <div class="chatbot-messages" id="panel-messages" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--warm-bg,#faf9f7)">
+      <!-- messages appended by JS -->
+    </div>
+    <div style="padding:6px 10px 8px;display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid var(--border);background:#fff">
+      <button class="quick-btn" onclick="panelAsk('疫苗接種時程')">疫苗時程</button>
+      <button class="quick-btn" onclick="panelAsk('育嬰留職停薪怎麼申請')">育嬰假</button>
+      <button class="quick-btn" onclick="panelAsk('生育補助有哪些')">生育補助</button>
+      <button class="quick-btn" onclick="panelAsk('公共托育怎麼申請')">托育申請</button>
+    </div>
+    <div class="chatbot-input-area" style="display:flex;gap:6px;padding:8px 10px 12px;background:#fff;border-top:1px solid var(--border)">
+      <input id="panel-input" class="chatbot-input" placeholder="輸入育兒問題…" onkeydown="if(event.key==='Enter')panelSend()">
+      <button class="chatbot-send" onclick="panelSend()">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="#fff" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── 歷史視圖（點時鐘後顯示） ── -->
+  <div id="history-view" style="flex:1;display:none;flex-direction:column;overflow:hidden;min-height:0">
+    <div id="history-list" style="flex:1;overflow-y:auto;padding:8px">
+      <div class="hist-empty">還沒有對話記錄<br><span style="font-size:28px">🐣</span><br><small>和毛毛聊聊，記錄就會出現這裡</small></div>
+    </div>
+  </div>
+
 </div>
 
 
