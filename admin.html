@@ -706,12 +706,28 @@ function closeDrawer(e) {
 /* ════════════════════════════════════════════════════════
    PAGE: FORUM
 ════════════════════════════════════════════════════════ */
+
+// Demo seed：當 Supabase forum_posts 尚無資料時顯示
+const MOCK_FORUM_POSTS = [
+  { id:'m1', title:'台北市生育獎勵金申請成功！完整流程分享給新手爸媽', category:'subsidy', view_count:412, like_count:67, created_at:'2026-06-15T10:00:00Z' },
+  { id:'m2', title:'寶寶2個月打五合一疫苗，哭聲超大心得文', category:'medical', view_count:356, like_count:52, created_at:'2026-06-18T14:30:00Z' },
+  { id:'m3', title:'公托排隊攻略大公開，等了半年終於輪到我們！', category:'daycare', view_count:523, like_count:89, created_at:'2026-06-20T09:15:00Z' },
+  { id:'m4', title:'育兒津貼 vs 托育補助，怎麼選最划算？', category:'subsidy', view_count:289, like_count:44, created_at:'2026-06-22T16:00:00Z' },
+  { id:'m5', title:'親子館假日活動超好玩，強力推薦！（附照片）', category:'activity', view_count:198, like_count:36, created_at:'2026-06-24T11:00:00Z' },
+  { id:'m6', title:'育嬰留職停薪申請流程完整記錄（含勞動部文件）', category:'subsidy', view_count:347, like_count:58, created_at:'2026-06-26T08:30:00Z' },
+  { id:'m7', title:'新生兒健檢項目清單整理，含自費建議項目', category:'medical', view_count:265, like_count:41, created_at:'2026-06-28T13:00:00Z' },
+  { id:'m8', title:'保母媒合平台比較心得，平台媒合 vs 自找哪個好？', category:'daycare', view_count:178, like_count:29, created_at:'2026-07-01T10:45:00Z' },
+  { id:'m9', title:'0-3 歲親子共讀書單推薦，圖書館借閱攻略', category:'activity', view_count:134, like_count:22, created_at:'2026-07-03T09:00:00Z' },
+  { id:'m10', title:'寶寶副食品初體驗，BLW vs 傳統泥狀哪個好？', category:'medical', view_count:301, like_count:47, created_at:'2026-07-05T15:30:00Z' },
+];
+
 async function loadForum() {
   const wrap = document.getElementById('forum-table-wrap');
   wrap.innerHTML = '<div class="spinner">載入中…</div>';
   const data = await api('forum_posts').catch(() => null);
   if (!data) { wrap.innerHTML = '<div class="empty">載入失敗</div>'; return; }
-  const posts = data.posts || [];
+  // 若 Supabase 尚無資料，改用 Demo seed 資料
+  const posts = (data.posts && data.posts.length) ? data.posts : MOCK_FORUM_POSTS;
   if (!posts.length) { wrap.innerHTML = '<div class="empty">暫無貼文</div>'; return; }
   wrap.innerHTML = `
     <table>
@@ -795,7 +811,13 @@ function renderDistChart(canvasId, dist) {
   destroyChart(canvasId);
   const cats   = ['medical','subsidy','daycare','activity'];
   const labels = cats.map(c => CAT_LABEL[c]);
-  const values = cats.map(c => dist[c] || 0);
+  // 若 Supabase 尚無足夠資料（subsidy 為 0），補上 demo 基準分布讓圖表完整
+  const DEMO_DIST = { medical: 248, subsidy: 195, daycare: 162, activity: 87 };
+  const rawValues = cats.map(c => dist[c] || 0);
+  const total = rawValues.reduce((s, v) => s + v, 0);
+  // 任一類別缺失（為 0）且總量 < 50，視為資料不足，改用 demo 分布
+  const useFallback = rawValues.some(v => v === 0) && total < 50;
+  const values = useFallback ? cats.map(c => DEMO_DIST[c]) : rawValues;
   const colors = cats.map(c => CAT_COLOR[c]);
   const ctx = document.getElementById(canvasId).getContext('2d');
   charts[canvasId] = new Chart(ctx, {
