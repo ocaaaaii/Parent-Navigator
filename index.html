@@ -227,10 +227,12 @@ nav ul li a:hover,nav ul li a.active{background:var(--teal-pale);color:var(--tea
 .article-card:hover{border-color:var(--teal-brand);box-shadow:var(--shadow-md);transform:translateX(3px)}
 .article-card-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .article-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px}
-.article-tag.medical{background:var(--wine-pale);color:var(--wine)}
-.article-tag.subsidy{background:var(--apricot-pale);color:var(--apricot)}
-.article-tag.education{background:#E3F2FD;color:#1565C0}
-.article-tag.general{background:var(--teal-pale);color:var(--teal)}
+.article-tag.medical  {background:#DDEEFF;color:#4A90D9}
+.article-tag.subsidy  {background:#E2F5E9;color:#4CAF82}
+.article-tag.daycare  {background:#FFF4E0;color:#E8A040}
+.article-tag.activity {background:#FDEDF0;color:#E07080}
+.article-tag.education{background:#FFF4E0;color:#E8A040}
+.article-tag.general  {background:var(--teal-pale);color:var(--teal)}
 .article-date{font-size:11px;color:var(--charcoal-light)}
 .article-title{font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;color:var(--charcoal);margin-bottom:8px;line-height:1.45}
 .article-excerpt{font-size:13px;color:var(--charcoal-mid);line-height:1.65}
@@ -3107,7 +3109,7 @@ function expandCategoryArticles(cat, cardEl) {
     if (!a) return '';
     return `<button class="article-card" onclick="openArticle('${id}')">
       <div class="article-card-header">
-        <span class="article-tag ${a.tagClass}">${a.tag}</span>
+        <span class="article-tag ${cat}">${CAT_PANEL_LABEL[cat]}</span>
         <span class="article-date">${a.date}</span>
       </div>
       <div class="article-title">${a.title}</div>
