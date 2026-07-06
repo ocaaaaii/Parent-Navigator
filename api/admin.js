@@ -118,14 +118,17 @@ module.exports = async (req, res) => {
 
         // ── 四大分類分布 ───────────────────────────────────────
         case 'category_dist': {
-          const { data, error } = await supabase
-            .from('policy_click_events').select('category');
-          if (error) throw error;
-
-          const dist = { medical: 0, subsidy: 0, daycare: 0, activity: 0 };
-          (data || []).forEach(r => {
-            if (r.category && r.category in dist) dist[r.category]++;
-          });
+          // 用 4 次 COUNT 查詢取代撈全部 rows，避免 PostgREST 1000 筆預設限制
+          const cats = ['medical', 'subsidy', 'daycare', 'activity'];
+          const counts = await Promise.all(cats.map(async cat => {
+            const { count, error } = await supabase
+              .from('policy_click_events')
+              .select('*', { count: 'exact', head: true })
+              .eq('category', cat);
+            if (error) throw error;
+            return [cat, count || 0];
+          }));
+          const dist = Object.fromEntries(counts);
           return res.status(200).json({ distribution: dist });
         }
 
@@ -136,7 +139,8 @@ module.exports = async (req, res) => {
             .from('policy_click_events')
             .select('clicked_at, category')
             .gte('clicked_at', since)
-            .order('clicked_at', { ascending: true });
+            .order('clicked_at', { ascending: true })
+            .limit(5000);  // 明確設上限，避免 PostgREST 預設 1000 筆截斷
           if (error) throw error;
 
           const trendMap = {};
