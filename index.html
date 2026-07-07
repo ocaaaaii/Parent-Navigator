@@ -2069,7 +2069,7 @@ async function submitCgPost() {
   btn.disabled = true; btn.textContent = '送出中…';
 
   try {
-    const token = localStorage.getItem('pn_token');
+    const token = localStorage.getItem('auth_token');
     const res = await fetch('/api/post-caregiver', {
       method: 'POST',
       headers: { 'Content-Type':'application/json', ...(token?{'Authorization':`Bearer ${token}`}:{}) },

@@ -271,10 +271,10 @@ async function doLogin() {
       showAlert('login-alert', data.error || '登入失敗，請稍後再試');
     } else {
       // 儲存 token 與使用者資訊
-      localStorage.setItem('pn_token', data.token);
-      localStorage.setItem('pn_user',  JSON.stringify(data.user));
+      localStorage.setItem('auth_token', data.token);
+      localStorage.setItem('user_info', JSON.stringify(data.user));
       showAlert('login-alert', '登入成功！正在跳轉…', 'success');
-      setTimeout(() => { window.location.href = 'parenting-navigator-demo.html'; }, 800);
+      setTimeout(() => { window.location.href = './'; }, 800);
     }
   } catch {
     showAlert('login-alert', '無法連線至伺服器，請檢查網路後再試');
@@ -393,13 +393,13 @@ function fotpNext(inp, idx) {
 
 /* ── 已登入則直接跳轉 ─────────────────────────────────────────────────────── */
 (function checkAuth() {
-  const token = localStorage.getItem('pn_token');
+  const token = localStorage.getItem('auth_token');
   if (token) {
     // 簡單檢查 JWT 是否過期（不做完整驗證，由後端 API 負責）
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
       if (payload.exp * 1000 > Date.now()) {
-        window.location.href = 'parenting-navigator-demo.html';
+        window.location.href = './';
       }
     } catch {}
   }
